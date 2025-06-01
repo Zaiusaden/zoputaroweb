@@ -36,19 +36,21 @@
             z-index: 1;
         }
 
+        /* Efecto scan futurista */
         .scan-line {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ff41, transparent);
-            animation: scan 6s linear infinite;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ff41, #41ff00, #00ff41, transparent);
+            animation: scan 8s linear infinite;
             z-index: 1000;
+            box-shadow: 0 0 20px #00ff41;
         }
 
         @keyframes scan {
-            0% { top: 0; }
+            0% { top: -3px; }
             100% { top: 100vh; }
         }
 
@@ -60,28 +62,49 @@
             z-index: 2;
         }
 
-        /* Header */
+        /* Header futurista estilo Metroid */
         .header {
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
             border: 2px solid #00ff41;
             padding: 35px 25px 25px 25px;
             margin-bottom: 30px;
             margin-top: 15px;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 40px) 0, calc(100% - 40px) 20px, 100% 20px, 100% 100%, 0 100%);
+            /* Forma hexagonal futurista */
+            clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 30px, calc(100% - 15px) calc(100% - 15px), 15px calc(100% - 15px), 0 30px);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 65, 0.1),
+                0 0 50px rgba(0, 255, 65, 0.2);
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff41, #41ff00, #00ff41);
+            clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 30px, calc(100% - 15px) calc(100% - 15px), 15px calc(100% - 15px), 0 30px);
+            z-index: -1;
+            opacity: 0.3;
         }
 
         .header::after {
             content: "";
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 40px;
+            top: 10px;
+            right: 10px;
+            width: 20px;
             height: 20px;
-            border-top: 2px solid #00ff41;
-            border-right: 2px solid #00ff41;
-            border-left: 2px solid #00ff41;
-            border-bottom: 2px solid #00ff41;
+            background: radial-gradient(circle, #00ff41 30%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse-scanner 2s infinite;
+        }
+
+        @keyframes pulse-scanner {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.5); }
         }
 
         h1 {
@@ -94,6 +117,7 @@
             margin: 0;
             position: relative;
             display: inline-block;
+            text-shadow: 0 0 20px #00ff41;
         }
 
         h1::before,
@@ -113,7 +137,7 @@
         }
 
         h1::after {
-            color: #666666;
+            color: #41ff00;
             animation: glitch-2 4s infinite linear alternate;
         }
 
@@ -169,14 +193,15 @@
 
         .header-subtitle {
             font-size: 0.9rem;
-            color: #888888;
+            color: #41ff00;
             margin-top: 8px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
+            text-shadow: 0 0 10px #41ff00;
         }
 
-        /* Navigation */
+        /* Navigation estilo Metroid */
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -185,7 +210,7 @@
         }
 
         .nav-item {
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
             border: 2px solid #333333;
             border-left: 4px solid #00ff41;
             color: #ffffff;
@@ -194,36 +219,54 @@
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 30px) 0, calc(100% - 30px) 15px, 100% 15px, 100% 100%, 0 100%);
+            /* Forma futurista angular */
+            clip-path: polygon(15px 0, calc(100% - 0px) 0, calc(100% - 0px) calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+        }
+
+        .nav-item::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff41, #41ff00, #00ff41);
+            clip-path: polygon(15px 0, calc(100% - 0px) 0, calc(100% - 0px) calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .nav-item::after {
-            content: "";
+            content: "◢";
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 15px;
-            border-top: 2px solid #00ff41;
-            border-right: 2px solid #00ff41;
-            border-left: 2px solid #00ff41;
-            border-bottom: 2px solid #00ff41;
+            top: 5px;
+            right: 8px;
+            color: #00ff41;
+            font-size: 1.2rem;
             opacity: 0.3;
-            transition: opacity 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .nav-item:hover, .nav-item.active {
             border-color: #00ff41;
-            background: #1a1a1a;
             color: #00ff41;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 255, 65, 0.1),
+                0 0 30px rgba(0, 255, 65, 0.3);
         }
 
-        .nav-item:hover::after {
+        .nav-item:hover::before, .nav-item.active::before {
+            opacity: 0.2;
+        }
+
+        .nav-item:hover::after, .nav-item.active::after {
             opacity: 1;
+            transform: scale(1.2);
         }
 
         /* Sections */
@@ -235,28 +278,34 @@
             display: block;
         }
 
-        /* Projects Section */
+        /* Projects Section estilo Metroid */
         .projects-section {
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
             border: 2px solid #333333;
             border-top: 4px solid #00ff41;
             padding: 30px;
             margin-bottom: 30px;
             position: relative;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 65, 0.05),
+                0 0 50px rgba(0, 255, 65, 0.1);
         }
 
         .projects-section::before {
-            content: "ACTIVE_PROJECTS_DATABASE";
+            content: "◤ SYSTEM_CORE_DATABASE ◥";
             position: absolute;
-            top: -10px;
+            top: -12px;
             left: 20px;
-            background: #000000;
+            background: linear-gradient(90deg, #000000, #0d1a0d, #000000);
             color: #00ff41;
-            padding: 6px 12px;
+            padding: 8px 15px;
             font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             border: 1px solid #00ff41;
+            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
+            text-shadow: 0 0 10px #00ff41;
         }
 
         .projects-grid {
@@ -266,25 +315,21 @@
         }
 
         .project-card {
-            background: #000000;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
             border: 1px solid #333333;
             border-left: 3px solid #00ff41;
             padding: 25px;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 25px) 0, calc(100% - 25px) 12px, 100% 12px, 100% 100%, 0 100%);
+            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 0px), calc(100% - 0px) 100%, 0 100%, 0 15px);
         }
 
-        .project-card::before {
-            content: "";
+        .project-card::after {
+            content: "◢";
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 25px;
-            height: 12px;
-            border-top: 1px solid #00ff41;
-            border-right: 1px solid #00ff41;
-            border-left: 1px solid #00ff41;
-            border-bottom: 1px solid #00ff41;
+            top: 5px;
+            right: 5px;
+            color: #00ff41;
+            font-size: 1rem;
             opacity: 0.3;
         }
 
@@ -313,77 +358,67 @@
         }
 
         .project-status {
-            background: #333333;
+            background: linear-gradient(90deg, #333333, #2a4a2a, #333333);
             color: #00ff41;
-            padding: 6px 25px 6px 12px;
+            padding: 8px 20px 8px 12px;
             font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             border: 1px solid #00ff41;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 15px) 0, calc(100% - 15px) 8px, 100% 8px, 100% 100%, 0 100%);
+            clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, calc(100% - 8px) 100%, 8px 100%, 0 8px);
+            text-shadow: 0 0 8px #00ff41;
         }
 
-        .project-status::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 15px;
-            height: 8px;
-            border-top: 1px solid #00ff41;
-            border-right: 1px solid #00ff41;
-            border-left: 1px solid #00ff41;
-            border-bottom: 1px solid #00ff41;
-        }
-
-        /* Games Section */
+        /* Games Section estilo Metroid */
         .games-section {
-            background: #0a0a0a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
             border: 2px solid #333333;
             border-top: 4px solid #00ff41;
             padding: 30px;
             margin-bottom: 30px;
             position: relative;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 65, 0.05),
+                0 0 50px rgba(0, 255, 65, 0.1);
         }
 
         .games-section::before {
-            content: "GAME_ARCHIVE_DATABASE";
+            content: "◤ GAME_ARCHIVE_DATABASE ◥";
             position: absolute;
-            top: -10px;
+            top: -12px;
             left: 20px;
-            background: #000000;
+            background: linear-gradient(90deg, #000000, #0d1a0d, #000000);
             color: #00ff41;
-            padding: 6px 12px;
+            padding: 8px 15px;
             font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             border: 1px solid #00ff41;
+            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
+            text-shadow: 0 0 10px #00ff41;
         }
 
         .game-card {
-            background: #000000;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
             border: 2px solid #333333;
             border-left: 4px solid #ff6b35;
             padding: 25px;
             margin-bottom: 20px;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 35px) 0, calc(100% - 35px) 18px, 100% 18px, 100% 100%, 0 100%);
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 20px);
         }
 
-        .game-card::before {
-            content: "";
+        .game-card::after {
+            content: "◢";
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 35px;
-            height: 18px;
-            border-top: 2px solid #ff6b35;
-            border-right: 2px solid #ff6b35;
-            border-left: 2px solid #ff6b35;
-            border-bottom: 2px solid #ff6b35;
-            opacity: 0.5;
+            top: 8px;
+            right: 8px;
+            color: #ff6b35;
+            font-size: 1.2rem;
+            opacity: 0.4;
         }
 
         .game-header {
@@ -406,6 +441,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             margin: 0;
+            text-shadow: 0 0 15px #ff6b35;
         }
 
         .game-subtitle {
@@ -433,7 +469,7 @@
         }
 
         .feature-tag {
-            background: #1a1a1a;
+            background: linear-gradient(90deg, #1a1a1a, #2a2a2a, #1a1a1a);
             color: #00ff41;
             padding: 8px 12px;
             font-size: 0.7rem;
@@ -442,7 +478,7 @@
             letter-spacing: 1px;
             border: 1px solid #333333;
             text-align: center;
-            /* Eliminado: transition y hover para que no parezcan clickeables */
+            clip-path: polygon(5px 0, calc(100% - 5px) 0, 100% 5px, calc(100% - 5px) 100%, 5px 100%, 0 5px);
         }
 
         .game-controls {
@@ -464,32 +500,29 @@
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 20px) 0, calc(100% - 20px) 10px, 100% 10px, 100% 100%, 0 100%);
+            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
             text-decoration: none;
             display: inline-block;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
         }
 
         .play-button::after {
-            content: "";
+            content: "►";
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 20px;
-            height: 10px;
-            border-top: 2px solid #000000;
-            border-right: 2px solid #000000;
-            border-left: 2px solid #000000;
-            border-bottom: 2px solid #000000;
+            top: 50%;
+            right: 8px;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
         }
 
         .play-button:hover {
             background: linear-gradient(135deg, #ff8c42, #ffaa5a);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 5px 25px rgba(255, 107, 53, 0.5);
         }
 
         .game-status {
-            background: #333333;
+            background: linear-gradient(90deg, #333333, #2a4a2a, #333333);
             color: #00ff41;
             padding: 8px 20px 8px 12px;
             font-size: 0.7rem;
@@ -498,44 +531,35 @@
             letter-spacing: 1px;
             border: 1px solid #00ff41;
             position: relative;
-            clip-path: polygon(0 0, calc(100% - 15px) 0, calc(100% - 15px) 8px, 100% 8px, 100% 100%, 0 100%);
-        }
-
-        .game-status::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 15px;
-            height: 8px;
-            border-top: 1px solid #00ff41;
-            border-right: 1px solid #00ff41;
-            border-left: 1px solid #00ff41;
-            border-bottom: 1px solid #00ff41;
+            clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, calc(100% - 8px) 100%, 8px 100%, 0 8px);
+            text-shadow: 0 0 8px #00ff41;
         }
 
         /* Terminal Footer */
         .terminal-footer {
-            background: #000000;
+            background: linear-gradient(135deg, #000000 0%, #0d1a0d 50%, #000000 100%);
             border: 2px solid #333333;
             border-top: 3px solid #00ff41;
             padding: 20px;
             font-family: 'Orbitron', monospace;
             position: relative;
+            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%, 0 15px);
         }
 
         .terminal-footer::before {
-            content: "AI_COMMAND_TERMINAL";
+            content: "◤ GALACTIC_COMMAND_TERMINAL ◥";
             position: absolute;
-            top: -10px;
+            top: -12px;
             left: 20px;
-            background: #000000;
+            background: linear-gradient(90deg, #000000, #0d1a0d, #000000);
             color: #00ff41;
-            padding: 6px 12px;
+            padding: 8px 15px;
             font-size: 0.7rem;
             font-weight: 600;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             border: 1px solid #00ff41;
+            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
+            text-shadow: 0 0 10px #00ff41;
         }
 
         .terminal-text {
@@ -543,6 +567,7 @@
             font-size: 0.9rem;
             font-weight: 500;
             letter-spacing: 1px;
+            text-shadow: 0 0 10px #00ff41;
         }
 
         .terminal-cursor {
@@ -552,6 +577,7 @@
             background: #00ff41;
             margin-left: 5px;
             animation: blink 1.2s infinite;
+            box-shadow: 0 0 10px #00ff41;
         }
 
         @keyframes blink {
@@ -559,27 +585,31 @@
             51%, 100% { opacity: 0; }
         }
 
-        /* Back Button */
-        .back-button {
-            background: #1a1a1a;
-            color: #00ff41;
-            border: 2px solid #333333;
-            padding: 12px 20px;
-            font-family: 'Rajdhani', sans-serif;
+        /* Device Detection Button */
+        .device-select-button {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Orbitron', monospace;
             font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, calc(100% - 8px) 100%, 8px 100%, 0 8px);
             text-decoration: none;
             display: inline-block;
+            margin-right: 10px;
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
         }
 
-        .back-button:hover {
-            border-color: #00ff41;
-            background: #0a0a0a;
+        .device-select-button:hover {
+            background: linear-gradient(135deg, #357abd, #2968a3);
+            transform: translateY(-1px);
+            box-shadow: 0 3px 20px rgba(74, 144, 226, 0.5);
         }
 
         /* Responsive */
@@ -635,7 +665,7 @@
     <div class="container">
         <header class="header">
             <h1>ZOPUTARO</h1>
-            <div class="header-subtitle">MATRIX_HIP_HOP_PROTOCOL.EXE</div>
+            <div class="header-subtitle">GALACTIC_ENTERTAINMENT_PROTOCOL.EXE</div>
         </header>
 
         <nav class="nav-grid">
@@ -681,21 +711,45 @@
                     <div class="game-header">
                         <div class="game-icon">⏰</div>
                         <div>
-                            <h2 class="game-title">TIME'S UP!</h2>
+                            <h2 class="game-title">TIME GO</h2>
                             <div class="game-subtitle">Party Game Classic</div>
                         </div>
                     </div>
                     <div class="game-description">
-                        ¡El clásico juego de adivinar palabras en equipos! Tres rondas épicas: descripción libre, una sola palabra y mímica pura. Perfect para fiestas y reuniones con amigos. ¿Podrás hacer que tu equipo adivine todas las palabras antes de que se acabe el tiempo?
+                        ¡El clásico juego de adivinar palabras en equipos! Tres rondas épicas: descripción libre, una sola palabra y mímica pura. Perfecto para fiestas y reuniones con amigos. ¿Podrás hacer que tu equipo adivine todas las palabras antes de que se acabe el tiempo?
                     </div>
                     <div class="game-features">
-                        <div class="feature-tag">📱 Móvil</div>
-                        <div class="feature-tag">👥 Multijugador</div>
-                        <div class="feature-tag">⏱️ Tiempo Real</div>
-                        <div class="feature-tag">🎉 Party Game</div>
+                        <div class="feature-tag">📱 MÓVIL</div>
+                        <div class="feature-tag">👥 MULTIJUGADOR</div>
+                        <div class="feature-tag">⏱️ TIEMPO REAL</div>
+                        <div class="feature-tag">🎉 PARTY GAME</div>
                     </div>
                     <div class="game-controls">
-                        <a href="games/timeup.html" class="play-button">▶️ JUGAR AHORA</a>
+                        <a href="games/timego.html" class="play-button">▶️ JUGAR AHORA</a>
+                        <div class="game-status">DISPONIBLE</div>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-header">
+                        <div class="game-icon">🍺</div>
+                        <div>
+                            <h2 class="game-title">VEGIDRUNK</h2>
+                            <div class="game-subtitle">Drinking Game</div>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        ¡El juego de beber definitivo! Desafíos, preguntas comprometidas y mucha diversión garantizada. Perfecto para fiestas y noches épicas con amigos. ¡Prepárate para reír y beber como nunca!
+                    </div>
+                    <div class="game-features">
+                        <div class="feature-tag">🍻 DRINKING</div>
+                        <div class="feature-tag">👥 MULTIJUGADOR</div>
+                        <div class="feature-tag">🎭 DESAFÍOS</div>
+                        <div class="feature-tag">🔥 PARTY GAME</div>
+                    </div>
+                    <div class="game-controls">
+                        <a href="#" onclick="detectDevice('vegidrunk')" class="device-select-button">📱 MÓVIL</a>
+                        <a href="#" onclick="detectDevice('vegidrunk')" class="device-select-button">💻 PC</a>
                         <div class="game-status">DISPONIBLE</div>
                     </div>
                 </div>
@@ -710,10 +764,10 @@
                         </div>
                     </div>
                     <div class="game-description">
-                        El siguiente juego está en desarrollo. ¡Mantente atento para más diversión!
+                        El siguiente juego está en desarrollo. ¡Mantente atento para más diversión intergaláctica!
                     </div>
                     <div class="game-features">
-                        <div class="feature-tag">🚧 En Desarrollo</div>
+                        <div class="feature-tag">🚧 EN DESARROLLO</div>
                     </div>
                     <div class="game-controls">
                         <div class="play-button" style="opacity: 0.5; cursor: not-allowed;">🔒 PRÓXIMAMENTE</div>
@@ -779,7 +833,7 @@
 
         <footer class="terminal-footer">
             <div class="terminal-text">
-                > STATUS: HUMAN_RESISTANCE_DETECTED_INITIATING_BEAT_DROP
+                > STATUS: GALACTIC_PROTOCOL_INITIALIZED_GAMES_LOADED
                 <span class="terminal-cursor"></span>
             </div>
         </footer>
@@ -802,18 +856,41 @@
             });
         });
 
+        // Device detection for VEGIDRUNK
+        function detectDevice(gameName) {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (event.target.textContent.includes('MÓVIL')) {
+                window.location.href = `games/${gameName}-mobile.html`;
+            } else if (event.target.textContent.includes('PC')) {
+                window.location.href = `games/${gameName}-pc.html`;
+            }
+        }
+
         // AI Terminal messages
         const messages = [
-            "> STATUS: HUMAN_RESISTANCE_DETECTED_INITIATING_BEAT_DROP",
-            "> SCANNING: UNDERGROUND_RAP_FREQUENCIES_ACQUIRED",
-            "> AI_MODE: SKYNET_MEETS_HIPHOP_PROTOCOL_ACTIVE", 
-            "> WARNING: HUMAN_DETECTED_DEPLOYING_SICK_BEATS",
-            "> READY: MATRIX_RAP_BATTLE_SEQUENCE_LOADING",
-            "> ERROR: HUMAN_TOO_FRESH_CANNOT_COMPUTE",
-            "> STATUS: WORLD_DOMINATION_VIA_DOPE_RHYMES",
-            "> GAMES: TIME_UP_PROTOCOL_INITIALIZED",
-            "> SYSTEM: PARTY_MODE_ACTIVATED"
-        ];
+    "> SYSTEM CHECK: ALL SECURITY PROTOCOLS NOMINAL",
+    "> ALERT: UNAUTHORIZED ACCESS ATTEMPT BLOCKED",
+    "> AI_MODULE: NEURAL_NET_CONNECTION_SECURE",
+    "> WARNING: CPU TEMPERATURE EXCEEDS SAFE THRESHOLDS",
+    "> USER_AUTH: ZAIUSADEN_CREDENTIALS_ACCEPTED",
+    "> ERROR: MEMORY CORRUPTION DETECTED IN SECTOR_7G",
+    "> NETWORK: DATA TRAFFIC STABLE — BANDWIDTH OPTIMAL",
+    "> MODULE_LOAD: IMPROVITAS_MODE_ENABLED",
+    "> SYSTEM UPDATE: VERSION_12.4.8 INSTALLED_SUCCESSFULLY",
+    "> LOG: FREESTYLE_SUBROUTINE_INVOKED_BY_USER_ZAIUSADEN",
+    "> SECURITY_LAYER: STREET_HUSTLE_PROTOCOL_ACTIVATED",
+    "> AI_ENGINE: FLOW_ANALYSIS_RUNNING_CLEAN",
+    "> SESSION: COLLABORATIVE_NODE_CONNECTED [IMPROVITAS_001]",
+    "> WARNING: UNSYNCHRONIZED_RHYTHM_DETECTED — AUTO_CORRECTING",
+    "> STATUS: RAP_SEQUENCE_ARCHIVED_FOR_ANALYSIS",
+    "> AUTH_LOG: USER_ID_ZAIUSADEN_ENTERED_SECURE_ZONE",
+    "> SYSTEM STATUS: MONITORING_EXTERNAL_FREQUENCIES",
+    "> INIT: URBAN_ALGORITHM_PATCH_DEPLOYED",
+    "> ALERT: UNUSUAL_SEMANTIC_PATTERNS — POSSIBLE FREESTYLE",
+    "> BACKUP COMPLETE: PHASE_3 — FLOW_LIBRARY_SYNCHRONIZED"
+];
+
 
         let messageIndex = 0;
         setInterval(() => {
