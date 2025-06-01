@@ -68,7 +68,6 @@
             margin-bottom: 30px;
             margin-top: 15px;
             position: relative;
-            /* Mordida rectangular arriba derecha */
             clip-path: polygon(0 0, calc(100% - 40px) 0, calc(100% - 40px) 20px, 100% 20px, 100% 100%, 0 100%);
         }
 
@@ -199,7 +198,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
-            /* Mordida rectangular arriba derecha - MAS LARGA */
             clip-path: polygon(0 0, calc(100% - 30px) 0, calc(100% - 30px) 15px, 100% 15px, 100% 100%, 0 100%);
         }
 
@@ -226,6 +224,15 @@
 
         .nav-item:hover::after {
             opacity: 1;
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
         }
 
         /* Projects Section */
@@ -265,7 +272,6 @@
             padding: 25px;
             transition: all 0.2s ease;
             position: relative;
-            /* Mordida rectangular arriba derecha - MAS LARGA */
             clip-path: polygon(0 0, calc(100% - 25px) 0, calc(100% - 25px) 12px, 100% 12px, 100% 100%, 0 100%);
         }
 
@@ -327,11 +333,203 @@
             letter-spacing: 1px;
             border: 1px solid #00ff41;
             position: relative;
-            /* Mordida rectangular arriba derecha - MAS LARGA */
             clip-path: polygon(0 0, calc(100% - 15px) 0, calc(100% - 15px) 8px, 100% 8px, 100% 100%, 0 100%);
         }
 
         .project-status::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 15px;
+            height: 8px;
+            border-top: 1px solid #00ff41;
+            border-right: 1px solid #00ff41;
+            border-left: 1px solid #00ff41;
+            border-bottom: 1px solid #00ff41;
+        }
+
+        /* Games Section */
+        .games-section {
+            background: #0a0a0a;
+            border: 2px solid #333333;
+            border-top: 4px solid #00ff41;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .games-section::before {
+            content: "GAME_ARCHIVE_DATABASE";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #000000;
+            color: #00ff41;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: 1px solid #00ff41;
+        }
+
+        .game-card {
+            background: #000000;
+            border: 2px solid #333333;
+            border-left: 4px solid #ff6b35;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 35px) 0, calc(100% - 35px) 18px, 100% 18px, 100% 100%, 0 100%);
+        }
+
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 35px;
+            height: 18px;
+            border-top: 2px solid #ff6b35;
+            border-right: 2px solid #ff6b35;
+            border-left: 2px solid #ff6b35;
+            border-bottom: 2px solid #ff6b35;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-card:hover {
+            border-color: #ff6b35;
+            background: #0a0a0a;
+            transform: translateY(-2px);
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+            filter: grayscale(100%) brightness(1.2);
+        }
+
+        .game-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ff6b35;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .game-subtitle {
+            font-size: 0.8rem;
+            color: #888888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .game-description {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            border-left: 3px solid #333333;
+            padding-left: 15px;
+        }
+
+        .game-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            background: #1a1a1a;
+            color: #00ff41;
+            padding: 8px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #333333;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .feature-tag:hover {
+            border-color: #00ff41;
+            background: #0a0a0a;
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .play-button {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: #000000;
+            border: none;
+            padding: 15px 30px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 20px) 0, calc(100% - 20px) 10px, 100% 10px, 100% 100%, 0 100%);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .play-button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 10px;
+            border-top: 2px solid #000000;
+            border-right: 2px solid #000000;
+            border-left: 2px solid #000000;
+            border-bottom: 2px solid #000000;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(135deg, #ff8c42, #ffaa5a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .game-status {
+            background: #333333;
+            color: #00ff41;
+            padding: 8px 20px 8px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #00ff41;
+            position: relative;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, calc(100% - 15px) 8px, 100% 8px, 100% 100%, 0 100%);
+        }
+
+        .game-status::before {
             content: "";
             position: absolute;
             top: 0;
@@ -389,6 +587,29 @@
             51%, 100% { opacity: 0; }
         }
 
+        /* Back Button */
+        .back-button {
+            background: #1a1a1a;
+            color: #00ff41;
+            border: 2px solid #333333;
+            padding: 12px 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            border-color: #00ff41;
+            background: #0a0a0a;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .container {
@@ -415,8 +636,23 @@
                 gap: 20px;
             }
             
-            .projects-section {
+            .projects-section, .games-section {
                 padding: 20px;
+            }
+
+            .game-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .game-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .game-controls {
+                justify-content: center;
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -431,34 +667,140 @@
         </header>
 
         <nav class="nav-grid">
-            <div class="nav-item active">🏠 INICIO</div>
-            <div class="nav-item">🔧 HERRAMIENTAS</div>
-            <div class="nav-item">🎮 JUEGOS</div>
-            <div class="nav-item">🎤 HIP HOP</div>
-            <div class="nav-item">📡 CONTACTO</div>
+            <div class="nav-item active" data-section="inicio">🏠 INICIO</div>
+            <div class="nav-item" data-section="herramientas">🔧 HERRAMIENTAS</div>
+            <div class="nav-item" data-section="juegos">🎮 JUEGOS</div>
+            <div class="nav-item" data-section="hiphop">🎤 HIP HOP</div>
+            <div class="nav-item" data-section="contacto">📡 CONTACTO</div>
         </nav>
 
-        <section class="projects-section">
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-icon">🔧</div>
-                    <h3 class="project-title">HERRAMIENTAS</h3>
-                    <p class="project-desc">Calculadoras, generadores y utilidades web para facilitar el trabajo diario.</p>
-                    <div class="project-status">DISPONIBLE</div>
+        <!-- Sección Inicio -->
+        <section id="inicio" class="section active">
+            <div class="projects-section">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">🔧</div>
+                        <h3 class="project-title">HERRAMIENTAS</h3>
+                        <p class="project-desc">Calculadoras, generadores y utilidades web para facilitar el trabajo diario.</p>
+                        <div class="project-status">DISPONIBLE</div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-icon">🎮</div>
+                        <h3 class="project-title">JUEGOS</h3>
+                        <p class="project-desc">Juegos web interactivos creados con JavaScript. Diversión garantizada.</p>
+                        <div class="project-status">DISPONIBLE</div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-icon">🎤</div>
+                        <h3 class="project-title">HIP HOP</h3>
+                        <p class="project-desc">Beats, samples y herramientas para producción musical. El estudio en tu navegador.</p>
+                        <div class="project-status">EN DESARROLLO</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Juegos -->
+        <section id="juegos" class="section">
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="game-header">
+                        <div class="game-icon">⏰</div>
+                        <div>
+                            <h2 class="game-title">TIME'S UP!</h2>
+                            <div class="game-subtitle">Party Game Classic</div>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        ¡El clásico juego de adivinar palabras en equipos! Tres rondas épicas: descripción libre, una sola palabra y mímica pura. Perfect para fiestas y reuniones con amigos. ¿Podrás hacer que tu equipo adivine todas las palabras antes de que se acabe el tiempo?
+                    </div>
+                    <div class="game-features">
+                        <div class="feature-tag">📱 Móvil</div>
+                        <div class="feature-tag">👥 Multijugador</div>
+                        <div class="feature-tag">⏱️ Tiempo Real</div>
+                        <div class="feature-tag">🎉 Party Game</div>
+                    </div>
+                    <div class="game-controls">
+                        <a href="games/timeup.html" class="play-button">▶️ JUGAR AHORA</a>
+                        <div class="game-status">DISPONIBLE</div>
+                    </div>
                 </div>
 
-                <div class="project-card">
-                    <div class="project-icon">🎮</div>
-                    <h3 class="project-title">JUEGOS</h3>
-                    <p class="project-desc">Juegos web interactivos creados con JavaScript. Diversión garantizada.</p>
-                    <div class="project-status">PRÓXIMAMENTE</div>
+                <!-- Placeholder para futuros juegos -->
+                <div class="game-card" style="opacity: 0.6;">
+                    <div class="game-header">
+                        <div class="game-icon">🎯</div>
+                        <div>
+                            <h2 class="game-title">PRÓXIMO JUEGO</h2>
+                            <div class="game-subtitle">Coming Soon</div>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        El siguiente juego está en desarrollo. ¡Mantente atento para más diversión!
+                    </div>
+                    <div class="game-features">
+                        <div class="feature-tag">🚧 En Desarrollo</div>
+                    </div>
+                    <div class="game-controls">
+                        <div class="play-button" style="opacity: 0.5; cursor: not-allowed;">🔒 PRÓXIMAMENTE</div>
+                        <div class="game-status">EN DESARROLLO</div>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="project-card">
-                    <div class="project-icon">🎤</div>
-                    <h3 class="project-title">HIP HOP</h3>
-                    <p class="project-desc">Beats, samples y herramientas para producción musical. El estudio en tu navegador.</p>
-                    <div class="project-status">EN DESARROLLO</div>
+        <!-- Sección Herramientas -->
+        <section id="herramientas" class="section">
+            <div class="projects-section">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">🧮</div>
+                        <h3 class="project-title">CALCULADORAS</h3>
+                        <p class="project-desc">Calculadoras especializadas para diferentes necesidades.</p>
+                        <div class="project-status">PRÓXIMAMENTE</div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">🔧</div>
+                        <h3 class="project-title">UTILIDADES</h3>
+                        <p class="project-desc">Herramientas útiles para el día a día.</p>
+                        <div class="project-status">PRÓXIMAMENTE</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Hip Hop -->
+        <section id="hiphop" class="section">
+            <div class="projects-section">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">🎵</div>
+                        <h3 class="project-title">BEAT MAKER</h3>
+                        <p class="project-desc">Crea beats y ritmos directamente en tu navegador.</p>
+                        <div class="project-status">EN DESARROLLO</div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-icon">🎤</div>
+                        <h3 class="project-title">SAMPLES</h3>
+                        <p class="project-desc">Biblioteca de samples y loops para tus producciones.</p>
+                        <div class="project-status">EN DESARROLLO</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="section">
+            <div class="projects-section">
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-icon">📧</div>
+                        <h3 class="project-title">EMAIL</h3>
+                        <p class="project-desc">Información de contacto y redes sociales.</p>
+                        <div class="project-status">PRÓXIMAMENTE</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -472,11 +814,19 @@
     </div>
 
     <script>
-        // Navigation interaction
+        // Navigation functionality
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
+                // Remove active class from all nav items and sections
                 document.querySelector('.nav-item.active').classList.remove('active');
+                document.querySelector('.section.active').classList.remove('active');
+                
+                // Add active class to clicked nav item
                 item.classList.add('active');
+                
+                // Show corresponding section
+                const sectionId = item.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
             });
         });
 
@@ -488,7 +838,9 @@
             "> WARNING: HUMAN_DETECTED_DEPLOYING_SICK_BEATS",
             "> READY: MATRIX_RAP_BATTLE_SEQUENCE_LOADING",
             "> ERROR: HUMAN_TOO_FRESH_CANNOT_COMPUTE",
-            "> STATUS: WORLD_DOMINATION_VIA_DOPE_RHYMES"
+            "> STATUS: WORLD_DOMINATION_VIA_DOPE_RHYMES",
+            "> GAMES: TIME_UP_PROTOCOL_INITIALIZED",
+            "> SYSTEM: PARTY_MODE_ACTIVATED"
         ];
 
         let messageIndex = 0;
