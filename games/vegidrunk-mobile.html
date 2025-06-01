@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEGIDRUNK 🍻</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Staatliches&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #1f1f1f 50%, #2a2a2a 75%, #1a1a1a 100%);
+            color: #f5f5f5;
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 0.5vh 2vw;
+            text-align: center;
+        }
+
+            .container.game-mode {
+                padding: 0;
+            }
+
+        /* TITULO FIJO ARRIBA */
+        h1 {
+            font-family: 'Staatliches', cursive;
+            font-size: 2.2rem;
+            color: #ff6b35;
+            text-shadow: 3px 3px 0px #000, -1px -1px 0px #333;
+            letter-spacing: 2px;
+            margin: 1vh 0;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+            h1::after {
+                content: '';
+                position: absolute;
+                bottom: -6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+            }
+
+        /* CONTENEDOR PRINCIPAL CENTRADO - MAS COMPACTO */
+        .setup-screen {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(45,45,45,0.8) 100%);
+            border-radius: 15px;
+            padding: 1.5vh 3vw;
+            width: 92vw;
+            max-width: 400px;
+            border: 2px solid #444;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0 auto;
+            max-height: 70vh;
+        }
+
+            .setup-screen h2 {
+                font-family: 'Oswald', sans-serif;
+                font-size: 1.4rem;
+                font-weight: 600;
+                color: #ff6b35;
+                margin-bottom: 1.5vh;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+        .game-screen {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(45,45,45,0.8) 100%);
+            padding: 0;
+            position: relative;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5vh;
+            background: rgba(45, 45, 45, 0.8);
+            padding: 0 2vw;
+            border-bottom: 2px solid #555;
+            flex-shrink: 0;
+        }
+
+        .card-values-info {
+            display: flex;
+            gap: 1.5vw;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .cards-remaining {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-to-menu {
+            background: rgba(68, 68, 68, 0.8);
+            color: #ccc;
+            border: 2px solid #666;
+            padding: 0.6vh 1.5vw;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+            .back-to-menu:hover {
+                background: rgba(255, 107, 53, 0.8);
+                color: #fff;
+                border-color: #ff6b35;
+                transform: translateY(-2px);
+            }
+
+        .game-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            height: 95vh;
+            overflow: hidden;
+            padding: 0.3vh;
+        }
+
+        /* BARRA NARANJA MAS PEGADA - ALTURA FIJA */
+        .action-info {
+            background: rgba(255, 107, 53, 0.9);
+            padding: 0.6vh 1vh;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 0.3vh;
+            height: 3.5vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* CONTENEDOR CARTA MAS PEGADO */
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.4vh;
+            flex-shrink: 0;
+        }
+
+        /* TURNO MAS PEGADO */
+        .turn-info {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.5vh 1vh;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 0.3vh;
+            width: 75vw;
+            max-width: 350px;
+        }
+
+        /* CARTA MAS PEQUEÑA */
+        .card-display {
+            width: 70vw;
+            max-width: 300px;
+            height: 280px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #333;
+            position: relative;
+            overflow: hidden;
+            padding: 1vh;
+            gap: 0.5vh;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+        }
+
+            .card-display.not-clickable {
+                cursor: default;
+            }
+
+        .card-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+        }
+
+        .card-display.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .card-action-text {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            line-height: 1.2;
+            padding: 1vh;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 6px;
+            max-height: 100px;
+            overflow-y: auto;
+            width: calc(100% - 2vh);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+            .card-action-text::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .card-action-text::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 2px;
+            }
+
+            .card-action-text::-webkit-scrollbar-thumb {
+                background: rgba(255, 107, 53, 0.8);
+                border-radius: 2px;
+            }
+
+                .card-action-text::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 107, 53, 1);
+                }
+
+        /* BOTON SIGUIENTE MAS PEGADO */
+        .next-turn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.4vh;
+            flex-shrink: 0;
+        }
+
+        .next-turn-btn {
+            background: linear-gradient(135deg, #7ed321 0%, #5ba615 100%);
+            color: #fff;
+            font-size: 0.9rem;
+            padding: 1.2vh 4vw;
+            border: 2px solid #7ed321;
+            font-weight: 700;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            min-width: 100px;
+            letter-spacing: 1px;
+        }
+
+            .next-turn-btn:hover:not(:disabled) {
+                background: linear-gradient(135deg, #5ba615 0%, #7ed321 100%);
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(126, 211, 33, 0.4);
+            }
+
+            .next-turn-btn:disabled {
+                background: rgba(68, 68, 68, 0.8);
+                color: #999;
+                border-color: #555;
+                cursor: not-allowed;
+            }
+
+        .card-display::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: none;
+            border: 3px solid #ff6b35;
+            border-radius: 9px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .card-display:hover::before {
+            opacity: 0.6;
+        }
+
+        .card-display:hover:not(.not-clickable):not(.card-blue):not(.card-yellow):not(.card-green):not(.card-red) {
+            transform: scale(1.02);
+        }
+
+        .card-blue {
+            background: #4a90e2 !important;
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
+        }
+
+        .card-yellow {
+            background: #ffcc00 !important;
+            box-shadow: 0 8px 25px rgba(255, 204, 0, 0.4);
+        }
+
+            .card-yellow .card-action-text {
+                color: rgba(255, 255, 255, 0.95);
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            }
+
+        .card-green {
+            background: #00cc44 !important;
+            box-shadow: 0 8px 25px rgba(0, 204, 68, 0.4);
+        }
+
+            .card-green .card-action-text {
+                color: rgba(255, 255, 255, 0.95);
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            }
+
+        .card-red {
+            background: #ff3333 !important;
+            box-shadow: 0 8px 25px rgba(255, 51, 51, 0.4);
+        }
+
+        .players-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        /* TITULO JUGADORES MAS PEQUEÑO */
+        .action-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.3vh;
+            color: #ff6b35;
+            text-align: center;
+            text-transform: uppercase;
+            min-height: 1vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+        }
+
+        /* GRID JUGADORES OPTIMIZADA PARA 8 - CASILLEROS MAS GRANDES */
+        .players-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5vh;
+            flex: 1;
+            align-content: start;
+            overflow-y: auto;
+            max-height: 42vh;
+        }
+
+        .player-item {
+            padding: 0.6vh 0.5vw;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-height: 7.5vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+            .player-item.interactive {
+                background: rgba(45, 45, 45, 0.8);
+                color: #f5f5f5;
+                border: 2px solid #666;
+            }
+
+                .player-item.interactive:hover {
+                    background: rgba(255, 107, 53, 0.3);
+                    border-color: #ff6b35;
+                    transform: translateY(-2px);
+                }
+
+                .player-item.interactive.selected {
+                    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+                    color: #fff;
+                    border-color: #ff6b35;
+                    box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+                }
+
+                .player-item.interactive:disabled {
+                    background: rgba(68, 68, 68, 0.5);
+                    color: #777;
+                    border-color: #555;
+                    cursor: not-allowed;
+                    opacity: 0.6;
+                }
+
+            .player-item.display-only {
+                background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(45, 45, 45, 0.6) 100%);
+                color: #ccc;
+                border: 2px solid #444;
+                cursor: default;
+            }
+
+                .player-item.display-only:hover {
+                    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(45, 45, 45, 0.6) 100%);
+                    border-color: #444;
+                }
+
+        .player-name-display {
+            font-weight: 700;
+            margin-bottom: 0.2vh;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            font-size: 0.8rem;
+        }
+
+        .drink-count-display {
+            font-size: 1rem;
+            font-weight: 800;
+            margin: 0.2vh 0;
+            color: #fff;
+        }
+
+        .slave-info-display {
+            font-size: 0.55rem;
+            opacity: 0.8;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            position: absolute;
+            bottom: 0.2vh;
+            left: 0.5vw;
+            right: 0.5vw;
+            text-align: center;
+        }
+
+        /* Estilos del setup */
+        .player-input {
+            display: flex;
+            gap: 1vw;
+            margin: 1vh 0;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        input, select, button {
+            padding: 1.2vh 2vw;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 2px solid #555;
+            border-radius: 8px;
+            background: rgba(45, 45, 45, 0.9);
+            color: #f5f5f5;
+            transition: all 0.3s ease;
+        }
+
+            input:focus, select:focus {
+                outline: none;
+                border-color: #ff6b35;
+                background: rgba(45, 45, 45, 1);
+                transform: translateY(-2px);
+            }
+
+        button {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid #ff6b35;
+        }
+
+            button:hover:not(:disabled) {
+                background: linear-gradient(135deg, #f7931e 0%, #ff6b35 100%);
+                transform: translateY(-3px);
+                box-shadow: 0 6px 18px rgba(255, 107, 53, 0.5);
+            }
+
+            button:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            button:disabled {
+                background: rgba(68, 68, 68, 0.8);
+                color: #999;
+                border-color: #555;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+            }
+
+        /* LISTA JUGADORES CENTRADA */
+        .players-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6vh;
+            margin: 1vh 0;
+            max-height: 18vh;
+            overflow-y: auto;
+        }
+
+        .player-card {
+            background: rgba(45, 45, 45, 0.7);
+            padding: 0.8vh;
+            border-radius: 6px;
+            border: 2px solid #555;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            height: 4vh;
+        }
+
+            .player-card:hover {
+                border-color: #777;
+                background: rgba(45, 45, 45, 0.9);
+                transform: translateY(-2px);
+            }
+
+        .final-results {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(45,45,45,0.8) 100%);
+            padding: 2vh 3vw;
+            border-radius: 15px;
+            margin: 1vh auto;
+            width: 92vw;
+            max-width: 400px;
+            max-height: 75vh;
+            border: 2px solid #444;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .max-players-warning {
+            color: #ff4757;
+            font-size: 1rem;
+            margin: 1vh 0;
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Animaciones */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .player-card {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes cardFlip {
+            0% {
+                transform: rotateY(-10deg) scale(0.98);
+            }
+
+            50% {
+                transform: rotateY(0deg) scale(1.03);
+            }
+
+            100% {
+                transform: rotateY(0deg) scale(1);
+            }
+        }
+
+        .card-display.flipping {
+            animation: cardFlip 0.6s ease-out;
+        }
+
+        /* Media queries para ajustes adicionales */
+        @media (max-height: 700px) {
+            .card-display {
+                height: 260px;
+            }
+
+            .card-number {
+                font-size: 2.5rem;
+            }
+
+            .players-grid {
+                gap: 0.4vh;
+                max-height: 38vh;
+            }
+
+            .player-item {
+                min-height: 8vh;
+                font-size: 0.7rem;
+                padding: 0.7vh 0.4vw;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .card-display {
+                height: 240px;
+            }
+
+            .card-number {
+                font-size: 2.2rem;
+            }
+
+            .action-info {
+                height: 3vh;
+                font-size: 0.7rem;
+            }
+
+            .players-grid {
+                max-height: 35vh;
+            }
+
+            .player-item {
+                min-height: 7.2vh;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card-values-info {
+                gap: 1vw;
+                font-size: 0.7rem;
+            }
+
+            .cards-remaining {
+                font-size: 0.7rem;
+            }
+
+            .back-to-menu {
+                font-size: 0.6rem;
+                padding: 0.5vh 1vw;
+            }
+
+            .player-item {
+                font-size: 0.65rem;
+            }
+
+            .player-name-display {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 VEGIDRUNK 🍺</h1>
+
+        <!-- Pantalla de configuración -->
+        <div id="setupScreen" class="setup-screen">
+            <h2>🎯 Configura tu partida</h2>
+            <div class="player-input">
+                <input type="text" id="playerName" placeholder="Nombre del jugador" maxlength="15">
+                <select id="playerGender">
+                    <option value="chico">🍺 Chico</option>
+                    <option value="chica">🍸 Chica</option>
+                </select>
+                <button onclick="addPlayer()">➕ Añadir</button>
+            </div>
+
+            <div id="maxPlayersWarning" class="max-players-warning hidden">
+                ⚠️ Máximo 8 jugadores
+            </div>
+
+            <div id="playersList" class="players-list"></div>
+
+            <div id="minPlayersInfo" class="max-players-warning" style="color: #4a90e2; display: block;">
+                ℹ️ Mínimo 2 jugadores para empezar
+            </div>
+
+            <button onclick="startGame()" id="startBtn" class="hidden" style="display: flex; margin: 2vh auto 0 auto; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #7ed321 0%, #5ba615 100%); border-color: #7ed321;">🚀 Empezar Juegazo</button>
+
+            <button onclick="showInstructions()" style="display: flex; margin: 1vh auto 0 auto; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%); border-color: #4a90e2;">❓ Cómo Jugar</button>
+        </div>
+
+        <!-- Pantalla del juego -->
+        <div id="gameScreen" class="game-screen hidden">
+            <!-- Header -->
+            <div class="game-header">
+                <div class="card-values-info">
+                    <span style="color: #4a90e2;">🔵 1</span>
+                    <span style="color: #ffcc00;">🟡 2</span>
+                    <span style="color: #00cc44;">🟢 3</span>
+                    <span style="color: #ff3333;">🔴 4</span>
+                </div>
+                <div class="cards-remaining">
+                    🃏 <span id="cardsLeft">40</span>
+                </div>
+                <button class="back-to-menu" onclick="backToMenu()">🏠 MENÚ</button>
+            </div>
+
+            <!-- Contenido principal vertical -->
+            <div class="game-content">
+                <!-- Rectángulo de acción -->
+                <div id="actionInfo" class="action-info"></div>
+
+                <!-- Carta y info -->
+                <div class="card-container">
+                    <div id="turnInfo" class="turn-info">🎯 Turno de: </div>
+                    <div id="cardDisplay" class="card-display" onclick="drawCard()">
+                        <div class="card-number">🃏</div>
+                        <div style="font-size: 0.8rem; font-weight: 500; margin-top: auto;">Haz click para<br>robar carta</div>
+                    </div>
+                </div>
+
+                <!-- Botón SIGUIENTE -->
+                <div class="next-turn-container">
+                    <button id="nextTurnBtn" class="next-turn-btn" onclick="nextTurn()">▶️ SIGUIENTE</button>
+                </div>
+
+                <!-- Jugadores -->
+                <div class="players-section">
+                    <div class="action-title" id="actionTitle">🏆 JUGADORES</div>
+                    <div id="playersGrid" class="players-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de instrucciones -->
+        <div id="instructionsScreen" class="final-results hidden">
+            <h2 style="font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 600; color: #ff6b35; margin-bottom: 2vh; text-transform: uppercase;">❓ Cómo Jugar</h2>
+
+            <div style="text-align: left; line-height: 1.4; font-size: 0.9rem;">
+                <h3 style="color: #ff6b35; margin: 2vh 0 1vh 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.1rem;">🎯 Objetivo</h3>
+                <p>Robar cartas y cumplir las acciones. ¡El que menos beba gana!</p>
+
+                <h3 style="color: #ff6b35; margin: 2vh 0 1vh 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.1rem;">🃏 Cartas</h3>
+                <p><strong style="color: #4a90e2;">🔵 Azules (1 trago)</strong> - <strong style="color: #ffcc00;">🟡 Amarillas (2 tragos)</strong> - <strong style="color: #00cc44;">🟢 Verdes (3 tragos)</strong> - <strong style="color: #ff3333;">🔴 Rojas (4 tragos)</strong></p>
+
+                <h3 style="color: #ff6b35; margin: 2vh 0 1vh 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.1rem;">📋 Acciones</h3>
+                <p><strong>1:</strong> Tú bebes</p>
+                <p><strong>2:</strong> Mandas beber a alguien</p>
+                <p><strong>3:</strong> Eliges un esclavo</p>
+                <p><strong>4:</strong> Todos tocáis el suelo (último bebe)</p>
+                <p><strong>5:</strong> Beben todos los chicos</p>
+                <p><strong>6:</strong> Beben todas las chicas</p>
+                <p><strong>7:</strong> Todos mano arriba (último bebe)</p>
+                <p><strong>8:</strong> "Yo nunca..." (marcas quién bebe)</p>
+                <p><strong>9:</strong> Rimas (marcas quién falla)</p>
+                <p><strong>10:</strong> Palabras enlazadas (marcas quién falla)</p>
+
+                <h3 style="color: #ff6b35; margin: 2vh 0 1vh 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.1rem;">⛓️ Esclavitud</h3>
+                <p>Si eres esclavo de alguien, cuando tu amo beba, tú también bebes la misma cantidad. Las cadenas se propagan: si A es amo de B y B es amo de C, cuando A beba, B y C también beben.</p>
+
+                <h3 style="color: #ff6b35; margin: 2vh 0 1vh 0; font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 1.1rem;">🏆 Final</h3>
+                <p>Cuando se acaben las 40 cartas, gana quien menos haya bebido.</p>
+            </div>
+
+            <button onclick="hideInstructions()" style="margin: 2vh auto 0 auto; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #7ed321 0%, #5ba615 100%); border-color: #7ed321; padding: 1.2vh 3vw; font-size: 0.9rem;">🏠 Volver al Menú</button>
+        </div>
+
+        <!-- Pantalla de resultados finales -->
+        <div id="finalScreen" class="final-results hidden">
+            <h2 style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; font-weight: 600; color: #ff6b35; margin-bottom: 4vh; text-transform: uppercase;">🏆 Resultados Finales</h2>
+            <div id="finalResults"></div>
+            <button onclick="resetGame()" style="margin: 4vh auto 0 auto; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #7ed321 0%, #5ba615 100%); border-color: #7ed321;">🔄 Nueva Partida</button>
+        </div>
+    </div>
+
+    <script>
+        let players = [];
+        let currentPlayerIndex = 0;
+        let cards = [];
+        let slaveMasters = {}; // jugador -> array de sus amos
+        let totalDrinks = {};
+        let gameEnded = false;
+        let savedPlayerNames = []; // nombres guardados para reutilizar
+        let selectedPlayers = [];
+        let currentAction = '';
+        let currentCardValue = 0;
+        let interactionEnabled = false; // Variable para controlar interacción
+        let cardClickable = true; // Nueva variable para controlar si se puede hacer click en la carta
+        const MAX_PLAYERS = 8;
+
+        // Crear baraja
+        function createDeck() {
+            const colors = ['blue', 'yellow', 'green', 'red'];
+            const colorValues = { blue: 1, yellow: 2, green: 3, red: 4 };
+            cards = [];
+
+            for (let color of colors) {
+                for (let number = 1; number <= 10; number++) {
+                    cards.push({
+                        number: number,
+                        color: color,
+                        value: colorValues[color]
+                    });
+                }
+            }
+
+            // Mezclar cartas
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+        }
+
+        function addPlayer() {
+            const name = document.getElementById('playerName').value.trim();
+            const gender = document.getElementById('playerGender').value;
+
+            if (players.length >= MAX_PLAYERS) {
+                document.getElementById('maxPlayersWarning').classList.remove('hidden');
+                return;
+            }
+
+            if (name && !players.some(p => p.name === name)) {
+                players.push({ name, gender });
+                totalDrinks[name] = 0;
+                slaveMasters[name] = [];
+
+                updatePlayersList();
+                document.getElementById('playerName').value = '';
+                document.getElementById('maxPlayersWarning').classList.add('hidden');
+
+                if (players.length >= 2) {
+                    document.getElementById('startBtn').classList.remove('hidden');
+                    document.getElementById('minPlayersInfo').classList.add('hidden');
+                } else {
+                    document.getElementById('minPlayersInfo').classList.remove('hidden');
+                }
+            }
+        }
+
+        function removePlayer(index) {
+            const removedPlayer = players[index];
+            delete totalDrinks[removedPlayer.name];
+            delete slaveMasters[removedPlayer.name];
+
+            // Eliminar como esclavo de otros
+            for (let player in slaveMasters) {
+                slaveMasters[player] = slaveMasters[player].filter(master => master !== removedPlayer.name);
+            }
+
+            players.splice(index, 1);
+            updatePlayersList();
+            document.getElementById('maxPlayersWarning').classList.add('hidden');
+
+            if (players.length < 2) {
+                document.getElementById('startBtn').classList.add('hidden');
+                document.getElementById('minPlayersInfo').classList.remove('hidden');
+            }
+        }
+
+        function updatePlayersList() {
+            const list = document.getElementById('playersList');
+            list.innerHTML = players.map((player, index) =>
+                `<div class="player-card">
+                            <span>${player.gender === 'chico' ? '🍺' : '🍸'} ${player.name}</span>
+                            <button onclick="removePlayer(${index})" style="background: linear-gradient(135deg, #d0021b, #a3001a); padding: 0.8vh 1.5vw; font-size: 0.8rem; color: white; border: none; border-radius: 4px;">❌</button>
+                        </div>`
+            ).join('');
+        }
+
+        function startGame() {
+            // Validación: mínimo 2 jugadores
+            if (players.length < 2) {
+                alert('¡Necesitas al menos 2 jugadores para empezar!');
+                return;
+            }
+
+            // Limpiar COMPLETAMENTE todo
+            currentPlayerIndex = 0;
+            gameEnded = false;
+            selectedPlayers = [];
+            currentAction = '';
+            currentCardValue = 0;
+            interactionEnabled = false;
+            cardClickable = true;
+
+            // Limpiar completamente esclavitud y tragos
+            slaveMasters = {};
+            totalDrinks = {};
+            players.forEach(player => {
+                totalDrinks[player.name] = 0;
+                slaveMasters[player.name] = [];
+            });
+
+            // Crear nueva baraja
+            createDeck();
+
+            // Cambiar pantallas - ocultar título principal
+            document.querySelector('.container h1').style.display = 'none';
+            document.querySelector('.container').classList.add('game-mode');
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+
+            // Inicializar el juego
+            updateCurrentPlayer();
+            updatePlayersDisplay();
+            resetCardToInitial();
+        }
+
+        function resetCardToInitial() {
+            const cardDisplay = document.getElementById('cardDisplay');
+            cardDisplay.className = 'card-display';
+            cardDisplay.innerHTML = `
+                        <div class="card-number">🃏</div>
+                        <div style="font-size: 0.8rem; font-weight: 500; margin-top: auto;">Haz click para<br>robar carta</div>
+                    `;
+            cardDisplay.onclick = drawCard;
+            cardClickable = true;
+            document.getElementById('nextTurnBtn').disabled = true;
+            document.getElementById('actionTitle').textContent = '🏆 JUGADORES';
+            document.getElementById('actionInfo').textContent = ''; // Limpiar pero mantener visible
+        }
+
+        function backToMenu() {
+            // Cambiar confirm por algo que funcione en Claude
+            const shouldReturn = true; // En producción podrías usar confirm, aquí lo dejamos directo
+            if (shouldReturn) {
+                resetToMenu();
+            }
+        }
+
+        function resetToMenu() {
+            // Limpiar SOLO los datos de la partida, MANTENER jugadores
+            currentPlayerIndex = 0;
+            cards = [];
+            gameEnded = false;
+            selectedPlayers = [];
+            currentAction = '';
+            currentCardValue = 0;
+            interactionEnabled = false;
+            cardClickable = true;
+
+            // Limpiar datos de esclavitud y tragos pero mantener estructura para los jugadores existentes
+            slaveMasters = {};
+            totalDrinks = {};
+            players.forEach(player => {
+                totalDrinks[player.name] = 0;
+                slaveMasters[player.name] = [];
+            });
+
+            // Limpiar elementos de la UI
+            document.getElementById('finalScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('instructionsScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+
+            // Restaurar el título principal
+            document.querySelector('.container h1').style.display = 'block';
+            document.querySelector('.container').classList.remove('game-mode');
+
+            // Actualizar la lista de jugadores (que se mantienen) y resetear estado
+            updatePlayersList();
+
+            // Si hay jugadores, mostrar botón de empezar
+            if (players.length >= 2) {
+                document.getElementById('startBtn').classList.remove('hidden');
+                document.getElementById('minPlayersInfo').classList.add('hidden');
+            } else {
+                document.getElementById('startBtn').classList.add('hidden');
+                document.getElementById('minPlayersInfo').classList.remove('hidden');
+            }
+
+            document.getElementById('playerName').value = '';
+            document.getElementById('maxPlayersWarning').classList.add('hidden');
+        }
+
+        function updateCurrentPlayer() {
+            document.getElementById('turnInfo').textContent =
+                `🎯 Turno: ${players[currentPlayerIndex].gender === 'chico' ? '🍺' : '🍸'} ${players[currentPlayerIndex].name}`;
+            document.getElementById('cardsLeft').textContent = cards.length;
+        }
+
+        function updatePlayersDisplay() {
+            const playersGrid = document.getElementById('playersGrid');
+
+            playersGrid.innerHTML = players.map(player => {
+                const slaveText = slaveMasters[player.name].length > 0 ? ' ⛓️' : '';
+                const masters = slaveMasters[player.name].length > 0 ?
+                    `<div class="slave-info-display">Esclavo de ${slaveMasters[player.name].join(', ')}</div>` : '';
+
+                // Determinar el tipo de elemento y clases
+                let elementClass = 'player-item';
+                let isEnabled = true;
+                let extraClass = '';
+
+                // Solo permitir interacción si está habilitada globalmente
+                if (!interactionEnabled) {
+                    elementClass += ' display-only';
+                } else {
+                    elementClass += ' interactive';
+
+                    if (currentAction === 'esclavo') {
+                        const master = players[currentPlayerIndex].name;
+                        const availableSlaves = getAvailableSlaves(master);
+                        isEnabled = availableSlaves.some(p => p.name === player.name);
+                    } else if (currentAction === 'mandarbeber' || currentAction === 'votar') {
+                        const excludePlayer = currentAction === 'mandarbeber' ? players[currentPlayerIndex].name : null;
+                        isEnabled = player.name !== excludePlayer;
+                    }
+                }
+
+                if (selectedPlayers.includes(player.name)) {
+                    extraClass = 'selected';
+                }
+
+                return `<div class="${elementClass} ${extraClass}"
+                            ${(!isEnabled && interactionEnabled) ? 'disabled' : ''}
+                            onclick="selectPlayerNew('${player.name}')">
+                            <div class="player-name-display">${player.gender === 'chico' ? '🍺' : '🍸'} ${player.name}${slaveText}</div>
+                            <div class="drink-count-display">${totalDrinks[player.name]} 🍻</div>
+                            ${masters}
+                        </div>`;
+            }).join('');
+        }
+
+        function drawCard() {
+            if (cards.length === 0 || gameEnded || !cardClickable) return;
+
+            const card = cards.pop();
+
+            // Deshabilitar click en la carta inmediatamente
+            cardClickable = false;
+            interactionEnabled = false;
+            const cardDisplay = document.getElementById('cardDisplay');
+            cardDisplay.classList.add('disabled', 'not-clickable');
+            cardDisplay.onclick = null;
+
+            // Añadir clase de animación
+            cardDisplay.classList.add('flipping');
+
+            // Mostrar carta con color correspondiente
+            setTimeout(() => {
+                cardDisplay.className = `card-display card-${card.color} flipping disabled not-clickable`;
+                cardDisplay.innerHTML = `
+                            <div class="card-number">${card.number}</div>
+                        `;
+            }, 200);
+
+            // Procesar acción de la carta
+            setTimeout(() => {
+                cardDisplay.classList.remove('flipping');
+                processCardAction(card);
+            }, 500);
+        }
+
+        function processCardAction(card) {
+            const player = players[currentPlayerIndex].name;
+            const cardDisplay = document.getElementById('cardDisplay');
+            let actionInfo = '';
+
+            // Limpiar estado anterior
+            selectedPlayers = [];
+            currentCardValue = card.value;
+
+            switch (card.number) {
+                case 1: // BEBES TU MISMO
+                    actionInfo = 'BEBES TU MISMO';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    // Mostrar inmediatamente el resultado completo
+                    setTimeout(() => {
+                        const drinkText1 = showFullDrinkText([player], card.value);
+                        updateCardWithAction(cardDisplay, card, drinkText1, actionInfo);
+                    }, 100);
+                    currentAction = 'carta1';
+                    interactionEnabled = false;
+                    enableNextTurnButton();
+                    break;
+
+                case 2: // MANDAS BEBER, ELIGE VICTIMA
+                    actionInfo = 'MANDAS BEBER, ELIGE VICTIMA';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    currentAction = 'mandarbeber';
+                    interactionEnabled = true;
+                    document.getElementById('actionTitle').textContent = '👑 ELIGE VÍCTIMA';
+                    updatePlayersDisplay();
+                    break;
+
+                case 3: // ELIGE ESCLAVO
+                    if (players.length <= 2) {
+                        actionInfo = 'ELIGE ESCLAVO';
+                        updateCardWithAction(cardDisplay, card, '⏭️ Solo hay 2 jugadores - Carta saltada', actionInfo);
+                        currentAction = '';
+                        interactionEnabled = false;
+                        enableNextTurnButton();
+                        break;
+                    }
+
+                    const availableSlaves = getAvailableSlaves(player);
+                    if (availableSlaves.length === 0) {
+                        actionInfo = 'ELIGE ESCLAVO';
+                        updateCardWithAction(cardDisplay, card, '⏭️ No hay esclavos disponibles - Carta saltada', actionInfo);
+                        currentAction = '';
+                        interactionEnabled = false;
+                        enableNextTurnButton();
+                    } else {
+                        actionInfo = 'ELIGE ESCLAVO';
+                        updateCardWithAction(cardDisplay, card, '', actionInfo);
+                        currentAction = 'esclavo';
+                        interactionEnabled = true;
+                        document.getElementById('actionTitle').textContent = '⛓️ ELIGE ESCLAVO';
+                        updatePlayersDisplay();
+                    }
+                    break;
+
+                case 4: // MANOS AL SUELO! VOTAD PERDEDOR
+                    actionInfo = 'MANOS AL SUELO! VOTAD PERDEDOR';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    currentAction = 'votar';
+                    interactionEnabled = true;
+                    document.getElementById('actionTitle').textContent = '👇 VOTAD PERDEDOR';
+                    updatePlayersDisplay();
+                    break;
+
+                case 5: // BEBEN LOS CHICOS
+                    const chicos = players.filter(p => p.gender === 'chico').map(p => p.name);
+                    actionInfo = 'BEBEN LOS CHICOS';
+                    if (chicos.length === 0) {
+                        updateCardWithAction(cardDisplay, card, 'No hay chicos - Carta saltada', actionInfo);
+                        currentAction = '';
+                        interactionEnabled = false;
+                        enableNextTurnButton();
+                    } else {
+                        updateCardWithAction(cardDisplay, card, '', actionInfo);
+                        // Mostrar inmediatamente quién bebe
+                        setTimeout(() => {
+                            const drinkText5 = showFullDrinkText(chicos, card.value);
+                            updateCardWithAction(cardDisplay, card, drinkText5, actionInfo);
+                        }, 100);
+                        currentAction = 'carta5';
+                        selectedPlayers = chicos; // Guardar para aplicar en SIGUIENTE
+                        interactionEnabled = false;
+                        enableNextTurnButton();
+                    }
+                    break;
+
+                case 6: // BEBEN LAS CHICAS
+                    const chicas = players.filter(p => p.gender === 'chica').map(p => p.name);
+                    actionInfo = 'BEBEN LAS CHICAS';
+                    if (chicas.length === 0) {
+                        updateCardWithAction(cardDisplay, card, 'No hay chicas - Carta saltada', actionInfo);
+                        currentAction = '';
+                        interactionEnabled = false;
+                        enableNextTurnButton();
+                    } else {
+                        updateCardWithAction(cardDisplay, card, '', actionInfo);
+                        // Mostrar inmediatamente quién bebe
+                        setTimeout(() => {
+                            const drinkText6 = showFullDrinkText(chicas, card.value);
+                            updateCardWithAction(cardDisplay, card, drinkText6, actionInfo);
+                        }, 100);
+                        currentAction = 'carta6';
+                        selectedPlayers = chicas; // Guardar para aplicar en SIGUIENTE
+                        interactionEnabled = false;
+                        enableNextTurnButton();
+                    }
+                    break;
+
+                case 7: // MANOS ARRIBA! VOTAD PERDEDOR
+                    actionInfo = 'MANOS ARRIBA! VOTAD PERDEDOR';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    currentAction = 'votar';
+                    interactionEnabled = true;
+                    document.getElementById('actionTitle').textContent = '🙋 VOTAD PERDEDOR';
+                    updatePlayersDisplay();
+                    break;
+
+                case 8: // YO NUNCA... VOTAD PERDEDORES
+                    actionInfo = 'YO NUNCA... VOTAD PERDEDORES';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    currentAction = 'multiple';
+                    interactionEnabled = true;
+                    document.getElementById('actionTitle').textContent = '💭 MARCAD BEBEDORES';
+                    enableNextTurnButton();
+                    updatePlayersDisplay();
+                    break;
+
+                case 9: // RIMAS, VOTAD PERDEDOR
+                    actionInfo = 'RIMAS, VOTAD PERDEDOR';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    currentAction = 'votar';
+                    interactionEnabled = true;
+                    document.getElementById('actionTitle').textContent = '🎵 VOTAD PERDEDOR';
+                    updatePlayersDisplay();
+                    break;
+
+                case 10: // PALABRAS ENLAZADAS, VOTAD PERDEDOR
+                    actionInfo = 'PALABRAS ENLAZADAS, VOTAD PERDEDOR';
+                    updateCardWithAction(cardDisplay, card, '', actionInfo);
+                    currentAction = 'votar';
+                    interactionEnabled = true;
+                    document.getElementById('actionTitle').textContent = '🔗 VOTAD PERDEDOR';
+                    updatePlayersDisplay();
+                    break;
+            }
+
+            updateCurrentPlayer();
+        }
+
+        function updateCardWithAction(cardDisplay, card, actionText, actionInfo = '') {
+            // Mostrar info de acción fuera de la carta si existe
+            const actionInfoElement = document.getElementById('actionInfo');
+            if (actionInfo) {
+                actionInfoElement.textContent = actionInfo;
+            } else {
+                actionInfoElement.textContent = ''; // Mantener vacío pero visible
+            }
+
+            // Mostrar texto en la carta si existe
+            if (actionText && actionText.trim() !== '') {
+                cardDisplay.innerHTML = `
+                            <div class="card-number">${card.number}</div>
+                            <div class="card-action-text">${actionText}</div>
+                        `;
+            } else {
+                cardDisplay.innerHTML = `
+                            <div class="card-number">${card.number}</div>
+                        `;
+            }
+        }
+
+        function getPlayerChain(playerName) {
+            // Obtener toda la cadena de un jugador (amos y esclavos)
+            let chain = new Set([playerName]);
+
+            // Obtener todos los amos hacia arriba
+            let toCheckMasters = [playerName];
+            while (toCheckMasters.length > 0) {
+                let current = toCheckMasters.shift();
+                if (slaveMasters[current]) {
+                    for (let master of slaveMasters[current]) {
+                        if (!chain.has(master)) {
+                            chain.add(master);
+                            toCheckMasters.push(master);
+                        }
+                    }
+                }
+            }
+
+            // Obtener todos los esclavos hacia abajo
+            let toCheckSlaves = [playerName];
+            while (toCheckSlaves.length > 0) {
+                let current = toCheckSlaves.shift();
+                for (let playerKey in slaveMasters) {
+                    if (slaveMasters[playerKey].includes(current) && !chain.has(playerKey)) {
+                        chain.add(playerKey);
+                        toCheckSlaves.push(playerKey);
+                    }
+                }
+            }
+
+            return chain;
+        }
+
+        function getAvailableSlaves(masterName) {
+            const masterChain = getPlayerChain(masterName);
+
+            return players.filter(p => {
+                if (p.name === masterName) return false;
+                if (slaveMasters[masterName].includes(p.name)) return false;
+                if (masterChain.has(p.name)) return false; // Ya está en la cadena
+                return true;
+            });
+        }
+
+        // Nueva función para manejar selección de jugadores
+        function selectPlayerNew(playerName) {
+            // Solo permitir selección si la interacción está habilitada
+            if (!interactionEnabled) {
+                return;
+            }
+
+            if (currentAction === 'multiple') {
+                // Modo selección múltiple (carta 8)
+                if (selectedPlayers.includes(playerName)) {
+                    selectedPlayers = selectedPlayers.filter(p => p !== playerName);
+                } else {
+                    selectedPlayers.push(playerName);
+                }
+
+                // Mostrar inmediatamente quién va a beber en la carta CON esclavitud
+                const cardDisplay = document.getElementById('cardDisplay');
+                const cardNumber = cardDisplay.querySelector('.card-number').textContent;
+
+                if (selectedPlayers.length > 0) {
+                    const drinkText = showFullDrinkText(selectedPlayers, currentCardValue);
+                    cardDisplay.innerHTML = `
+                                <div class="card-number">${cardNumber}</div>
+                                <div class="card-action-text">${drinkText}</div>
+                            `;
+                } else {
+                    cardDisplay.innerHTML = `
+                                <div class="card-number">${cardNumber}</div>
+                            `;
+                }
+
+                updatePlayersDisplay();
+                return;
+            }
+
+            // Acciones de selección única que se marcan hasta SIGUIENTE
+            if (currentAction === 'votar' || currentAction === 'mandarbeber') {
+                // Limpiar selecciones anteriores y marcar el nuevo
+                selectedPlayers = [playerName];
+
+                // Solo mostrar el texto CON esclavitud, NO aplicar tragos aún
+                const drinkText = showFullDrinkText([playerName], currentCardValue);
+                const cardDisplay = document.getElementById('cardDisplay');
+                const cardNumber = cardDisplay.querySelector('.card-number').textContent;
+                cardDisplay.innerHTML = `
+                            <div class="card-number">${cardNumber}</div>
+                            <div class="card-action-text">${drinkText}</div>
+                        `;
+
+                updatePlayersDisplay();
+                enableNextTurnButton();
+                return;
+            }
+
+            // Acciones de selección única inmediata (solo esclavo ahora)
+            if (currentAction === 'esclavo') {
+                const master = players[currentPlayerIndex].name;
+
+                // Validar que no se pueda elegir a sí mismo como esclavo
+                if (playerName === master) {
+                    return; // No hacer nada si intenta elegirse a sí mismo
+                }
+
+                // Validar que el jugador esté disponible como esclavo
+                const availableSlaves = getAvailableSlaves(master);
+                if (!availableSlaves.some(p => p.name === playerName)) {
+                    return; // No hacer nada si el jugador no está disponible
+                }
+
+                if (!slaveMasters[playerName].includes(master)) {
+                    slaveMasters[playerName].push(master);
+                }
+
+                // Actualizar la carta con la información del esclavo
+                const cardDisplay = document.getElementById('cardDisplay');
+                const cardNumber = cardDisplay.querySelector('.card-number').textContent;
+                cardDisplay.innerHTML = `
+                            <div class="card-number">${cardNumber}</div>
+                            <div class="card-action-text">${playerName} es esclavo de ${master}</div>
+                        `;
+
+                // Para esclavo, ocultar selección inmediatamente
+                hideSelectionAndContinue();
+            }
+        }
+
+        function hideSelectionAndContinue() {
+            currentAction = '';
+            selectedPlayers = [];
+            interactionEnabled = false; // Deshabilitar interacción
+            updatePlayersDisplay();
+            enableNextTurnButton();
+        }
+
+        // Función para mostrar quién bebe CON esclavitud incluida (solo texto) EN FILAS con iconos
+        function showFullDrinkText(playersArray, amount) {
+            if (playersArray.length === 0) return "Nadie bebe";
+
+            // Calcular tragos normales y por esclavitud por separado
+            let normalDrinks = {}; // Tragos por regla normal
+            let slaveDrinks = {}; // Tragos por esclavitud (jugador -> {amo: cantidad})
+
+            // Inicializar
+            players.forEach(p => {
+                normalDrinks[p.name] = 0;
+                slaveDrinks[p.name] = {};
+            });
+
+            // Tragos por regla original
+            playersArray.forEach(name => normalDrinks[name] = amount);
+
+            // Calcular esclavitud paso a paso
+            let currentRound = {};
+            players.forEach(p => currentRound[p.name] = 0);
+            playersArray.forEach(name => currentRound[name] = amount);
+
+            let iterations = 0;
+            const MAX_ITERATIONS = 20;
+
+            while (Object.values(currentRound).some(v => v > 0) && iterations < MAX_ITERATIONS) {
+                iterations++;
+                let nextRound = {};
+                players.forEach(p => nextRound[p.name] = 0);
+
+                for (let masterName in currentRound) {
+                    if (currentRound[masterName] > 0) {
+                        for (let slaveName in slaveMasters) {
+                            if (slaveMasters[slaveName].includes(masterName)) {
+                                nextRound[slaveName] += currentRound[masterName];
+
+                                // Registrar tragos de esclavitud
+                                if (!slaveDrinks[slaveName][masterName]) {
+                                    slaveDrinks[slaveName][masterName] = 0;
+                                }
+                                slaveDrinks[slaveName][masterName] += currentRound[masterName];
+                            }
+                        }
+                    }
+                }
+
+                currentRound = nextRound;
+            }
+
+            // Generar texto en orden: PRIMERO regla normal, LUEGO esclavitud
+            let result = [];
+
+            // 1. PRIMERO: Todos los que beben por regla normal
+            players.forEach(player => {
+                if (normalDrinks[player.name] > 0) {
+                    const icon = players.find(p => p.name === player.name).gender === 'chico' ? '🍺' : '🍸';
+                    result.push(`${icon} ${player.name} bebe ${normalDrinks[player.name]} trago${normalDrinks[player.name] > 1 ? 's' : ''}`);
+                }
+            });
+
+            // 2. DESPUÉS: Todos los que beben por esclavitud
+            players.forEach(player => {
+                for (let masterName in slaveDrinks[player.name]) {
+                    if (slaveDrinks[player.name][masterName] > 0) {
+                        const drinks = slaveDrinks[player.name][masterName];
+                        result.push(`⛓️ ${player.name} bebe ${drinks} trago${drinks > 1 ? 's' : ''} (esclavo de ${masterName})`);
+                    }
+                }
+            });
+
+            return result.join('<br>');
+        }
+
+        // Función para aplicar tragos SIN mostrar resumen (solo cálculos internos)
+        function applyDrinksOnly(playersArray, amount) {
+            // Ronda 0: los que beben por la regla original
+            let currentRound = {};
+            players.forEach(p => currentRound[p.name] = 0);
+            playersArray.forEach(name => currentRound[name] = amount);
+
+            let totalRoundDrinks = { ...currentRound };
+            let iterations = 0;
+            const MAX_ITERATIONS = 20; // Protección contra bucles infinitos
+
+            // Rondas de esclavitud - propagar en cadena
+            while (Object.values(currentRound).some(v => v > 0) && iterations < MAX_ITERATIONS) {
+                iterations++;
+                let nextRound = {};
+                players.forEach(p => nextRound[p.name] = 0);
+
+                for (let masterName in currentRound) {
+                    if (currentRound[masterName] > 0) {
+                        // Sus esclavos beben la misma cantidad
+                        for (let slaveName in slaveMasters) {
+                            if (slaveMasters[slaveName].includes(masterName)) {
+                                nextRound[slaveName] += currentRound[masterName];
+                            }
+                        }
+                    }
+                }
+
+                // Sumar al total de esta ronda
+                for (let name in nextRound) {
+                    totalRoundDrinks[name] += nextRound[name];
+                }
+
+                currentRound = nextRound;
+            }
+
+            // Aplicar al total del juego
+            for (let playerName in totalRoundDrinks) {
+                if (totalRoundDrinks[playerName] > 0) {
+                    totalDrinks[playerName] += totalRoundDrinks[playerName];
+                }
+            }
+
+            updatePlayersDisplay();
+
+            // Devolver quién bebe cuánto para mostrar en la carta
+            return players.filter(p => totalRoundDrinks[p.name] > 0)
+                .map(p => `${p.name} bebe ${totalRoundDrinks[p.name]} trago${totalRoundDrinks[p.name] > 1 ? 's' : ''}`)
+                .join(', ');
+        }
+
+        function enableNextTurnButton() {
+            document.getElementById('nextTurnBtn').disabled = false;
+        }
+
+        function disableNextTurnButton() {
+            document.getElementById('nextTurnBtn').disabled = true;
+        }
+
+        function nextTurn() {
+            // Para carta 8, procesar selecciones múltiples si las hay
+            if (currentAction === 'multiple' && selectedPlayers.length > 0) {
+                const drinkText = applyDrinksOnly(selectedPlayers, currentCardValue);
+                const cardDisplay = document.getElementById('cardDisplay');
+                const cardNumber = cardDisplay.querySelector('.card-number').textContent;
+
+                // Asegurar que se muestra el texto correctamente
+                if (drinkText && drinkText.trim() !== '') {
+                    cardDisplay.innerHTML = `
+                                <div class="card-number">${cardNumber}</div>
+                                <div class="card-action-text">${drinkText}</div>
+                            `;
+                } else {
+                    cardDisplay.innerHTML = `
+                                <div class="card-number">${cardNumber}</div>
+                                <div class="card-action-text">Nadie bebe</div>
+                            `;
+                }
+            } else if (currentAction === 'multiple') {
+                // Si no se seleccionó a nadie en carta 8
+                const cardDisplay = document.getElementById('cardDisplay');
+                const cardNumber = cardDisplay.querySelector('.card-number').textContent;
+                cardDisplay.innerHTML = `
+                            <div class="card-number">${cardNumber}</div>
+                            <div class="card-action-text">Nadie bebe</div>
+                        `;
+            }
+
+            // Para votaciones (4,7,9,10) y mandar beber (2), aplicar tragos al dar SIGUIENTE
+            if ((currentAction === 'votar' || currentAction === 'mandarbeber') && selectedPlayers.length > 0) {
+                applyDrinksOnly(selectedPlayers, currentCardValue);
+            }
+
+            // Para cartas 1, 5, 6 - aplicar tragos al dar SIGUIENTE
+            if (currentAction === 'carta1') {
+                const player = players[currentPlayerIndex].name;
+                applyDrinksOnly([player], currentCardValue);
+            } else if (currentAction === 'carta5' && selectedPlayers.length > 0) {
+                applyDrinksOnly(selectedPlayers, currentCardValue);
+            } else if (currentAction === 'carta6' && selectedPlayers.length > 0) {
+                applyDrinksOnly(selectedPlayers, currentCardValue);
+            }
+
+            disableNextTurnButton();
+
+            // Limpiar estado de selección
+            selectedPlayers = [];
+            currentAction = '';
+            currentCardValue = 0;
+            interactionEnabled = false;
+
+            if (cards.length === 0) {
+                endGame();
+                return;
+            }
+
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+            updateCurrentPlayer();
+            updatePlayersDisplay();
+
+            // Resetear carta y habilitarla para click
+            resetCardToInitial();
+            updateCurrentPlayer();
+        }
+
+        function endGame() {
+            gameEnded = true;
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('finalScreen').classList.remove('hidden');
+
+            const sortedPlayers = players.sort((a, b) => totalDrinks[b.name] - totalDrinks[a.name]);
+
+            let results = '<h3 style="margin-bottom: 4vh; font-family: \'Oswald\', sans-serif; font-size: 1.6rem; color: #ff6b35; text-transform: uppercase;">🏆 Ranking Final</h3>';
+            sortedPlayers.forEach((player, index) => {
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅';
+                results += `<div class="drink-card" style="margin: 2vh auto; font-size: 1.2rem; padding: 3vh; width: 90%; max-width: 450px; height: auto; background: rgba(45, 45, 45, 0.7); border-radius: 12px; border: 2px solid #555;">
+                            ${medal} ${player.gender === 'chico' ? '🍺' : '🍸'} ${player.name}<br>
+                            <strong style="font-size: 1.4em;">${totalDrinks[player.name]} tragos</strong>
+                        </div>`;
+            });
+
+            document.getElementById('finalResults').innerHTML = results;
+        }
+
+        function showInstructions() {
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('instructionsScreen').classList.remove('hidden');
+        }
+
+        function hideInstructions() {
+            document.getElementById('instructionsScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+
+        // CAMBIO: Modificar resetGame para que mantenga los jugadores como resetToMenu
+        function resetGame() {
+            // CAMBIO: Ahora resetGame se comporta igual que resetToMenu - mantiene jugadores
+            resetToMenu();
+        }
+
+        document.getElementById('playerName').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                addPlayer();
+            }
+        });
+    </script>
+</body>
+</html>
