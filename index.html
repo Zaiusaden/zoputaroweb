@@ -535,15 +535,17 @@
             text-shadow: 0 0 8px #00ff41;
         }
 
-        /* Terminal Footer */
+        /* Terminal Footer - MEJORADO */
         .terminal-footer {
             background: linear-gradient(135deg, #000000 0%, #0d1a0d 50%, #000000 100%);
             border: 2px solid #333333;
             border-top: 3px solid #00ff41;
-            padding: 20px;
+            padding: 30px 25px; /* Aumentado el padding */
             font-family: 'Orbitron', monospace;
             position: relative;
             clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%, 0 15px);
+            margin-top: 40px; /* Añadido margen superior */
+            min-height: 80px; /* Altura mínima garantizada */
         }
 
         .terminal-footer::before {
@@ -564,20 +566,24 @@
 
         .terminal-text {
             color: #00ff41;
-            font-size: 0.9rem;
+            font-size: 1rem; /* Aumentado el tamaño de fuente */
             font-weight: 500;
             letter-spacing: 1px;
             text-shadow: 0 0 10px #00ff41;
+            line-height: 1.6; /* Mejorado el espaciado entre líneas */
+            margin-top: 10px; /* Espacio desde el título */
+            min-height: 25px; /* Altura mínima para el texto */
         }
 
         .terminal-cursor {
             display: inline-block;
             width: 8px;
-            height: 16px;
+            height: 18px; /* Aumentado ligeramente */
             background: #00ff41;
             margin-left: 5px;
             animation: blink 1.2s infinite;
             box-shadow: 0 0 10px #00ff41;
+            vertical-align: middle; /* Mejor alineación */
         }
 
         @keyframes blink {
@@ -656,6 +662,14 @@
                 justify-content: center;
                 flex-wrap: wrap;
             }
+
+            .terminal-footer {
+                padding: 25px 20px; /* Ajuste para móvil */
+            }
+
+            .terminal-text {
+                font-size: 0.9rem; /* Ligeramente más pequeño en móvil */
+            }
         }
     </style>
 </head>
@@ -665,7 +679,7 @@
     <div class="container">
         <header class="header">
             <h1>ZOPUTARO</h1>
-            <div class="header-subtitle">GALACTIC_ENTERTAINMENT_PROTOCOL.EXE</div>
+            <div class="header-subtitle">USER_CONNECTED : YOU_ARE_NOW_INSIDE_THE_COMMAND_INTERFACE</div>
         </header>
 
         <nav class="nav-grid">
@@ -716,7 +730,7 @@
                         </div>
                     </div>
                     <div class="game-description">
-                       El clásico juego de adivinar palabras online estilo Time’s Up. Juega en equipos, tres rondas (descripción, palabra clave y mímica), ideal para fiestas. Perfecto para móvil, compatible con PC. Gratis y sin instalar nada.
+                       El clásico juego de adivinar palabras online estilo Time's Up. Juega en equipos, tres rondas (descripción, palabra clave y mímica), ideal para fiestas. Perfecto para móvil, compatible con PC. Gratis y sin instalar nada.
                     </div>
                     <div class="game-features">
                         <div class="feature-tag">📱 MÓVIL</div>
@@ -890,7 +904,6 @@
     "> ALERT: UNUSUAL_SEMANTIC_PATTERNS — POSSIBLE FREESTYLE",
     "> BACKUP COMPLETE: PHASE_3 — FLOW_LIBRARY_SYNCHRONIZED"
 ];
-
 
         let messageIndex = 0;
         setInterval(() => {
