@@ -270,7 +270,6 @@
             border: 1px solid #333333;
             border-left: 3px solid #00ff41;
             padding: 25px;
-            transition: all 0.2s ease;
             position: relative;
             clip-path: polygon(0 0, calc(100% - 25px) 0, calc(100% - 25px) 12px, 100% 12px, 100% 100%, 0 100%);
         }
@@ -287,16 +286,6 @@
             border-left: 1px solid #00ff41;
             border-bottom: 1px solid #00ff41;
             opacity: 0.3;
-            transition: opacity 0.2s ease;
-        }
-
-        .project-card:hover {
-            border-color: #00ff41;
-            background: #0a0a0a;
-        }
-
-        .project-card:hover::before {
-            opacity: 1;
         }
 
         .project-icon {
@@ -379,7 +368,6 @@
             border-left: 4px solid #ff6b35;
             padding: 25px;
             margin-bottom: 20px;
-            transition: all 0.3s ease;
             position: relative;
             clip-path: polygon(0 0, calc(100% - 35px) 0, calc(100% - 35px) 18px, 100% 18px, 100% 100%, 0 100%);
         }
@@ -396,17 +384,6 @@
             border-left: 2px solid #ff6b35;
             border-bottom: 2px solid #ff6b35;
             opacity: 0.5;
-            transition: opacity 0.3s ease;
-        }
-
-        .game-card:hover {
-            border-color: #ff6b35;
-            background: #0a0a0a;
-            transform: translateY(-2px);
-        }
-
-        .game-card:hover::before {
-            opacity: 1;
         }
 
         .game-header {
@@ -465,12 +442,7 @@
             letter-spacing: 1px;
             border: 1px solid #333333;
             text-align: center;
-            transition: all 0.2s ease;
-        }
-
-        .feature-tag:hover {
-            border-color: #00ff41;
-            background: #0a0a0a;
+            /* Eliminado: transition y hover para que no parezcan clickeables */
         }
 
         .game-controls {
