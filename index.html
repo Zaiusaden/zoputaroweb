@@ -535,17 +535,73 @@
             text-shadow: 0 0 8px #00ff41;
         }
 
+        /* HIP HOP Section styles - Special styling for music section */
+        .hiphop-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0d0d 50%, #0a0a0a 100%);
+            border: 2px solid #333333;
+            border-top: 4px solid #ff6b35;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+            box-shadow: 
+                inset 0 0 30px rgba(255, 107, 53, 0.05),
+                0 0 50px rgba(255, 107, 53, 0.1);
+        }
+
+        .hiphop-section::before {
+            content: "◤ FREESTYLE_NEURAL_NETWORK ◥";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: linear-gradient(90deg, #000000, #1a0d0d, #000000);
+            color: #ff6b35;
+            padding: 8px 15px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border: 1px solid #ff6b35;
+            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
+            text-shadow: 0 0 10px #ff6b35;
+        }
+
+        .hiphop-card {
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            border: 2px solid #333333;
+            border-left: 4px solid #ff6b35;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 20px);
+        }
+
+        .hiphop-card::after {
+            content: "♪";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: #ff6b35;
+            font-size: 1.5rem;
+            opacity: 0.4;
+            animation: music-pulse 2s infinite;
+        }
+
+        @keyframes music-pulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
         /* Terminal Footer - MEJORADO */
         .terminal-footer {
             background: linear-gradient(135deg, #000000 0%, #0d1a0d 50%, #000000 100%);
             border: 2px solid #333333;
             border-top: 3px solid #00ff41;
-            padding: 30px 25px; /* Aumentado el padding */
+            padding: 30px 25px;
             font-family: 'Orbitron', monospace;
             position: relative;
             clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%, 0 15px);
-            margin-top: 40px; /* Añadido margen superior */
-            min-height: 80px; /* Altura mínima garantizada */
+            margin-top: 40px;
+            min-height: 80px;
         }
 
         .terminal-footer::before {
@@ -566,24 +622,24 @@
 
         .terminal-text {
             color: #00ff41;
-            font-size: 1rem; /* Aumentado el tamaño de fuente */
+            font-size: 1rem;
             font-weight: 500;
             letter-spacing: 1px;
             text-shadow: 0 0 10px #00ff41;
-            line-height: 1.6; /* Mejorado el espaciado entre líneas */
-            margin-top: 10px; /* Espacio desde el título */
-            min-height: 25px; /* Altura mínima para el texto */
+            line-height: 1.6;
+            margin-top: 10px;
+            min-height: 25px;
         }
 
         .terminal-cursor {
             display: inline-block;
             width: 8px;
-            height: 18px; /* Aumentado ligeramente */
+            height: 18px;
             background: #00ff41;
             margin-left: 5px;
             animation: blink 1.2s infinite;
             box-shadow: 0 0 10px #00ff41;
-            vertical-align: middle; /* Mejor alineación */
+            vertical-align: middle;
         }
 
         @keyframes blink {
@@ -644,7 +700,7 @@
                 gap: 20px;
             }
             
-            .projects-section, .games-section {
+            .projects-section, .games-section, .hiphop-section {
                 padding: 20px;
             }
 
@@ -664,11 +720,11 @@
             }
 
             .terminal-footer {
-                padding: 25px 20px; /* Ajuste para móvil */
+                padding: 25px 20px;
             }
 
             .terminal-text {
-                font-size: 0.9rem; /* Ligeramente más pequeño en móvil */
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -711,8 +767,8 @@
                     <div class="project-card">
                         <div class="project-icon">🎤</div>
                         <h3 class="project-title">HIP HOP</h3>
-                        <p class="project-desc">Beats, samples y herramientas para producción musical. El estudio en tu navegador.</p>
-                        <div class="project-status">EN DESARROLLO</div>
+                        <p class="project-desc">FREESTYLE LAB disponible. Entrenamiento, batallas 1vs1 y torneos con cronómetro e instrumentales.</p>
+                        <div class="project-status">BETA DISPONIBLE</div>
                     </div>
                 </div>
             </div>
@@ -813,19 +869,46 @@
 
         <!-- Sección Hip Hop -->
         <section id="hiphop" class="section">
-            <div class="projects-section">
+            <div class="hiphop-section">
+                <!-- FREESTYLE LAB - Nueva funcionalidad principal -->
+                <div class="hiphop-card">
+                    <div class="game-header">
+                        <div class="game-icon">🎤</div>
+                        <div>
+                            <h2 class="game-title" style="color: #ff6b35; text-shadow: 0 0 15px #ff6b35;">FREESTYLE LAB</h2>
+                            <div class="game-subtitle">Training & Battle System</div>
+                        </div>
+                    </div>
+                    <div class="game-description">
+                        Laboratorio completo para entrenamiento de freestyle, batallas 1vs1 y torneos locales. Incluye cronómetro profesional, banco de instrumentales, generador de palabras aleatorias y sistema de puntuación para competencias.
+                    </div>
+                    <div class="game-features">
+                        <div class="feature-tag">🎵 INSTRUMENTALES</div>
+                        <div class="feature-tag">⏱️ CRONÓMETRO</div>
+                        <div class="feature-tag">🥊 BATALLAS 1VS1</div>
+                        <div class="feature-tag">🏆 TORNEOS</div>
+                        <div class="feature-tag">📝 GENERADOR PALABRAS</div>
+                        <div class="feature-tag">📊 SISTEMA PUNTUACIÓN</div>
+                    </div>
+                    <div class="game-controls">
+                        <a href="hiphop/freestyle-lab.html" class="play-button" style="background: linear-gradient(135deg, #ff6b35, #ff8c42);">🎤 ENTRAR AL LAB</a>
+                        <div class="game-status" style="color: #ff6b35; border-color: #ff6b35; text-shadow: 0 0 8px #ff6b35;">BETA DISPONIBLE</div>
+                    </div>
+                </div>
+
+                <!-- Otras herramientas de Hip Hop -->
                 <div class="projects-grid">
-                    <div class="project-card">
+                    <div class="project-card" style="border-left: 3px solid #ff6b35;">
                         <div class="project-icon">🎵</div>
                         <h3 class="project-title">FREESTYLE TRAINING</h3>
-                        <p class="project-desc">Generador de palabras aleatorias para entrenamieno de freestyle.</p>
-                        <div class="project-status">EN DESARROLLO</div>
+                        <p class="project-desc">Generador de palabras aleatorias para entrenamiento de freestyle avanzado.</p>
+                        <div class="project-status" style="background: linear-gradient(90deg, #4a2a1a, #5a3a2a, #4a2a1a); color: #ff6b35; border-color: #ff6b35;">INTEGRADO EN LAB</div>
                     </div>
-                    <div class="project-card">
-                        <div class="project-icon">🎤</div>
-                        <h3 class="project-title">BEATS</h3>
-                        <p class="project-desc">Biblioteca de BEATS disponibles.</p>
-                        <div class="project-status">EN DESARROLLO</div>
+                    <div class="project-card" style="border-left: 3px solid #ff6b35;">
+                        <div class="project-icon">🎛️</div>
+                        <h3 class="project-title">BEATS LIBRARY</h3>
+                        <p class="project-desc">Biblioteca de instrumentales para freestyle y batallas.</p>
+                        <div class="project-status" style="background: linear-gradient(90deg, #4a2a1a, #5a3a2a, #4a2a1a); color: #ff6b35; border-color: #ff6b35;">INTEGRADO EN LAB</div>
                     </div>
                 </div>
             </div>
@@ -847,7 +930,7 @@
 
         <footer class="terminal-footer">
             <div class="terminal-text">
-                > STATUS: PROTOCOL_INITIALIZED_GAMES_LOADED
+                > STATUS: FREESTYLE_LAB_INITIALIZED — NEURAL_FLOW_NETWORK_ACTIVE
                 <span class="terminal-cursor"></span>
             </div>
         </footer>
@@ -881,29 +964,29 @@
             }
         }
 
-        // AI Terminal messages
+        // AI Terminal messages - Updated with Hip Hop themed messages
         const messages = [
-    "> SYSTEM CHECK: ALL SECURITY PROTOCOLS NOMINAL",
-    "> ALERT: UNAUTHORIZED ACCESS ATTEMPT BLOCKED",
-    "> AI_MODULE: NEURAL_NET_CONNECTION_SECURE",
-    "> WARNING: CPU TEMPERATURE EXCEEDS SAFE THRESHOLDS",
-    "> USER_AUTH: ZAIUSADEN_CREDENTIALS_ACCEPTED",
-    "> ERROR: MEMORY CORRUPTION DETECTED IN SECTOR_7G",
-    "> NETWORK: DATA TRAFFIC STABLE — BANDWIDTH OPTIMAL",
-    "> MODULE_LOAD: IMPROVITAS_MODE_ENABLED",
-    "> SYSTEM UPDATE: VERSION_12.4.8 INSTALLED_SUCCESSFULLY",
-    "> LOG: FREESTYLE_SUBROUTINE_INVOKED_BY_USER_ZAIUSADEN",
-    "> SECURITY_LAYER: STREET_HUSTLE_PROTOCOL_ACTIVATED",
-    "> AI_ENGINE: FLOW_ANALYSIS_RUNNING_CLEAN",
-    "> SESSION: COLLABORATIVE_NODE_CONNECTED [IMPROVITAS_001]",
-    "> WARNING: UNSYNCHRONIZED_RHYTHM_DETECTED — AUTO_CORRECTING",
-    "> STATUS: RAP_SEQUENCE_ARCHIVED_FOR_ANALYSIS",
-    "> AUTH_LOG: USER_ID_ZAIUSADEN_ENTERED_SECURE_ZONE",
-    "> SYSTEM STATUS: MONITORING_EXTERNAL_FREQUENCIES",
-    "> INIT: URBAN_ALGORITHM_PATCH_DEPLOYED",
-    "> ALERT: UNUSUAL_SEMANTIC_PATTERNS — POSSIBLE FREESTYLE",
-    "> BACKUP COMPLETE: PHASE_3 — FLOW_LIBRARY_SYNCHRONIZED"
-];
+            "> SYSTEM CHECK: ALL SECURITY PROTOCOLS NOMINAL",
+            "> FREESTYLE_LAB: NEURAL_NETWORK_BEATS_SYNCHRONIZED",
+            "> AI_MODULE: HIP_HOP_FLOW_ANALYSIS_ACTIVE",
+            "> WARNING: CPU TEMPERATURE EXCEEDS SAFE THRESHOLDS",
+            "> USER_AUTH: ZAIUSADEN_CREDENTIALS_ACCEPTED",
+            "> FREESTYLE_ENGINE: WORD_GENERATOR_MODULE_LOADED",
+            "> NETWORK: INSTRUMENTAL_LIBRARY_ACCESS_GRANTED",
+            "> MODULE_LOAD: BATTLE_SYSTEM_PROTOCOLS_ENABLED",
+            "> SYSTEM UPDATE: RHYME_PATTERN_ANALYSIS_V2.1_INSTALLED",
+            "> LOG: FREESTYLE_SESSION_INITIATED_BY_USER_ZAIUSADEN",
+            "> SECURITY_LAYER: STREET_CYPHER_ENCRYPTION_ACTIVE",
+            "> AI_ENGINE: FLOW_DETECTION_ALGORITHMS_RUNNING",
+            "> SESSION: MC_BATTLE_ARENA_CONNECTION_ESTABLISHED",
+            "> WARNING: BEAT_SYNCHRONIZATION_DRIFT_DETECTED",
+            "> STATUS: FREESTYLE_PERFORMANCE_ARCHIVED_FOR_ANALYSIS",
+            "> AUTH_LOG: RAPPER_ID_ZAIUSADEN_ENTERED_THE_BOOTH",
+            "> SYSTEM STATUS: MONITORING_LYRICAL_FREQUENCIES",
+            "> INIT: URBAN_LINGUISTICS_PATCH_DEPLOYED",
+            "> ALERT: EXCEPTIONAL_FLOW_PATTERNS_DETECTED",
+            "> BACKUP COMPLETE: PHASE_3 — CYPHER_DATA_SYNCHRONIZED"
+        ];
 
         let messageIndex = 0;
         setInterval(() => {
