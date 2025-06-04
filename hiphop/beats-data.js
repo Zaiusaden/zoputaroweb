@@ -196,6 +196,15 @@ const beats = [
         file: 'beats/Beat22.ogg',
         bpm: 70,
         category: 'boom-bap'
+    },
+    {
+        id: 'beat23',
+        title: 'Beat23',
+        type: 'Boom Bap',
+        tempo: 'Rápido',
+        file: 'beats/Beat23.ogg',
+        bpm: 101,
+        category: 'boom-bap'
     }
 ];
 
