@@ -1,0 +1,252 @@
+/* ==========================================================================
+   LAYOUT - Header, Menús, Config Areas y Estructuras Principales
+   ========================================================================== */
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    background: linear-gradient(45deg, #ffd700, #ff6b35, #ffd700, #ff6b35);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    animation: gradientShift 3s ease-in-out infinite;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1rem;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+/* Main Menu */
+.main-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.menu-card {
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid #333;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(15px);
+}
+
+.menu-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.menu-card:hover::before {
+    left: 100%;
+}
+
+.menu-card:hover {
+    border-color: #ffd700;
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+}
+
+.menu-card-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.menu-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: #ffd700;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.menu-card-desc {
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Config Areas */
+.config-area {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    padding: 40px;
+    border: 3px solid #333;
+    backdrop-filter: blur(15px);
+    margin-top: 20px;
+}
+
+.config-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.config-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: #ffd700;
+    letter-spacing: 2px;
+}
+
+/* Controls Section */
+.controls-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.control-group {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid #444;
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.control-group:hover {
+    border-color: #ffd700;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.control-group h3 {
+    font-family: 'Russo One', sans-serif;
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.control-group label {
+    font-size: 0.9rem;
+    color: #ff6b35;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Round Configuration */
+.round-config-selector {
+    margin-bottom: 15px;
+}
+
+.round-config-selector label {
+    font-size: 0.9rem;
+    color: #ff6b35;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.round-selectors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.round-selectors select {
+    margin-bottom: 0;
+}
+
+.round-time-selector {
+    margin-bottom: 15px;
+}
+
+.round-time-selector label {
+    font-size: 0.9rem;
+    color: #ff6b35;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Info Items */
+.info-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    color: #ff6b35;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-family: 'Russo One', sans-serif;
+    color: #ffd700;
+    font-size: 1rem;
+}
+
+/* Beat Controls */
+.beat-controls {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    border: 2px solid #333;
+}
+
+.beat-controls-title {
+    color: #ffd700;
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-family: 'Russo One', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.beat-controls-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.beat-status {
+    margin-top: 10px;
+    color: #ff6b35;
+    font-size: 0.9rem;
+    font-style: italic;
+}
