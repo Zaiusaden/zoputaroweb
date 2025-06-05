@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 Freestyle Training Lab</title>
+    
+    <link rel="stylesheet" href="styles/globals.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/training.css">
+    <link rel="stylesheet" href="styles/battle.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🎤 Freestyle Lab</h1>
+            <p class="subtitle">Training • Battle • Tournament</p>
+        </div>
+
+        <div id="main-menu" class="view active">
+            <div class="main-menu">
+                <div class="menu-card" onclick="showView('freestyle-config')">
+                    <div class="menu-card-icon">🎵</div>
+                    <div class="menu-card-title">Entrenamiento Libre</div>
+                    <div class="menu-card-desc">
+                        Practica tu freestyle con palabras aleatorias, diferentes dificultades y beats variados. Perfecto para mejorar tu flow y creatividad.
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showView('battle-config'); initBattleConfig();">
+                    <div class="menu-card-icon">⚔️</div>
+                    <div class="menu-card-title">Batalla 1 vs 1</div>
+                    <div class="menu-card-desc">
+                        Enfréntate a otro MC en una batalla épica. Turnos cronometrados, temáticas y un sistema de puntuación justo.
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="showComingSoon('Torneo')">
+                    <div class="menu-card-icon">🏆</div>
+                    <div class="menu-card-title">Torneo</div>
+                    <div class="menu-card-desc">
+                        Organiza torneos completos con múltiples participantes. Brackets automáticos y ranking final de campeones.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="freestyle-config" class="view">
+            <div class="config-area">
+                <div class="config-header">
+                    <button class="back-btn" onclick="showView('main-menu')">← Volver</button>
+                    <div class="config-title">🎵 Configurar Entrenamiento</div>
+                </div>
+
+                <div class="controls-section">
+                    <div class="control-group">
+                        <h3>⏱️ Tiempo</h3>
+                        <label>Duración</label>
+                        <select id="duration-mode">
+                            <option value="infinite">∞ Entrenamiento Infinito</option>
+                            <option value="60" selected>1 minuto</option>
+                            <option value="100">1 minuto 40 segundos</option>
+                            <option value="120">2 minutos</option>
+                            <option value="180">3 minutos</option>
+                        </select>
+                        <label>Tipo de Tiempo</label>
+                        <div class="timer-mode-toggle">
+                            <button id="timer-mode-btn" onclick="toggleTimerMode()" class="timer-mode-button bmp-mode">
+                                <span id="timer-mode-text">TIEMPO BPM</span>
+                            </button>
+                            <div id="timer-mode-description" style="font-size: 1rem; color: #ccc;">
+                                Sincronizado al BPM del beat (RECOMENDADO)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <h3>🎯 Modo de Entrenamiento</h3>
+                        <label>Selecciona el modo</label>
+                        <select id="training-mode">
+                            <option value="classic" selected>CLASSIC - Freestyle libre</option>
+                            <option value="easy">EASY - Palabra cada 10 seg</option>
+                            <option value="hard">HARD MODE - Palabra cada 5 seg</option>
+                            <option value="insane">INSANE MODE - Palabra cada 4 seg</option>
+                            <option value="thematic">TEMÁTICA - Modo temático</option>
+                            <option value="rules">RULES - Reglas de batalla</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🎵 Filtro por Categorías</h3>
+                    <label>Filtra por tipo de beat para el modo aleatorio</label>
+                    
+                    <div class="category-filter">
+                        <div class="category-chip" id="category-boom-bap" onclick="toggleCategory('boom-bap')">
+                            🥁 Boom Bap
+                        </div>
+                        <div class="category-chip" id="category-trap-drill" onclick="toggleCategory('trap-drill')">
+                            🔥 Trap/Drill
+                        </div>
+                        <div class="category-chip" id="category-reggae-dancehall" onclick="toggleCategory('reggae-dancehall')">
+                            🌴 Reggae/Dancehall
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🎵 Instrumentales</h3>
+
+                    <div class="beat-option" onclick="selectRandomBeat()" id="beat-random">
+                        <div style="font-weight: 600; color: #ffd700; margin-bottom: 5px;">🎲 Beat Aleatorio</div>
+                        <div style="font-size: 0.8rem; color: #ff6b35; text-transform: uppercase;">Selección Automática</div>
+                    </div>
+
+                    <div style="margin: 15px 0; text-align: center; color: #ccc; font-size: 0.9rem;">
+                        O elige un beat específico:
+                    </div>
+
+                    <div class="beat-grid" id="beat-grid">
+                    </div>
+
+                    <div id="beat-player" style="margin-top: 20px;"></div>
+                </div>
+
+                <button class="start-training-btn" onclick="startTraining()">
+                    COMENZAR ENTRENAMIENTO
+                </button>
+            </div>
+        </div>
+
+        <div id="battle-config" class="view">
+            <div class="config-area">
+                <div class="config-header">
+                    <button class="back-btn" onclick="showView('main-menu')">← Volver</button>
+                    <div class="config-title">⚔️ Configurar Batalla 1vs1</div>
+                </div>
+
+                <div class="controls-section">
+                    <div class="control-group">
+                        <h3>👥 MCs</h3>
+                        <label>AKA del MC 1</label>
+                        <input type="text" id="battle-mc1-aka" placeholder="Introduce el AKA del MC 1" maxlength="20">
+                        <label>AKA del MC 2</label>
+                        <input type="text" id="battle-mc2-aka" placeholder="Introduce el AKA del MC 2" maxlength="20">
+                    </div>
+
+                    <div class="control-group">
+                        <h3>🔄 Configuración</h3>
+                        <label>¿Quién empieza?</label>
+                        <select id="battle-who-starts">
+                            <option value="random">🎲 Aleatorio</option>
+                            <option value="mc1">MC 1</option>
+                            <option value="mc2">MC 2</option>
+                        </select>
+                        <label>Número de rondas</label>
+                        <select id="battle-rounds" onchange="updateBattleRoundSelector()">
+                            <option value="1" selected>1 ronda (Votación al final)</option>
+                            <option value="2">2 rondas (Votación por ronda)</option>
+                            <option value="3">3 rondas (Votación al final)</option>
+                            <option value="4">4 rondas (Votación por ronda)</option>
+                            <option value="5">5 rondas (Votación al final)</option>
+                        </select>
+                        <label>Tipo de Tiempo</label>
+                        <div class="timer-mode-toggle">
+                            <button id="battle-timer-mode-btn" onclick="toggleBattleTimerMode()" class="timer-mode-button bmp-mode">
+                                <span id="battle-timer-mode-text">TIEMPO BPM</span>
+                            </button>
+                            <div id="battle-timer-mode-description" style="font-size: 1rem; color: #ccc;">
+                                Sincronizado al BPM del beat (RECOMENDADO)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div style="display: flex; justify-content: flex-start; align-items: center; gap: 20px; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">⏱️ Configuración por Ronda</h3>
+                        <span id="battle-voting-type" style="color: #ff6b35; font-weight: 600; font-size: 1.2rem;">Votación al final</span>
+                    </div>
+                    <div id="battle-round-times">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🎵 Filtro por Categorías</h3>
+                    <label>Filtra por tipo de beat</label>
+                    
+                    <div class="category-filter">
+                        <div class="category-chip" id="battle-category-boom-bap" onclick="toggleBattleCategory('boom-bap')">
+                            🥁 Boom Bap
+                        </div>
+                        <div class="category-chip" id="battle-category-trap-drill" onclick="toggleBattleCategory('trap-drill')">
+                            🔥 Trap/Drill
+                        </div>
+                        <div class="category-chip" id="battle-category-reggae-dancehall" onclick="toggleBattleCategory('reggae-dancehall')">
+                            🌴 Reggae/Dancehall
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <h3>🎵 Instrumentales</h3>
+
+                    <div class="beat-option" onclick="selectBattleRandomBeat()" id="battle-beat-random">
+                        <div style="font-weight: 600; color: #ffd700; margin-bottom: 5px;">🎲 Beat Aleatorio</div>
+                        <div style="font-size: 0.8rem; color: #ff6b35; text-transform: uppercase;">Selección Automática</div>
+                    </div>
+
+                    <div style="margin: 15px 0; text-align: center; color: #ccc; font-size: 0.9rem;">
+                        O elige un beat específico:
+                    </div>
+
+                    <div class="beat-grid" id="battle-beat-grid">
+                    </div>
+
+                    <div id="battle-beat-player" style="margin-top: 20px;"></div>
+                </div>
+
+                <button class="start-training-btn" onclick="startBattle()">
+                    COMENZAR BATALLA
+                </button>
+            </div>
+        </div>
+
+        <div id="battle-screen" class="view">
+            <div class="battle-screen">
+                <div class="battle-header">
+                    <div class="battle-info">
+                        <button class="back-btn" onclick="exitBattle()">← Volver</button>
+                        <div class="info-item">
+                            <div class="info-label">Modo</div>
+                            <div class="info-value" id="battle-mode-display">Easy</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Formato</div>
+                            <div class="info-value" id="battle-format-display">Con Pausa</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Duración</div>
+                            <div class="info-value" id="battle-duration">1:00</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Ronda</div>
+                            <div class="info-value" id="battle-round-info">1/1</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Beat Actual</div>
+                            <div class="info-value" id="battle-current-beat-name">Beat1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="battle-layout">
+                    <div class="battle-top-row">
+                        <div class="battle-mc-container" id="battle-mc1-container">
+                            <div class="battle-mc-indicator" id="battle-mc1-indicator"></div>
+                            <div class="battle-mc-info">
+                                <span class="battle-mc-name" id="battle-mc1-name">MC1</span>
+                                <span class="battle-mc-score" id="battle-mc1-score">(0)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="timer-display" id="battle-timer">00:00</div>
+                        
+                        <div class="battle-mc-container" id="battle-mc2-container">
+                            <div class="battle-mc-indicator" id="battle-mc2-indicator"></div>
+                            <div class="battle-mc-info">
+                                <span class="battle-mc-name" id="battle-mc2-name">MC2</span>
+                                <span class="battle-mc-score" id="battle-mc2-score">(0)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="word-container" id="battle-start-button">
+                        <div class="current-word" id="battle-word">COMENZAR BATALLA</div>
+                    </div>
+                </div>
+
+                <div class="beat-controls">
+                    <div class="beat-controls-title">🎵 CONTROL DE LA BATALLA</div>
+                    <div class="beat-controls-buttons">
+                        <button id="battle-pause-btn" onclick="toggleBattleBeat()" class="control-btn pause-btn" disabled>
+                            ⏸️ PAUSAR
+                        </button>
+                        <button id="battle-previous-beat-btn" onclick="previousBeat()" class="control-btn previous-btn" disabled>
+                            ⏮️ BEAT ANTERIOR
+                        </button>
+                        <button id="battle-next-beat-btn" onclick="nextBeat()" class="control-btn next-btn" disabled>
+                            🎲 SIGUIENTE BEAT
+                        </button>
+                        <button id="battle-stop-btn" onclick="stopBattle()" class="control-btn stop-btn" disabled>
+                            ⏹️ PARAR BATALLA
+                        </button>
+                        <button id="battle-change-theme-btn" onclick="battleChangeTheme()" class="control-btn theme-btn hidden" disabled>
+                            🔄 CAMBIAR TEMÁTICA
+                        </button>
+                        <button id="battle-change-rule-btn" onclick="battleChangeRule()" class="control-btn theme-btn hidden" disabled>
+                            🔄 CAMBIAR REGLA
+                        </button>
+
+                    </div>
+                    <div class="beat-status" id="battle-beat-info">
+                        Presiona el botón principal para activar
+                    </div>
+                </div>
+
+                <audio id="training-audio-player" loop style="display: none;"></audio>
+                <div id="theme-text" style="display: none;"></div>
+                <div id="rule-text" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div id="voting-screen" class="view">
+            <div class="voting-screen">
+                <div class="voting-header">
+                    <div class="voting-title">🗳️ Votación - Ronda <span id="voting-round">1</span>/<span id="voting-total-rounds">1</span></div>
+                </div>
+
+                <div class="voting-info">
+                    <div class="voting-round-info">
+                        <div class="info-item">
+                            <div class="info-label">Modo</div>
+                            <div class="info-value" id="voting-mode">Easy</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Duración</div>
+                            <div class="info-value" id="voting-round-time">1:00</div>
+                        </div>
+                    </div>
+                    
+                    <div class="current-scores">
+                        <div class="score-item">
+                            <span id="voting-mc1-name">MC1</span>: <span id="voting-mc1-score">0</span>
+                        </div>
+                        <div class="score-item">
+                            <span id="voting-mc2-name">MC2</span>: <span id="voting-mc2-score">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voting-question">
+                    <h2>¿Quién ganó esta ronda?</h2>
+                </div>
+
+                <div class="voting-options">
+                    <button class="voting-option" id="voting-mc1" onclick="selectWinner('mc1')">
+                        <div class="voting-mc-name" id="voting-mc1-display">MC1</div>
+                    </button>
+                    
+                    <button class="voting-option" id="voting-tie" onclick="selectWinner('tie')">
+                        <div class="voting-mc-name">EMPATE</div>
+                    </button>
+                    
+                    <button class="voting-option" id="voting-mc2" onclick="selectWinner('mc2')">
+                        <div class="voting-mc-name" id="voting-mc2-display">MC2</div>
+                    </button>
+                </div>
+
+                <button class="start-training-btn" id="voting-continue-btn" onclick="continueAfterVoting()" disabled>
+                    CONTINUAR
+                </button>
+            </div>
+        </div>
+
+        <div id="battle-results" class="view">
+            <div class="results-screen">
+                <div class="results-header">
+                    <div class="results-title">🏆 Resultados Finales</div>
+                </div>
+
+                <div class="results-winner">
+                    <div class="winner-announcement">
+                        <span id="results-winner">MC1</span>
+                    </div>
+                    <div class="winner-subtitle">¡ES EL GANADOR!</div>
+                </div>
+
+                <div class="results-summary">
+                    <div class="final-scores">
+                        <div class="final-score">
+                            <span id="results-mc1-name">MC1</span>
+                            <span class="score-number" id="results-mc1-score">0</span>
+                        </div>
+                        <div class="vs-separator">VS</div>
+                        <div class="final-score">
+                            <span id="results-mc2-name">MC2</span>
+                            <span class="score-number" id="results-mc2-score">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="battle-details">
+                        <div>Total de rondas: <span id="results-total-rounds">1</span></div>
+                    </div>
+                </div>
+
+                <div class="results-rounds">
+                    <h3>Detalle por Rondas</h3>
+                    <div id="results-rounds-detail"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="control-btn theme-btn" onclick="rematch()">
+                        🔄 REVANCHA
+                    </button>
+                    <button class="control-btn next-btn" onclick="newBattle()">
+                        ⚔️ NUEVA BATALLA
+                    </button>
+                    <button class="control-btn stop-btn" onclick="backToMainMenu()">
+                        🏠 MENÚ PRINCIPAL
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="training-screen" class="view">
+            <div class="training-screen">
+                <div class="training-header">
+                    <div class="training-info">
+                        <button class="back-btn" onclick="exitTraining()">← Volver</button>
+                        <div class="info-item">
+                            <div class="info-label">Modo</div>
+                            <div class="info-value" id="training-mode-display">Easy</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Duración</div>
+                            <div class="info-value" id="training-duration">1:00</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Beat Actual</div>
+                            <div class="info-value" id="current-beat-name">Beat1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="training-center">
+                    <div class="timer-display" id="timer">00:00</div>
+                    
+                    <div class="word-container" id="main-start-button" onclick="beginTraining()">
+                        <div class="current-word" id="current-word">COMENZAR BATALLA</div>
+                    </div>
+                </div>
+
+                <div class="beat-controls">
+                    <div class="beat-controls-title">🎵 CONTROL DEL ENTRENAMIENTO</div>
+                    <div class="beat-controls-buttons">
+                        <button id="pause-beat-btn" onclick="toggleBeat()" class="control-btn pause-btn" disabled>
+                            ⏸️ PAUSAR ENTRENAMIENTO
+                        </button>
+                        <button id="previous-beat-btn" onclick="previousBeat()" class="control-btn previous-btn" disabled>
+                            ⏮️ BEAT ANTERIOR
+                        </button>
+                        <button id="next-beat-btn" onclick="nextBeat()" class="control-btn next-btn" disabled>
+                            🎲 SIGUIENTE BEAT
+                        </button>
+                        <button id="stop-battle-btn" onclick="stopTraining()" class="control-btn stop-btn" disabled>
+                            ⏹️ PARAR BATALLA
+                        </button>
+                        <button id="change-theme-btn" onclick="changeTheme()" class="control-btn theme-btn hidden" disabled>
+                            🔄 CAMBIAR TEMÁTICA
+                        </button>
+                        <button id="change-rule-btn" onclick="changeRule()" class="control-btn theme-btn hidden" disabled>
+                            🔄 CAMBIAR REGLA
+                        </button>
+                    </div>
+                    <div class="beat-status" id="beat-info">
+                        Presiona el botón principal para activar
+                    </div>
+                </div>
+
+                <audio id="training-audio-player" loop style="display: none;"></audio>
+                <div id="theme-text" style="display: none;"></div>
+                <div id="rule-text" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="beats-data.js"></script>
+    <script src="beats-audio.js"></script>
+    <script src="beats-selection.js"></script>
+    <script src="beats-ui.js"></script>
+    <script src="words.js"></script>
+    <script src="ui.js"></script>
+    
+    <script src="training/training-core.js"></script>
+    <script src="training/training-timer.js"></script>
+    <script src="training/training-words.js"></script>
+    <script src="training/training-controls.js"></script>
+    <script src="training/training-config.js"></script>
+    
+    <script src="battle/battle-core.js"></script>
+    <script src="battle/battle-config.js"></script>
+    <script src="battle/battle-timing.js"></script>
+    <script src="battle/battle-formats.js"></script>
+    <script src="battle/battle-rounds.js"></script>
+    <script src="battle/battle-ui.js"></script>
+    <script src="battle/voting.js"></script>
+</body>
+</html>
