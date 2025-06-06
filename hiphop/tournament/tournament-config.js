@@ -167,7 +167,7 @@ function updateTournamentPhaseRoundSelectors(phase) {
             <label>Ronda ${i}</label>
             <div class="tournament-round-selectors">
                 <select id="tournament-${phase}-round-${i}-time" onchange="saveTournamentPhaseRoundConfig('${phase}', ${i})">
-                    <option value="10">10 segundos por MC (test)</option>
+                    
                     <option value="60" selected>1 minuto por MC</option>
                     <option value="100">1 minuto 40 seg por MC</option>
                     <option value="120">2 minutos por MC</option>
