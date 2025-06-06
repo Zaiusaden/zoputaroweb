@@ -221,7 +221,7 @@ function updateBattleRoundSelector() {
             <label>Ronda ${i}</label>
             <div class="round-selectors">
                 <select id="battle-round-${i}-time" required>
-                    <option value="10">10 segundos por MC (test)</option>
+                    
                     <option value="60" selected>1 minuto por MC</option>
                     <option value="100">1 minuto 40 seg por MC</option>
                     <option value="120">2 minutos por MC</option>
