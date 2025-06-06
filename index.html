@@ -13,7 +13,7 @@
         }
 
         body {
-            background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
             color: #ffffff;
             font-family: 'Rajdhani', sans-serif;
             min-height: 100vh;
@@ -21,6 +21,7 @@
             position: relative;
         }
 
+        /* Subtle circuit traces background */
         body::before {
             content: "";
             position: fixed;
@@ -29,29 +30,11 @@
             width: 100%;
             height: 100%;
             background: 
-                linear-gradient(90deg, transparent 98%, rgba(0, 255, 65, 0.02) 100%),
-                linear-gradient(180deg, transparent 98%, rgba(0, 255, 65, 0.02) 100%);
-            background-size: 80px 80px;
+                linear-gradient(90deg, transparent 99%, rgba(0, 212, 255, 0.03) 100%),
+                linear-gradient(0deg, transparent 99%, rgba(255, 215, 0, 0.02) 100%);
+            background-size: 120px 120px;
             pointer-events: none;
             z-index: 1;
-        }
-
-        /* Efecto scan futurista */
-        .scan-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #00ff41, #41ff00, #00ff41, transparent);
-            animation: scan 8s linear infinite;
-            z-index: 1000;
-            box-shadow: 0 0 20px #00ff41;
-        }
-
-        @keyframes scan {
-            0% { top: -3px; }
-            100% { top: 100vh; }
         }
 
         .container {
@@ -62,49 +45,39 @@
             z-index: 2;
         }
 
-        /* Header futurista estilo Metroid */
+        /* Header estilo consola futurista - RECTANGULAR */
         .header {
-            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
-            border: 2px solid #00ff41;
-            padding: 35px 25px 25px 25px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            border: 2px solid #333333;
+            border-top: 3px solid #ffd700;
+            padding: 35px 30px 25px 30px;
             margin-bottom: 30px;
             margin-top: 15px;
             position: relative;
-            /* Forma hexagonal futurista */
-            clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 30px, calc(100% - 15px) calc(100% - 15px), 15px calc(100% - 15px), 0 30px);
+            /* Forma rectangular con esquinas cortadas simétricas */
+            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
             box-shadow: 
-                inset 0 0 30px rgba(0, 255, 65, 0.1),
-                0 0 50px rgba(0, 255, 65, 0.2);
+                inset 0 0 20px rgba(255, 215, 0, 0.05),
+                0 0 30px rgba(0, 0, 0, 0.5);
         }
 
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #00ff41, #41ff00, #00ff41);
-            clip-path: polygon(30px 0, calc(100% - 30px) 0, 100% 30px, calc(100% - 15px) calc(100% - 15px), 15px calc(100% - 15px), 0 30px);
-            z-index: -1;
-            opacity: 0.3;
-        }
-
+        /* Status LED indicator */
         .header::after {
             content: "";
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #00ff41 30%, transparent 70%);
+            top: 12px;
+            right: 15px;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, #00d4ff 30%, transparent 70%);
             border-radius: 50%;
-            animation: pulse-scanner 2s infinite;
+            animation: pulse-status 3s infinite;
+            box-shadow: 0 0 10px #00d4ff;
         }
 
-        @keyframes pulse-scanner {
+        @keyframes pulse-status {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.5); }
+            50% { opacity: 0.4; transform: scale(1.2); }
         }
 
         h1 {
@@ -117,156 +90,53 @@
             margin: 0;
             position: relative;
             display: inline-block;
-            text-shadow: 0 0 20px #00ff41;
+            text-shadow: 
+                0 0 20px #ffd700,
+                2px 2px 0px #333333;
         }
 
-        h1::before,
-        h1::after {
+        /* Glitch sutil en el título */
+        h1::before {
             content: "ZOPUTARO";
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.7;
+            color: #00d4ff;
+            opacity: 0.3;
+            animation: subtle-glitch 6s infinite linear;
         }
 
-        h1::before {
-            color: #00ff41;
-            animation: glitch-1 3s infinite linear alternate-reverse;
-        }
-
-        h1::after {
-            color: #41ff00;
-            animation: glitch-2 4s infinite linear alternate;
-        }
-
-        @keyframes glitch-1 {
-            0% {
-                clip-path: polygon(0 0%, 100% 0%, 100% 8%, 0 8%);
+        @keyframes subtle-glitch {
+            0%, 90%, 100% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+            91%, 94% {
                 transform: translateX(2px);
+                opacity: 0.3;
             }
-            15% {
-                clip-path: polygon(0 25%, 100% 25%, 100% 35%, 0 35%);
+            92%, 93% {
                 transform: translateX(-1px);
-            }
-            30% {
-                clip-path: polygon(0 60%, 100% 60%, 100% 70%, 0 70%);
-                transform: translateX(1px);
-            }
-            45% {
-                clip-path: polygon(0 80%, 100% 80%, 100% 90%, 0 90%);
-                transform: translateX(-2px);
-            }
-            60% {
-                clip-path: polygon(0 0%, 100% 0%, 100% 0%, 0 0%);
-                transform: translateX(0);
-            }
-            100% {
-                clip-path: polygon(0 0%, 100% 0%, 100% 0%, 0 0%);
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes glitch-2 {
-            0% {
-                clip-path: polygon(0 15%, 100% 15%, 100% 25%, 0 25%);
-                transform: translateX(-1px);
-            }
-            20% {
-                clip-path: polygon(0 40%, 100% 40%, 100% 50%, 0 50%);
-                transform: translateX(2px);
-            }
-            40% {
-                clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%);
-                transform: translateX(-1px);
-            }
-            60% {
-                clip-path: polygon(0 0%, 100% 0%, 100% 0%, 0 0%);
-                transform: translateX(0);
-            }
-            100% {
-                clip-path: polygon(0 0%, 100% 0%, 100% 0%, 0 0%);
-                transform: translateX(0);
+                opacity: 0.5;
             }
         }
 
         .header-subtitle {
             font-size: 0.9rem;
-            color: #41ff00;
+            color: #ffd700;
             margin-top: 8px;
             font-weight: 600;
             letter-spacing: 2px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px #41ff00;
+            text-shadow: 0 0 8px #ffd700;
+            font-family: 'Orbitron', monospace;
         }
 
-        /* Navigation estilo Metroid */
+        /* Navigation eliminada para evitar redundancia */
         .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .nav-item {
-            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
-            border: 2px solid #333333;
-            border-left: 4px solid #00ff41;
-            color: #ffffff;
-            padding: 20px 15px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            /* Forma futurista angular */
-            clip-path: polygon(15px 0, calc(100% - 0px) 0, calc(100% - 0px) calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-        }
-
-        .nav-item::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #00ff41, #41ff00, #00ff41);
-            clip-path: polygon(15px 0, calc(100% - 0px) 0, calc(100% - 0px) calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-item::after {
-            content: "◢";
-            position: absolute;
-            top: 5px;
-            right: 8px;
-            color: #00ff41;
-            font-size: 1.2rem;
-            opacity: 0.3;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            border-color: #00ff41;
-            color: #00ff41;
-            box-shadow: 
-                inset 0 0 20px rgba(0, 255, 65, 0.1),
-                0 0 30px rgba(0, 255, 65, 0.3);
-        }
-
-        .nav-item:hover::before, .nav-item.active::before {
-            opacity: 0.2;
-        }
-
-        .nav-item:hover::after, .nav-item.active::after {
-            opacity: 1;
-            transform: scale(1.2);
+            display: none;
         }
 
         /* Sections */
@@ -278,69 +148,440 @@
             display: block;
         }
 
-        /* Projects Section estilo Metroid */
-        .projects-section {
-            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
+        /* INICIO - Dashboard Section - MAS SIMPLE */
+        .dashboard-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
             border: 2px solid #333333;
-            border-top: 4px solid #00ff41;
-            padding: 30px;
+            border-top: 3px solid #ffd700;
+            padding: 35px 30px;
             margin-bottom: 30px;
             position: relative;
-            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
+            /* Rectangular con esquinas cortadas simétricas */
+            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
             box-shadow: 
-                inset 0 0 30px rgba(0, 255, 65, 0.05),
-                0 0 50px rgba(0, 255, 65, 0.1);
+                inset 0 0 20px rgba(255, 215, 0, 0.03),
+                0 0 30px rgba(0, 0, 0, 0.3);
         }
 
-        .projects-section::before {
-            content: "◤ SYSTEM_CORE_DATABASE ◥";
+        /* Header ajustado para mejor centrado visual */
+        .dashboard-section::before {
+            content: "◤ SYSTEM_DASHBOARD — SELECT_MODULE ◥";
             position: absolute;
-            top: -12px;
+            top: -13px;
             left: 20px;
-            background: linear-gradient(90deg, #000000, #0d1a0d, #000000);
-            color: #00ff41;
-            padding: 8px 15px;
+            background: linear-gradient(90deg, #0a0a0a, #1a1a1a, #0a0a0a);
+            color: #ffd700;
+            padding: 6px 16px;
             font-size: 0.7rem;
-            font-weight: 700;
+            font-weight: 600;
             letter-spacing: 2px;
-            border: 1px solid #00ff41;
-            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
-            text-shadow: 0 0 10px #00ff41;
+            border: 1px solid #ffd700;
+            font-family: 'Orbitron', monospace;
+            height: 24px;
+            display: flex;
+            align-items: center;
         }
 
-        .projects-grid {
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* DASHBOARD CARDS - Mas simples, estilo preview */
+        .dashboard-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 30%, #1a1a1a 100%);
+            border: 1px solid #444444;
+            border-left: 3px solid #ffd700;
+            padding: 25px;
+            position: relative;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dashboard-card:hover {
+            border-left-color: #00d4ff;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a2a3a 30%, #1a1a1a 100%);
+            box-shadow: 
+                inset 0 0 15px rgba(0, 212, 255, 0.05),
+                0 0 20px rgba(0, 212, 255, 0.15);
+        }
+
+        .dashboard-card::after {
+            content: "";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover::after {
+            background: #00d4ff;
+            box-shadow: 0 0 8px #00d4ff;
+        }
+
+        .dashboard-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            display: block;
+            opacity: 0.9;
+        }
+
+        .dashboard-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-preview {
+            color: #aaaaaa;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-status {
+            background: linear-gradient(90deg, #2a2a2a, #3a3a2a, #2a2a2a);
+            color: #ffd700;
+            padding: 4px 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #ffd700;
+            border-radius: 3px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* CONTENT SECTIONS - Mas elaboradas para contenido real */
+        .content-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            border: 2px solid #333333;
+            border-top: 3px solid #ffd700;
+            padding: 35px 30px;
+            margin-bottom: 30px;
+            position: relative;
+            /* Rectangular con esquinas cortadas simétricas */
+            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
+            box-shadow: 
+                inset 0 0 20px rgba(255, 215, 0, 0.03),
+                0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Headers ajustados para mejor centrado visual */
+        .content-section::before {
+            position: absolute;
+            top: -13px;
+            left: 20px;
+            background: linear-gradient(90deg, #0a0a0a, #1a1a1a, #0a0a0a);
+            color: #ffd700;
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            border: 1px solid #ffd700;
+            font-family: 'Orbitron', monospace;
+            height: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .games-section::before {
+            content: "◤ GAME_ARCHIVE_DATABASE ◥";
+        }
+
+        .tools-section::before {
+            content: "◤ TOOLS_SYSTEM_DATABASE ◥";
+        }
+
+        .hiphop-section::before {
+            content: "◤ FREESTYLE_NEURAL_NETWORK ◥";
+        }
+
+        .contact-section::before {
+            content: "◤ COMMUNICATION_PROTOCOLS ◥";
+        }
+
+        .content-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
 
-        .project-card {
-            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+        /* CONTENT CARDS - Mas elaboradas */
+        .content-card {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            border: 2px solid #333333;
+            border-left: 4px solid #00d4ff;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            /* Rectangular con esquinas cortadas simétricas */
+            clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px), 0 12px);
+        }
+
+        .content-card::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00d4ff;
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .content-icon {
+            font-size: 3rem;
+            margin-right: 20px;
+            filter: grayscale(100%) brightness(1.2);
+        }
+
+        .content-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 0 12px #00d4ff;
+        }
+
+        .content-subtitle {
+            font-size: 0.8rem;
+            color: #888888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .content-description {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            border-left: 3px solid #333333;
+            padding-left: 15px;
+        }
+
+        .content-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-tag {
+            background: linear-gradient(90deg, #1a1a1a, #2a2a2a, #1a1a1a);
+            color: #ffd700;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             border: 1px solid #333333;
-            border-left: 3px solid #00ff41;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .content-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        /* BOTONES DE ACCIÓN UNIFICADOS - Todos iguales */
+        .play-button {
+            background: linear-gradient(135deg, #ffd700, #ffb700, #ffd700);
+            color: #000000;
+            border: none;
+            padding: 14px 28px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .play-button::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 6px;
+            height: 6px;
+            background: #ff8c00;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ff8c00;
+        }
+
+        .play-button:hover {
+            background: linear-gradient(135deg, #ffb700, #ff9500, #ffb700);
+            transform: translateY(-3px);
+            box-shadow: 
+                0 6px 25px rgba(255, 215, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .play-button:hover::before {
+            background: #00d4ff;
+            box-shadow: 0 0 12px #00d4ff;
+        }
+
+        /* Device Selection Button */
+        .device-select-button {
+            background: linear-gradient(135deg, #4a90e2, #357abd, #4a90e2);
+            color: #ffffff;
+            border: none;
+            padding: 12px 22px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 10px;
+            box-shadow: 
+                0 0 15px rgba(74, 144, 226, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .device-select-button::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 5px;
+            height: 5px;
+            background: #00d4ff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #00d4ff;
+        }
+
+        .device-select-button:hover {
+            background: linear-gradient(135deg, #357abd, #2968a3, #357abd);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 4px 20px rgba(74, 144, 226, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .content-status {
+            background: linear-gradient(90deg, #333333, #2a3a4a, #333333);
+            color: #00d4ff;
+            padding: 6px 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #00d4ff;
+            border-radius: 4px;
+            text-shadow: 0 0 6px #00d4ff;
+        }
+
+        /* Back button para volver al dashboard */
+        .back-button {
+            background: linear-gradient(135deg, #4a4a4a, #5a5a5a, #4a4a4a);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #ffd700, #ffb700, #ffd700);
+            color: #000000;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        /* HERRAMIENTAS CARDS */
+        .tool-card {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            border: 1px solid #333333;
+            border-left: 3px solid #ffd700;
             padding: 25px;
             position: relative;
-            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 0px), calc(100% - 0px) 100%, 0 100%, 0 15px);
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .project-card::after {
-            content: "◢";
+        .tool-card:hover {
+            border-left-color: #00d4ff;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 212, 255, 0.05),
+                0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .tool-card::after {
+            content: "";
             position: absolute;
-            top: 5px;
-            right: 5px;
-            color: #00ff41;
-            font-size: 1rem;
-            opacity: 0.3;
+            top: 8px;
+            right: 8px;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ffd700;
+            transition: all 0.3s ease;
         }
 
-        .project-icon {
+        .tool-card:hover::after {
+            background: #00d4ff;
+            box-shadow: 0 0 8px #00d4ff;
+        }
+
+        .tool-icon {
             font-size: 2.5rem;
             margin-bottom: 15px;
             display: block;
             filter: grayscale(100%) brightness(1.2);
         }
 
-        .project-title {
+        .tool-title {
             font-family: 'Orbitron', monospace;
             font-size: 1.2rem;
             font-weight: 700;
@@ -350,284 +591,139 @@
             letter-spacing: 1px;
         }
 
-        .project-desc {
+        .tool-desc {
             color: #cccccc;
             font-size: 0.85rem;
             line-height: 1.4;
             margin-bottom: 20px;
         }
 
-        .project-status {
-            background: linear-gradient(90deg, #333333, #2a4a2a, #333333);
-            color: #00ff41;
-            padding: 8px 20px 8px 12px;
+        .tool-status {
+            background: linear-gradient(90deg, #333333, #4a4a2a, #333333);
+            color: #ffd700;
+            padding: 6px 15px;
             font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: 1px solid #00ff41;
-            position: relative;
-            clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, calc(100% - 8px) 100%, 8px 100%, 0 8px);
-            text-shadow: 0 0 8px #00ff41;
+            border: 1px solid #ffd700;
+            border-radius: 4px;
+            text-shadow: 0 0 6px #ffd700;
         }
-
-        /* Games Section estilo Metroid */
-        .games-section {
-            background: linear-gradient(135deg, #0a0a0a 0%, #0d1a0d 50%, #0a0a0a 100%);
-            border: 2px solid #333333;
-            border-top: 4px solid #00ff41;
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
-            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
-            box-shadow: 
-                inset 0 0 30px rgba(0, 255, 65, 0.05),
-                0 0 50px rgba(0, 255, 65, 0.1);
-        }
-
-        .games-section::before {
-            content: "◤ GAME_ARCHIVE_DATABASE ◥";
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background: linear-gradient(90deg, #000000, #0d1a0d, #000000);
-            color: #00ff41;
-            padding: 8px 15px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            border: 1px solid #00ff41;
-            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
-            text-shadow: 0 0 10px #00ff41;
-        }
-
-        .game-card {
-            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-            border: 2px solid #333333;
-            border-left: 4px solid #ff6b35;
+        .tool-card {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            border: 1px solid #333333;
+            border-left: 3px solid #ffd700;
             padding: 25px;
-            margin-bottom: 20px;
             position: relative;
-            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 20px);
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .game-card::after {
-            content: "◢";
+        .tool-card:hover {
+            border-left-color: #00d4ff;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 212, 255, 0.05),
+                0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .tool-card::after {
+            content: "";
             position: absolute;
             top: 8px;
             right: 8px;
-            color: #ff6b35;
-            font-size: 1.2rem;
-            opacity: 0.4;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #ffd700;
+            transition: all 0.3s ease;
         }
 
-        .game-header {
-            display: flex;
-            align-items: center;
+        .tool-card:hover::after {
+            background: #00d4ff;
+            box-shadow: 0 0 8px #00d4ff;
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
             margin-bottom: 15px;
-        }
-
-        .game-icon {
-            font-size: 3rem;
-            margin-right: 20px;
+            display: block;
             filter: grayscale(100%) brightness(1.2);
         }
 
-        .game-title {
+        .tool-title {
             font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #ff6b35;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 0;
-            text-shadow: 0 0 15px #ff6b35;
-        }
-
-        .game-subtitle {
-            font-size: 0.8rem;
-            color: #888888;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 5px;
         }
 
-        .game-description {
+        .tool-desc {
             color: #cccccc;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            border-left: 3px solid #333333;
-            padding-left: 15px;
-        }
-
-        .game-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
+            font-size: 0.85rem;
+            line-height: 1.4;
             margin-bottom: 20px;
         }
 
-        .feature-tag {
-            background: linear-gradient(90deg, #1a1a1a, #2a2a2a, #1a1a1a);
-            color: #00ff41;
-            padding: 8px 12px;
+        .tool-status {
+            background: linear-gradient(90deg, #333333, #4a4a2a, #333333);
+            color: #ffd700;
+            padding: 6px 15px;
             font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border: 1px solid #333333;
-            text-align: center;
-            clip-path: polygon(5px 0, calc(100% - 5px) 0, 100% 5px, calc(100% - 5px) 100%, 5px 100%, 0 5px);
+            border: 1px solid #ffd700;
+            border-radius: 4px;
+            text-shadow: 0 0 6px #ffd700;
         }
 
-        .game-controls {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .play-button {
-            background: linear-gradient(135deg, #ff6b35, #ff8c42);
-            color: #000000;
-            border: none;
-            padding: 15px 30px;
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
-            text-decoration: none;
-            display: inline-block;
-            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
-        }
-
-        .play-button::after {
-            content: "►";
-            position: absolute;
-            top: 50%;
-            right: 8px;
-            transform: translateY(-50%);
-            font-size: 0.8rem;
-        }
-
-        .play-button:hover {
-            background: linear-gradient(135deg, #ff8c42, #ffaa5a);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 25px rgba(255, 107, 53, 0.5);
-        }
-
-        .game-status {
-            background: linear-gradient(90deg, #333333, #2a4a2a, #333333);
-            color: #00ff41;
-            padding: 8px 20px 8px 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid #00ff41;
-            position: relative;
-            clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, calc(100% - 8px) 100%, 8px 100%, 0 8px);
-            text-shadow: 0 0 8px #00ff41;
-        }
-
-        /* HIP HOP Section styles - Special styling for music section */
-        .hiphop-section {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0d0d 50%, #0a0a0a 100%);
-            border: 2px solid #333333;
-            border-top: 4px solid #ff6b35;
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
-            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 20px), 0 20px);
-            box-shadow: 
-                inset 0 0 30px rgba(255, 107, 53, 0.05),
-                0 0 50px rgba(255, 107, 53, 0.1);
-        }
-
-        .hiphop-section::before {
-            content: "◤ FREESTYLE_NEURAL_NETWORK ◥";
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background: linear-gradient(90deg, #000000, #1a0d0d, #000000);
-            color: #ff6b35;
-            padding: 8px 15px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            border: 1px solid #ff6b35;
-            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
-            text-shadow: 0 0 10px #ff6b35;
-        }
-
-        .hiphop-card {
-            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
-            border: 2px solid #333333;
-            border-left: 4px solid #ff6b35;
-            padding: 25px;
-            margin-bottom: 20px;
-            position: relative;
-            clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 20px);
-        }
-
-        .hiphop-card::after {
-            content: "♪";
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            color: #ff6b35;
-            font-size: 1.5rem;
-            opacity: 0.4;
-            animation: music-pulse 2s infinite;
-        }
-
-        @keyframes music-pulse {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        /* Terminal Footer - MEJORADO */
+        /* Terminal Footer */
         .terminal-footer {
-            background: linear-gradient(135deg, #000000 0%, #0d1a0d 50%, #000000 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
             border: 2px solid #333333;
-            border-top: 3px solid #00ff41;
+            border-top: 3px solid #00d4ff;
             padding: 30px 25px;
             font-family: 'Orbitron', monospace;
             position: relative;
-            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%, 0 15px);
+            /* Rectangular con esquinas cortadas simétricas */
+            clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px), 0 15px);
             margin-top: 40px;
-            min-height: 80px;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 212, 255, 0.05),
+                0 0 30px rgba(0, 0, 0, 0.3);
         }
 
+        /* Header ajustado para mejor centrado visual */
         .terminal-footer::before {
-            content: "◤ BOOT_SEQUENCE_COMPLETE — SYSTEM_ONLINE ◥";
+            content: "◤ NEURAL_SYSTEM_ONLINE — AI_PROTOCOLS_ACTIVE ◥";
             position: absolute;
-            top: -12px;
+            top: -13px;
             left: 20px;
-            background: linear-gradient(90deg, #000000, #0d1a0d, #000000);
-            color: #00ff41;
-            padding: 8px 15px;
+            background: linear-gradient(90deg, #0a0a0a, #1a1a1a, #0a0a0a);
+            color: #00d4ff;
+            padding: 6px 16px;
             font-size: 0.7rem;
             font-weight: 600;
             letter-spacing: 2px;
-            border: 1px solid #00ff41;
-            clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, calc(100% - 10px) 100%, 10px 100%, 0 10px);
-            text-shadow: 0 0 10px #00ff41;
+            border: 1px solid #00d4ff;
+            height: 24px;
+            display: flex;
+            align-items: center;
         }
 
         .terminal-text {
-            color: #00ff41;
+            color: #00d4ff;
             font-size: 1rem;
             font-weight: 500;
             letter-spacing: 1px;
-            text-shadow: 0 0 10px #00ff41;
+            text-shadow: 0 0 8px #00d4ff;
             line-height: 1.6;
-            margin-top: 10px;
+            margin-top: 8px;
             min-height: 25px;
         }
 
@@ -635,43 +731,16 @@
             display: inline-block;
             width: 8px;
             height: 18px;
-            background: #00ff41;
+            background: #00d4ff;
             margin-left: 5px;
             animation: blink 1.2s infinite;
-            box-shadow: 0 0 10px #00ff41;
+            box-shadow: 0 0 8px #00d4ff;
             vertical-align: middle;
         }
 
         @keyframes blink {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
-        }
-
-        /* Device Detection Button */
-        .device-select-button {
-            background: linear-gradient(135deg, #4a90e2, #357abd);
-            color: #ffffff;
-            border: none;
-            padding: 12px 25px;
-            font-family: 'Orbitron', monospace;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 8px, calc(100% - 8px) 100%, 8px 100%, 0 8px);
-            text-decoration: none;
-            display: inline-block;
-            margin-right: 10px;
-            box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
-        }
-
-        .device-select-button:hover {
-            background: linear-gradient(135deg, #357abd, #2968a3);
-            transform: translateY(-1px);
-            box-shadow: 0 3px 20px rgba(74, 144, 226, 0.5);
         }
 
         /* Responsive */
@@ -685,36 +754,26 @@
                 letter-spacing: 2px;
             }
             
-            .nav-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-            
-            .nav-item {
-                padding: 15px 10px;
-                font-size: 0.8rem;
-            }
-            
-            .projects-grid {
+            .dashboard-grid, .content-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
             
-            .projects-section, .games-section, .hiphop-section {
-                padding: 20px;
+            .dashboard-section, .content-section {
+                padding: 25px 20px;
             }
 
-            .game-header {
+            .content-header {
                 flex-direction: column;
                 text-align: center;
             }
 
-            .game-icon {
+            .content-icon {
                 margin-right: 0;
                 margin-bottom: 10px;
             }
 
-            .game-controls {
+            .content-controls {
                 justify-content: center;
                 flex-wrap: wrap;
             }
@@ -730,199 +789,187 @@
     </style>
 </head>
 <body>
-    <div class="scan-line"></div>
-    
     <div class="container">
         <header class="header">
             <h1>ZOPUTARO</h1>
             <div class="header-subtitle">USER_CONNECTED : YOU_ARE_NOW_INSIDE_THE_COMMAND_INTERFACE</div>
         </header>
 
-        <nav class="nav-grid">
-            <div class="nav-item active" data-section="inicio">🏠 INICIO</div>
-            <div class="nav-item" data-section="herramientas">🔧 HERRAMIENTAS</div>
-            <div class="nav-item" data-section="juegos">🎮 JUEGOS</div>
-            <div class="nav-item" data-section="hiphop">🎤 HIP HOP</div>
-            <div class="nav-item" data-section="contacto">📡 CONTACTO</div>
-        </nav>
-
-        <!-- Sección Inicio -->
+        <!-- INICIO - DASHBOARD SECTION -->
         <section id="inicio" class="section active">
-            <div class="projects-section">
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-icon">🔧</div>
-                        <h3 class="project-title">HERRAMIENTAS</h3>
-                        <p class="project-desc">Calculadoras, generadores y utilidades web para facilitar el trabajo diario.</p>
-                        <div class="project-status">EN DESARROLLO</div>
+            <div class="dashboard-section">
+                <div class="dashboard-grid">
+                    <div class="dashboard-card" onclick="goToSection('herramientas')">
+                        <div class="dashboard-icon">🔧</div>
+                        <h3 class="dashboard-title">HERRAMIENTAS</h3>
+                        <div class="dashboard-status">EN DESARROLLO</div>
+                        <p class="dashboard-preview">Calculadoras y herramientas especializadas para diferentes necesidades.</p>
                     </div>
 
-                    <div class="project-card">
-                        <div class="project-icon">🎮</div>
-                        <h3 class="project-title">JUEGOS</h3>
-                        <p class="project-desc">Juegos web interactivos creados con JavaScript. Diversión garantizada.</p>
-                        <div class="project-status">DISPONIBLE</div>
+                    <div class="dashboard-card" onclick="goToSection('juegos')">
+                        <div class="dashboard-icon">🎮</div>
+                        <h3 class="dashboard-title">JUEGOS</h3>
+                        <div class="dashboard-status">DISPONIBLE</div>
+                        <p class="dashboard-preview">Juegos web interactivos: TIME GO, VEGIDRUNK y más. Diversión garantizada.</p>
                     </div>
 
-                    <div class="project-card">
-                        <div class="project-icon">🎤</div>
-                        <h3 class="project-title">HIP HOP</h3>
-                        <p class="project-desc">FREESTYLE LAB disponible. Entrenamiento, batallas 1vs1 y torneos con cronómetro e instrumentales.</p>
-                        <div class="project-status">BETA DISPONIBLE</div>
+                    <div class="dashboard-card" onclick="goToSection('hiphop')">
+                        <div class="dashboard-icon">🎤</div>
+                        <h3 class="dashboard-title">HIP HOP</h3>
+                        <div class="dashboard-status">BETA DISPONIBLE</div>
+                        <p class="dashboard-preview">FREESTYLE LAB completo con entrenamiento, batallas 1vs1 y cronómetro profesional.</p>
+                    </div>
+
+                    <div class="dashboard-card" onclick="goToSection('contacto')">
+                        <div class="dashboard-icon">📡</div>
+                        <h3 class="dashboard-title">CONTACTO</h3>
+                        <div class="dashboard-status">ONLINE</div>
+                        <p class="dashboard-preview">ALERT:_HUMAN_INTERACTION_DETECTED—SEND_YOUR_MESSAGE</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección Juegos -->
+        <!-- SECCIÓN JUEGOS - CONTENIDO REAL -->
         <section id="juegos" class="section">
-            <div class="games-section">
-                <div class="game-card">
-                    <div class="game-header">
-                        <div class="game-icon">⏰</div>
+            <button class="back-button" onclick="goToSection('inicio')">← VOLVER AL DASHBOARD</button>
+            <div class="content-section games-section">
+                <div class="content-card">
+                    <div class="content-header">
+                        <div class="content-icon">⏰</div>
                         <div>
-                            <h2 class="game-title">TIME GO</h2>
-                            <div class="game-subtitle">Party Game Classic</div>
+                            <h2 class="content-title">TIME GO</h2>
+                            <div class="content-subtitle">Party Game Classic</div>
                         </div>
                     </div>
-                    <div class="game-description">
+                    <div class="content-description">
                        El clásico juego de adivinar palabras online estilo Time's Up. Juega en equipos, tres rondas (descripción, palabra clave y mímica), ideal para fiestas. Perfecto para móvil, compatible con PC. Gratis y sin instalar nada.
                     </div>
-                    <div class="game-features">
+                    <div class="content-features">
                         <div class="feature-tag">📱 MÓVIL</div>
                         <div class="feature-tag">👥 MULTIJUGADOR</div>
                         <div class="feature-tag">⏱️ TIEMPO REAL</div>
                         <div class="feature-tag">🎉 PARTY GAME</div>
                     </div>
-                    <div class="game-controls">
+                    <div class="content-controls">
                         <a href="games/timego.html" class="play-button">▶️ JUGAR AHORA</a>
-                        <div class="game-status">DISPONIBLE</div>
+                        <div class="content-status">DISPONIBLE</div>
                     </div>
                 </div>
 
-                <div class="game-card">
-                    <div class="game-header">
-                        <div class="game-icon">🍺</div>
+                <div class="content-card">
+                    <div class="content-header">
+                        <div class="content-icon">🍺</div>
                         <div>
-                            <h2 class="game-title">VEGIDRUNK</h2>
-                            <div class="game-subtitle">Drinking Game</div>
+                            <h2 class="content-title">VEGIDRUNK</h2>
+                            <div class="content-subtitle">Drinking Game</div>
                         </div>
                     </div>
-                    <div class="game-description">
+                    <div class="content-description">
                         Juega a Vegidrunk, el mejor juego de beber online multijugador. Compatible con móvil y PC. Reta a tus amigos con cartas, desafíos, cadenas y mucho alcohol. ¡Diversión garantizada y gratis!
                     </div>
-                    <div class="game-features">
+                    <div class="content-features">
                         <div class="feature-tag">🍻 DRINKING</div>
                         <div class="feature-tag">👥 MULTIJUGADOR</div>
                         <div class="feature-tag">🎭 DESAFÍOS</div>
                         <div class="feature-tag">🔥 PARTY GAME</div>
                     </div>
-                    <div class="game-controls">
+                    <div class="content-controls">
                         <a href="#" onclick="detectDevice('vegidrunk')" class="device-select-button">📱 MÓVIL</a>
                         <a href="#" onclick="detectDevice('vegidrunk')" class="device-select-button">💻 PC</a>
-                        <div class="game-status">DISPONIBLE</div>
+                        <div class="content-status">DISPONIBLE</div>
                     </div>
                 </div>
 
                 <!-- Placeholder para futuros juegos -->
-                <div class="game-card" style="opacity: 0.6;">
-                    <div class="game-header">
-                        <div class="game-icon">🎯</div>
+                <div class="content-card" style="opacity: 0.6;">
+                    <div class="content-header">
+                        <div class="content-icon">🎯</div>
                         <div>
-                            <h2 class="game-title">PRÓXIMO JUEGO</h2>
-                            <div class="game-subtitle">Coming Soon</div>
+                            <h2 class="content-title">PRÓXIMO JUEGO</h2>
+                            <div class="content-subtitle">Coming Soon</div>
                         </div>
                     </div>
-                    <div class="game-description">
+                    <div class="content-description">
                         El siguiente juego está en desarrollo. ¡Mantente atento para más diversión!
                     </div>
-                    <div class="game-features">
+                    <div class="content-features">
                         <div class="feature-tag">🚧 EN DESARROLLO</div>
                     </div>
-                    <div class="game-controls">
+                    <div class="content-controls">
                         <div class="play-button" style="opacity: 0.5; cursor: not-allowed;">🔒 PRÓXIMAMENTE</div>
-                        <div class="game-status">EN DESARROLLO</div>
+                        <div class="content-status">EN DESARROLLO</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección Herramientas -->
+        <!-- SECCIÓN HERRAMIENTAS - CONTENIDO REAL -->
         <section id="herramientas" class="section">
-            <div class="projects-section">
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-icon">🧮</div>
-                        <h3 class="project-title">CALCULADORAS</h3>
-                        <p class="project-desc">Calculadoras especializadas para diferentes necesidades.</p>
-                        <div class="project-status">PRÓXIMAMENTE</div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-icon">🔧</div>
-                        <h3 class="project-title">UTILIDADES</h3>
-                        <p class="project-desc">Herramientas útiles para el día a día.</p>
-                        <div class="project-status">PRÓXIMAMENTE</div>
+            <button class="back-button" onclick="goToSection('inicio')">← VOLVER AL DASHBOARD</button>
+            <div class="content-section tools-section">
+                <div class="content-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon">🧮</div>
+                        <h3 class="tool-title">CALCULADORAS</h3>
+                        <p class="tool-desc">Calculadoras especializadas para diferentes necesidades.</p>
+                        <div class="tool-status">PRÓXIMAMENTE</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección Hip Hop -->
+        <!-- SECCIÓN HIP HOP - CONTENIDO REAL -->
         <section id="hiphop" class="section">
-            <div class="hiphop-section">
-                <!-- FREESTYLE LAB - Nueva funcionalidad principal -->
-                <div class="hiphop-card">
-                    <div class="game-header">
-                        <div class="game-icon">🎤</div>
+            <button class="back-button" onclick="goToSection('inicio')">← VOLVER AL DASHBOARD</button>
+            <div class="content-section hiphop-section">
+                <!-- FREESTYLE LAB - Funcionalidad principal -->
+                <div class="content-card">
+                    <div class="content-header">
+                        <div class="content-icon">🎤</div>
                         <div>
-                            <h2 class="game-title" style="color: #ff6b35; text-shadow: 0 0 15px #ff6b35;">FREESTYLE LAB</h2>
-                            <div class="game-subtitle">Training & Battle System</div>
+                            <h2 class="content-title" style="color: #00d4ff; text-shadow: 0 0 12px #00d4ff;">FREESTYLE LAB</h2>
+                            <div class="content-subtitle">Training & Battle System</div>
                         </div>
                     </div>
-                    <div class="game-description">
-                        Laboratorio completo para entrenamiento de freestyle, batallas 1vs1 y torneos locales. Incluye cronómetro profesional, banco de instrumentales, generador de palabras aleatorias y sistema de puntuación para competencias.
+                    <div class="content-description">
+                        Laboratorio completo para entrenamiento de freestyle, batallas 1vs1 y torneos locales. Incluye cronómetro profesional, banco de instrumentales y generador de palabras aleatorias para competencias.
                     </div>
-                    <div class="game-features">
+                    <div class="content-features">
                         <div class="feature-tag">🎵 INSTRUMENTALES</div>
                         <div class="feature-tag">⏱️ CRONÓMETRO</div>
                         <div class="feature-tag">🥊 BATALLAS 1VS1</div>
                         <div class="feature-tag">🏆 TORNEOS</div>
                         <div class="feature-tag">📝 GENERADOR PALABRAS</div>
-                        <div class="feature-tag">📊 SISTEMA PUNTUACIÓN</div>
                     </div>
-                    <div class="game-controls">
-                        <a href="hiphop/freestyle-lab.html" class="play-button" style="background: linear-gradient(135deg, #ff6b35, #ff8c42);">🎤 ENTRAR AL LAB</a>
-                        <div class="game-status" style="color: #ff6b35; border-color: #ff6b35; text-shadow: 0 0 8px #ff6b35;">BETA DISPONIBLE</div>
+                    <div class="content-controls">
+                        <a href="hiphop/freestyle-lab.html" class="play-button">🎤 ENTRAR AL LAB</a>
+                        <div class="content-status" style="color: #00d4ff; border-color: #00d4ff; text-shadow: 0 0 6px #00d4ff;">BETA DISPONIBLE</div>
                     </div>
                 </div>
 
-                <!-- Otras herramientas de Hip Hop -->
-                <div class="projects-grid">
-                    <div class="project-card" style="border-left: 3px solid #ff6b35;">
-                        <div class="project-icon">🎵</div>
-                        <h3 class="project-title">FREESTYLE TRAINING</h3>
-                        <p class="project-desc">Generador de palabras aleatorias para entrenamiento de freestyle avanzado.</p>
-                        <div class="project-status" style="background: linear-gradient(90deg, #4a2a1a, #5a3a2a, #4a2a1a); color: #ff6b35; border-color: #ff6b35;">INTEGRADO EN LAB</div>
-                    </div>
-                    <div class="project-card" style="border-left: 3px solid #ff6b35;">
-                        <div class="project-icon">🎛️</div>
-                        <h3 class="project-title">BEATS LIBRARY</h3>
-                        <p class="project-desc">Biblioteca de instrumentales para freestyle y batallas.</p>
-                        <div class="project-status" style="background: linear-gradient(90deg, #4a2a1a, #5a3a2a, #4a2a1a); color: #ff6b35; border-color: #ff6b35;">INTEGRADO EN LAB</div>
+                <!-- Beats Library -->
+                <div class="content-grid">
+                    <div class="tool-card" style="border-left: 3px solid #00d4ff;">
+                        <div class="tool-icon">🎛️</div>
+                        <h3 class="tool-title">BEATS LIBRARY</h3>
+                        <p class="tool-desc">Biblioteca de instrumentales para freestyle y batallas.</p>
+                        <div class="tool-status" style="background: linear-gradient(90deg, #333333, #4a4a2a, #333333); color: #ffd700; border-color: #ffd700;">PRÓXIMAMENTE</div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Sección Contacto -->
+        <!-- SECCIÓN CONTACTO - CONTENIDO REAL -->
         <section id="contacto" class="section">
-            <div class="projects-section">
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-icon">📧</div>
-                        <h3 class="project-title">REDES SOCIALES Y WEB</h3>
-                        <p class="project-desc">IG: @Zaiusaden.</p>
-                        <div class="project-status">ALERT:_HUMAN_INTERACTION_DETECTED—SEND_YOUR_MESSAGE</div>
+            <button class="back-button" onclick="goToSection('inicio')">← VOLVER AL DASHBOARD</button>
+            <div class="content-section contact-section">
+                <div class="content-grid">
+                    <div class="tool-card">
+                        <div class="tool-icon">📧</div>
+                        <h3 class="tool-title">REDES SOCIALES Y WEB</h3>
+                        <p class="tool-desc">IG: @Zaiusaden.</p>
+                        <div class="tool-status">ALERT:_HUMAN_INTERACTION_DETECTED—SEND_YOUR_MESSAGE</div>
                     </div>
                 </div>
             </div>
@@ -937,21 +984,16 @@
     </div>
 
     <script>
-        // Navigation functionality
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                // Remove active class from all nav items and sections
-                document.querySelector('.nav-item.active').classList.remove('active');
-                document.querySelector('.section.active').classList.remove('active');
-                
-                // Add active class to clicked nav item
-                item.classList.add('active');
-                
-                // Show corresponding section
-                const sectionId = item.getAttribute('data-section');
-                document.getElementById(sectionId).classList.add('active');
+        // Dashboard navigation
+        function goToSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
             });
-        });
+            
+            // Show corresponding section
+            document.getElementById(sectionName).classList.add('active');
+        }
 
         // Device detection for VEGIDRUNK
         function detectDevice(gameName) {
