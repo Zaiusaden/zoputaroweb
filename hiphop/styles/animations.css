@@ -1,0 +1,306 @@
+/* ==========================================================================
+   ANIMATIONS - Keyframes y animaciones optimizadas para móvil
+   ========================================================================== */
+
+/* Gradient Animation para el título */
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Rotación para el word-container */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Pulso para las palabras */
+@keyframes wordPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+/* Animaciones para notificaciones */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Animación suave para elementos que aparecen */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación para botones presionados */
+@keyframes buttonPress {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Pulse para elementos importantes */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Shake para errores */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+/* Glow effect para elementos activos */
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
+    }
+}
+
+/* Bounce suave para elementos interactivos */
+@keyframes softBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+/* Ajustes para móviles - animaciones más suaves y menos intensas */
+@media (max-width: 768px) {
+    /* Reducir intensidad del pulso en móvil */
+    @keyframes wordPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.04);
+        }
+    }
+    
+    /* Bounce más sutil en móvil */
+    @keyframes softBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-2px);
+        }
+    }
+    
+    /* Glow menos intenso en móvil */
+    @keyframes glow {
+        0%, 100% {
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+        }
+        50% {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+    }
+    
+    /* Shake más sutil */
+    @keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-3px);
+        }
+        20%, 40%, 60%, 80% {
+            transform: translateX(3px);
+        }
+    }
+}
+
+/* Para pantallas muy pequeñas - animaciones mínimas */
+@media (max-width: 480px) {
+    @keyframes wordPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.02);
+        }
+    }
+    
+    @keyframes softBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-1px);
+        }
+    }
+    
+    @keyframes glow {
+        0%, 100% {
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+        }
+        50% {
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+    }
+}
+
+/* Respeta las preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    @keyframes gradientShift {
+        0%, 100% {
+            background-position: 0% 50%;
+        }
+    }
+    
+    @keyframes rotate {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+    }
+    
+    @keyframes wordPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+    }
+    
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes softBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Clases de utilidad para animaciones */
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+.glow {
+    animation: glow 2s infinite;
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.soft-bounce {
+    animation: softBounce 0.3s ease-in-out;
+}
+
+.button-press {
+    animation: buttonPress 0.1s ease-in-out;
+}
+
+/* Animaciones específicas para móvil */
+@media (max-width: 768px) {
+    .fade-in {
+        animation-duration: 0.2s;
+    }
+    
+    .pulse {
+        animation-duration: 2.5s;
+    }
+    
+    .glow {
+        animation-duration: 2.5s;
+    }
+    
+    .shake {
+        animation-duration: 0.4s;
+    }
+    
+    .soft-bounce {
+        animation-duration: 0.2s;
+    }
+}
+
+/* Para dispositivos con batería baja - animaciones mínimas */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .pulse,
+    .glow,
+    .shake,
+    .soft-bounce,
+    .button-press {
+        animation: none !important;
+    }
+}
