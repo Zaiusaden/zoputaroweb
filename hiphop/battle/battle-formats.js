@@ -148,15 +148,24 @@ function startNewTurn() {
         battleSavedWordTimeUntilNext = 0;
     }
     
-    startBattleTimer();
-    startBattleWords();
-    
     if (!battleBeatActive) {
-        startBeat();
+        startBeat().then(() => {
+            startBattleTimer();
+            startBattleWords();
+            
+            const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
+            showNotification(`Turno de ${currentMC}`, 'success', 1500);
+        }).catch(error => {
+            console.error('Error iniciando beat en nuevo turno:', error);
+            showNotification('Error iniciando audio', 'error');
+        });
+    } else {
+        startBattleTimer();
+        startBattleWords();
+        
+        const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
+        showNotification(`Turno de ${currentMC}`, 'success', 1500);
     }
-    
-    const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
-    showNotification(`Turno de ${currentMC}`, 'success', 1500);
 }
 
 console.log('Battle-formats.js cargado correctamente ✅');
