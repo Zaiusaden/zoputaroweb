@@ -187,11 +187,8 @@ function setupInitialBeat() {
         });
         
         if (audioPlayer) {
-            preloadBeat(currentBeatFile).then(() => {
-                console.log('Beat inicial precargado:', currentBeat.title);
-            }).catch(error => {
-                console.warn('Error precargando beat inicial:', error);
-            });
+            audioPlayer.src = currentBeatFile;
+            audioPlayer.load();
         }
     }
     
@@ -257,6 +254,11 @@ function selectNewBattleBeatAutomatic() {
         if (el) el.textContent = newBeat.title;
     });
     
+    if (audioPlayer) {
+        audioPlayer.src = currentBeatFile;
+        audioPlayer.load();
+    }
+    
     const beatInfoElements = [
         document.getElementById('beat-info'),
         document.getElementById('battle-beat-info')
@@ -265,14 +267,6 @@ function selectNewBattleBeatAutomatic() {
     beatInfoElements.forEach(el => {
         if (el) el.textContent = `Nueva ronda: ${newBeat.title}`;
     });
-    
-    if (audioPlayer) {
-        preloadBeat(currentBeatFile).then(() => {
-            console.log('Nuevo beat precargado:', newBeat.title);
-        }).catch(error => {
-            console.warn('Error precargando nuevo beat:', error);
-        });
-    }
     
     showNotification(`Nuevo beat: ${newBeat.title}`, 'info', 2000);
 }
@@ -338,11 +332,8 @@ function nextBeat() {
                      (isBattleActive && typeof battleBeatActive !== 'undefined' && battleBeatActive);
     
     if (isPlaying && audioPlayer) {
-        preloadBeat(currentBeatFile).then(() => {
-            return audioPlayer.play();
-        }).then(() => {
-            return waitForAudioToStart();
-        }).then(() => {
+        audioPlayer.src = currentBeatFile;
+        audioPlayer.play().then(() => {
             beatInfoElements.forEach(el => {
                 if (el) el.textContent = `Reproduciendo: ${newBeat.title}`;
             });
@@ -354,14 +345,6 @@ function nextBeat() {
         beatInfoElements.forEach(el => {
             if (el) el.textContent = `Beat cambiado a: ${newBeat.title}`;
         });
-        
-        if (audioPlayer) {
-            preloadBeat(currentBeatFile).then(() => {
-                console.log('Beat precargado para reproducción:', newBeat.title);
-            }).catch(error => {
-                console.warn('Error precargando beat:', error);
-            });
-        }
     }
     
     updatePreviousBeatButtonState();
@@ -404,11 +387,8 @@ function previousBeat() {
                      (isBattleActive && typeof battleBeatActive !== 'undefined' && battleBeatActive);
     
     if (isPlaying && audioPlayer) {
-        preloadBeat(currentBeatFile).then(() => {
-            return audioPlayer.play();
-        }).then(() => {
-            return waitForAudioToStart();
-        }).then(() => {
+        audioPlayer.src = currentBeatFile;
+        audioPlayer.play().then(() => {
             beatInfoElements.forEach(el => {
                 if (el) el.textContent = `Reproduciendo: ${previousBeatObj.title}`;
             });
@@ -420,14 +400,6 @@ function previousBeat() {
         beatInfoElements.forEach(el => {
             if (el) el.textContent = `Beat cambiado a: ${previousBeatObj.title}`;
         });
-        
-        if (audioPlayer) {
-            preloadBeat(currentBeatFile).then(() => {
-                console.log('Beat anterior precargado:', previousBeatObj.title);
-            }).catch(error => {
-                console.warn('Error precargando beat anterior:', error);
-            });
-        }
     }
     
     updatePreviousBeatButtonState();
