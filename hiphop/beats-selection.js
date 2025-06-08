@@ -140,7 +140,7 @@ function selectBeat(beatId) {
 
     const beat = beats.find(b => b.id === beatId);
     if (beat) {
-        currentBeatFile = beat.file;
+        currentBeatFile = getBestAudioFile(beat);
         selectedBeat = beatId;
         
         document.getElementById('beat-player').innerHTML = `
@@ -148,7 +148,7 @@ function selectBeat(beatId) {
                 <strong>🎵 ${beat.title} seleccionado</strong>
                 <div style="font-size: 0.9rem; color: #ff6b35; margin-top: 5px;">${beat.type} - ${beat.bpm} BPM</div>
                 <audio controls style="margin-top: 10px; width: 100%; max-width: 300px;">
-                    <source src="${beat.file}" type="audio/mpeg">
+                    <source src="${currentBeatFile}" type="audio/mpeg">
                     Tu navegador no soporta la reproducción de audio.
                 </audio>
             </div>
@@ -175,7 +175,7 @@ function setupInitialBeat() {
     
     const currentBeat = beats[currentBeatIndex];
     if (currentBeat) {
-        currentBeatFile = currentBeat.file;
+        currentBeatFile = getBestAudioFile(currentBeat);
         
         const currentBeatElements = [
             document.getElementById('current-beat-name'),
@@ -243,7 +243,7 @@ function selectNewBattleBeatAutomatic() {
     
     currentBeatIndex = newBeatIndex;
     const newBeat = beats[currentBeatIndex];
-    currentBeatFile = newBeat.file;
+    currentBeatFile = getBestAudioFile(newBeat);
     
     const currentBeatElements = [
         document.getElementById('current-beat-name'),
@@ -312,7 +312,7 @@ function nextBeat() {
     currentBeatIndex = newBeatIndex;
     const newBeat = beats[currentBeatIndex];
     
-    currentBeatFile = newBeat.file;
+    currentBeatFile = getBestAudioFile(newBeat);
     
     const currentBeatElements = [
         document.getElementById('current-beat-name'),
@@ -332,14 +332,21 @@ function nextBeat() {
                      (isBattleActive && typeof battleBeatActive !== 'undefined' && battleBeatActive);
     
     if (isPlaying && audioPlayer) {
-        audioPlayer.src = currentBeatFile;
-        audioPlayer.play().then(() => {
-            beatInfoElements.forEach(el => {
-                if (el) el.textContent = `Reproduciendo: ${newBeat.title}`;
-            });
-        }).catch(error => {
-            console.error('Error cambiando beat:', error);
-            handleBeatError();
+        startBeatWithCallback((error) => {
+            if (error) {
+                console.error('Error cambiando beat:', error);
+                handleBeatError();
+            } else {
+                beatInfoElements.forEach(el => {
+                    if (el) el.textContent = `Reproduciendo: ${newBeat.title}`;
+                });
+                
+                if (isTrainingActive && typeof softReset === 'function') {
+                    softReset();
+                } else if (isBattleActive && typeof battleSoftReset === 'function') {
+                    battleSoftReset();
+                }
+            }
         });
     } else {
         beatInfoElements.forEach(el => {
@@ -348,12 +355,6 @@ function nextBeat() {
     }
     
     updatePreviousBeatButtonState();
-    
-    if (isTrainingActive && typeof softReset === 'function') {
-        softReset();
-    } else if (isBattleActive && typeof battleSoftReset === 'function') {
-        battleSoftReset();
-    }
 }
 
 function previousBeat() {
@@ -367,7 +368,7 @@ function previousBeat() {
     currentBeatIndex = previousBeatIndex;
     const previousBeatObj = beats[currentBeatIndex];
     
-    currentBeatFile = previousBeatObj.file;
+    currentBeatFile = getBestAudioFile(previousBeatObj);
     
     const currentBeatElements = [
         document.getElementById('current-beat-name'),
@@ -387,14 +388,21 @@ function previousBeat() {
                      (isBattleActive && typeof battleBeatActive !== 'undefined' && battleBeatActive);
     
     if (isPlaying && audioPlayer) {
-        audioPlayer.src = currentBeatFile;
-        audioPlayer.play().then(() => {
-            beatInfoElements.forEach(el => {
-                if (el) el.textContent = `Reproduciendo: ${previousBeatObj.title}`;
-            });
-        }).catch(error => {
-            console.error('Error cambiando a beat anterior:', error);
-            handleBeatError();
+        startBeatWithCallback((error) => {
+            if (error) {
+                console.error('Error cambiando a beat anterior:', error);
+                handleBeatError();
+            } else {
+                beatInfoElements.forEach(el => {
+                    if (el) el.textContent = `Reproduciendo: ${previousBeatObj.title}`;
+                });
+                
+                if (isTrainingActive && typeof softReset === 'function') {
+                    softReset();
+                } else if (isBattleActive && typeof battleSoftReset === 'function') {
+                    battleSoftReset();
+                }
+            }
         });
     } else {
         beatInfoElements.forEach(el => {
@@ -403,10 +411,4 @@ function previousBeat() {
     }
     
     updatePreviousBeatButtonState();
-    
-    if (isTrainingActive && typeof softReset === 'function') {
-        softReset();
-    } else if (isBattleActive && typeof battleSoftReset === 'function') {
-        battleSoftReset();
-    }
 }
