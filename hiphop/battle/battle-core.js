@@ -1,241 +1,318 @@
-let battleState = {
-    mc1: { aka: '', wins: 0 },
-    mc2: { aka: '', wins: 0 },
-    currentTurn: 1,
-    currentRound: 1,
-    totalRounds: 1,
-    roundTimes: [],
-    roundModes: [],
-    roundFormats: [],
-    roundCompasses: [],
-    categories: new Set(),
-    whoStarts: 'mc1',
-    roundResults: [],
-    turnsInCurrentRound: 0,
-    votingMode: 'per_round',
-    isReplayMode: false,
-    roundResultsForFinalVoting: []
+let trainingStarted = false;
+let timerActive = false;
+let wordsActive = false;
+let beatActive = false;
+
+let timerInterval = null;
+let wordTimeout = null;
+
+let startTime = 0;
+let pausedDuration = 0;
+let lastPauseTime = 0;
+let isPaused = false;
+
+let totalDurationMs = 0;
+let wordIntervalMs = 0;
+let lastWordIndex = -1;
+
+let savedWordTimeUntilNext = 0;
+let wordPauseTime = 0;
+
+let notified30sec = false;
+let notified10sec = false;
+
+let trainingConfig = {};
+let timerMode = 'bmp';
+let speedFactor = 1;
+
+let trainingStats = {
+    wordsShown: 0,
+    timeElapsed: 0,
+    beatsUsed: []
 };
 
-let battleStarted = false;
-let battleTimerActive = false;
-let battleWordsActive = false;
-let battleBeatActive = false;
-
-let battleTimerInterval = null;
-let battleWordTimeout = null;
-let battleTurnChangeTimeout = null;
-let battleCompassTimeouts = [];
-
-let battleStartTime = 0;
-let battlePausedDuration = 0;
-let battleLastPauseTime = 0;
-let battleIsPaused = false;
-
-let battleTotalDurationMs = 0;
-let battleWordIntervalMs = 0;
-let battleLastWordIndex = -1;
-
-let battleSavedWordTimeUntilNext = 0;
-let battleWordPauseTime = 0;
-
-let battleNotified30sec = false;
-let battleNotified10sec = false;
-
-let battleTimerMode = 'bmp';
-let battleSpeedFactor = 1;
-
-let turnStarted = false;
-let battleUsedBeats = [];
-
-function resetBattleState() {
-    console.log('Resetting battle state...');
-    
-    stopBattleEverything();
-    
-    battleStarted = false;
-    battleTimerActive = false;
-    battleWordsActive = false;
-    turnStarted = false;
-    battleSpeedFactor = 1;
-
-    battleState.currentRound = 1;
-    battleState.turnsInCurrentRound = 0;
-    battleState.mc1.wins = 0;
-    battleState.mc2.wins = 0;
-    battleState.roundResults = [];
-
-    resetBattleTimingValues();
-    resetBattleNotificationFlags();
-    
-    battleWordIntervalMs = 0;
-    battleLastWordIndex = -1;
-    battleSavedWordTimeUntilNext = 0;
-    battleWordPauseTime = 0;
-
-    document.getElementById('battle-timer').textContent = '00:00';
-    document.getElementById('battle-word').textContent = 'COMENZAR BATALLA';
-    
-    const mainButton = document.getElementById('battle-start-button');
-    if (mainButton) {
-        mainButton.style.pointerEvents = 'auto';
-        mainButton.style.opacity = '1';
-        mainButton.onclick = beginBattle;
-        console.log('Battle button reset and configured');
-    } else {
-        console.error('Battle button not found during reset');
+function startTraining() {
+    if (!validateTrainingConfig()) {
+        return;
     }
     
-    updateBattleButtonStates(false, false);
-    console.log('Battle state reset complete, battleStarted:', battleStarted);
-}
-
-function resetBattleTurnState() {
-    console.log('Resetting battle turn state...');
-    
-    stopBattleEverything();
-    
-    battleStarted = false;
-    battleTimerActive = false;
-    battleWordsActive = false;
-    turnStarted = false;
-    battleSpeedFactor = 1;
-
-    battleState.turnsInCurrentRound = 0;
-
-    resetBattleTimingValues();
-    resetBattleNotificationFlags();
-    
-    battleWordIntervalMs = 0;
-    battleLastWordIndex = -1;
-    battleSavedWordTimeUntilNext = 0;
-    battleWordPauseTime = 0;
-
-    document.getElementById('battle-timer').textContent = '00:00';
-    document.getElementById('battle-word').textContent = 'COMENZAR BATALLA';
-    
-    const mainButton = document.getElementById('battle-start-button');
-    if (mainButton) {
-        mainButton.style.pointerEvents = 'auto';
-        mainButton.style.opacity = '1';
-        mainButton.onclick = beginBattle;
-        console.log('Battle button reset and configured');
-    } else {
-        console.error('Battle button not found during reset');
-    }
-    
-    updateBattleButtonStates(false, false);
-    console.log('Battle turn state reset complete, battleStarted:', battleStarted);
-}
-
-function exitBattle() {
-    if (!confirmBattleExit()) return;
+    trainingConfig = getCurrentTrainingConfig();
     
     try {
-        stopBattleEverything();
-        resetBattleState();
-        initBattleConfig();
-        showView('battle-config');
-        showNotification('Has vuelto a la configuración', 'info');
+        showView('training-screen');
+        
+        updateTrainingInfo();
+        setupInitialBeat();
+        setupTheme();
+        
+        resetTrainingState();
+        
+        updateTrainingButtonStates(true, false);
+        
+        showNotification('Configuración lista. Presiona el botón principal para comenzar', 'success');
+        
     } catch (error) {
-        handleError(error, 'exitBattle');
+        handleError(error, 'startTraining');
     }
 }
 
-function confirmBattleExit() {
-    if (battleStarted) {
-        return confirm('¿Estás seguro de que quieres salir de la batalla? Se perderá el progreso actual.');
+function beginTraining() {
+    if (trainingStarted) return;
+
+    try {
+        const mainButton = document.getElementById('main-start-button');
+        mainButton.style.pointerEvents = 'none';
+        mainButton.style.opacity = '0.7';
+        
+        speedFactor = calculateTrainingBPMSpeedFactor();
+        
+        let countdown = 4;
+        const messages = ["TIEMPO!", "1", "2", "3", "Y SE LO DAMOS EN..."];
+
+        showTrainingLoadingMessage(messages[4]);
+
+        setTimeout(() => {
+            const countdownInterval = setInterval(() => {
+                countdown--;
+                if (countdown > 0) {
+                    showTrainingLoadingMessage(messages[countdown]);
+                } else {
+                    clearInterval(countdownInterval);
+                    
+                    trainingStarted = true;
+                    resetTrainingTimingValues();
+                    resetTrainingNotificationFlags();
+                    
+                    if (trainingConfig.duration !== 'infinite') {
+                        totalDurationMs = parseInt(trainingConfig.duration) * 1000;
+                    }
+                    
+                    if (trainingConfig.mode !== 'thematic' && trainingConfig.mode !== 'classic') {
+                        wordIntervalMs = getModeInterval(trainingConfig.mode);
+                        lastWordIndex = -1;
+                        savedWordTimeUntilNext = 0;
+                    }
+                    
+                    startBeat().then(() => {
+                        startTrainingTimer();
+                        startTrainingWords();
+                        
+                        updateTrainingButtonStates(true, true);
+                        
+                        const modeText = timerMode === 'bmp' ? 'Tiempo BPM' : 'Tiempo Real';
+                        showNotification(`¡Entrenamiento iniciado! (${modeText})`, 'success', 2000);
+                    }).catch(error => {
+                        console.error('Error iniciando beat:', error);
+                        resetTrainingState();
+                        showNotification('Error iniciando audio', 'error');
+                    });
+                }
+            }, 1000);
+        }, 1000);
+        
+    } catch (error) {
+        handleError(error, 'beginTraining');
+        resetTrainingState();
     }
-    return true;
 }
 
-function stopBattleEverything() {
-    battleStarted = false;
-    battleTimerActive = false;
-    battleWordsActive = false;
-    turnStarted = false;
+function stopTraining() {
+    try {
+        stopAllTraining();
+        
+        showTrainingLoadingMessage('COMENZAR ENTRENAMIENTO');
+        document.getElementById('beat-info').textContent = 'Entrenamiento detenido';
+        document.getElementById('timer').textContent = '00:00';
+        
+        updateTrainingButtonStates(true, false);
+        
+        const mainButton = document.getElementById('main-start-button');
+        mainButton.style.pointerEvents = 'auto';
+        mainButton.style.opacity = '1';
+        mainButton.onclick = beginTraining;
+        
+        showNotification('Entrenamiento detenido', 'warning');
+        
+    } catch (error) {
+        handleError(error, 'stopTraining');
+    }
+}
+
+function exitTraining() {
+    if (!confirmTrainingExit()) return;
     
-    if (battleTimerInterval) {
-        clearInterval(battleTimerInterval);
-        battleTimerInterval = null;
+    try {
+        stopAllTraining();
+        resetTrainingState();
+        showView('freestyle-config');
+        showNotification('Has salido del entrenamiento', 'info');
+    } catch (error) {
+        handleError(error, 'exitTraining');
+    }
+}
+
+function stopAllTraining() {
+    trainingStarted = false;
+    timerActive = false;
+    wordsActive = false;
+    
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
     }
     
-    if (battleWordTimeout) {
-        clearTimeout(battleWordTimeout);
-        battleWordTimeout = null;
-    }
-    
-    if (battleTurnChangeTimeout) {
-        clearTimeout(battleTurnChangeTimeout);
-        battleTurnChangeTimeout = null;
-    }
-    
-    if (battleCompassTimeouts && battleCompassTimeouts.length > 0) {
-        battleCompassTimeouts.forEach(timeout => clearTimeout(timeout));
-        battleCompassTimeouts = [];
+    if (wordTimeout) {
+        clearTimeout(wordTimeout);
+        wordTimeout = null;
     }
     
     stopBeat();
 }
 
-function stopBattleTurn() {
-    turnStarted = false;
-    battleTimerActive = false;
-    battleWordsActive = false;
-    battleBeatActive = false;
-    
-    if (battleTimerInterval) {
-        clearInterval(battleTimerInterval);
-        battleTimerInterval = null;
-    }
-    
-    if (battleWordTimeout) {
-        clearTimeout(battleWordTimeout);
-        battleWordTimeout = null;
-    }
-    
-    if (battleTurnChangeTimeout) {
-        clearTimeout(battleTurnChangeTimeout);
-        battleTurnChangeTimeout = null;
-    }
-    
-    if (battleCompassTimeouts && battleCompassTimeouts.length > 0) {
-        battleCompassTimeouts.forEach(timeout => clearTimeout(timeout));
-        battleCompassTimeouts = [];
-    }
-    
-    if (audioPlayer) {
-        audioPlayer.pause();
-    }
-}
+function resetTrainingState() {
+    trainingStarted = false;
+    timerActive = false;
+    wordsActive = false;
+    beatActive = false;
+    speedFactor = 1;
 
-function setupReplay() {
-    battleState.isReplayMode = true;
-    battleState.currentRound = 1;
-    battleState.totalRounds = 1;
-    battleState.roundTimes = [60];
-    battleState.roundModes = ['classic'];
-    battleState.roundFormats = ['pause'];
-    battleState.roundCompasses = [1];
-    battleState.turnsInCurrentRound = 0;
-    battleState.votingMode = 'per_round';
+    resetTrainingTimingValues();
+    resetTrainingNotificationFlags();
+    totalDurationMs = 0;
+    wordIntervalMs = 0;
+    lastWordIndex = -1;
+    savedWordTimeUntilNext = 0;
+    wordPauseTime = 0;
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    if (wordTimeout) {
+        clearTimeout(wordTimeout);
+        wordTimeout = null;
+    }
+
+    document.getElementById('timer').textContent = '00:00';
+    document.getElementById('current-word').textContent = 'COMENZAR ENTRENAMIENTO';
+    document.getElementById('beat-info').textContent = 'Presiona el botón principal para activar';
     
-    battleState.currentTurn = Math.random() < 0.5 ? 1 : 2;
+    document.getElementById('pause-beat-btn').innerHTML = '▶️ PLAY ENTRENAMIENTO';
     
-    selectNewBattleBeatAutomatic();
-    
-    showView('battle-screen');
-    updateBattleInfo();
-    updateTurnIndicators();
-    resetBattleState();
-    updateBattleButtonStates(true, false);
-    setupTheme();
-    
-    const mainButton = document.getElementById('battle-start-button');
+    const mainButton = document.getElementById('main-start-button');
     mainButton.style.pointerEvents = 'auto';
     mainButton.style.opacity = '1';
+    mainButton.onclick = beginTraining;
     
-    showNotification('¡RÉPLICA! - 1 minuto cada MC en modo classic', 'warning', 3000);
+    updateTrainingButtonStates(false, false);
 }
 
-console.log('Battle-core.js cargado correctamente ✅');
+function resetTrainingTimingValues() {
+    startTime = Date.now();
+    pausedDuration = 0;
+    lastPauseTime = 0;
+    isPaused = false;
+}
+
+function resetTrainingNotificationFlags() {
+    notified30sec = false;
+    notified10sec = false;
+}
+
+function getTrainingElapsedTime() {
+    const now = Date.now();
+    let realElapsed = now - startTime - pausedDuration;
+    
+    if (isPaused && lastPauseTime > 0) {
+        realElapsed = lastPauseTime - startTime - pausedDuration;
+    }
+    
+    const virtualElapsed = realElapsed * speedFactor;
+    return Math.max(0, virtualElapsed);
+}
+
+function getTrainingRemainingTime() {
+    if (trainingConfig.duration === 'infinite') return Infinity;
+    
+    const elapsed = getTrainingElapsedTime();
+    return Math.max(0, totalDurationMs - elapsed);
+}
+
+function calculateTrainingBPMSpeedFactor() {
+    if (timerMode === 'real' || trainingConfig.duration === 'infinite') {
+        return 1;
+    }
+    
+    const currentBeat = beats[currentBeatIndex];
+    if (!currentBeat || !currentBeat.bpm) {
+        return 1;
+    }
+    
+    const visualMinutes = parseInt(trainingConfig.duration) / 60;
+    const compassesPerMinute = 24;
+    const totalCompasses = visualMinutes * compassesPerMinute;
+    
+    const realDurationSeconds = totalCompasses * (240 / currentBeat.bpm);
+    const visualDurationSeconds = parseInt(trainingConfig.duration);
+    
+    return visualDurationSeconds / realDurationSeconds;
+}
+
+function showTrainingLoadingMessage(message) {
+    const currentWordElement = document.getElementById('current-word');
+    if (currentWordElement) {
+        currentWordElement.textContent = message;
+    }
+}
+
+function updateTrainingStats() {
+    if (trainingStarted) {
+        trainingStats.wordsShown++;
+        trainingStats.timeElapsed = getTrainingElapsedTime() / 1000;
+        
+        const currentBeat = beats[currentBeatIndex];
+        if (currentBeat && !trainingStats.beatsUsed.includes(currentBeat.title)) {
+            trainingStats.beatsUsed.push(currentBeat.title);
+        }
+    }
+}
+
+function confirmTrainingExit() {
+    if (trainingStarted) {
+        return confirm('¿Estás seguro de que quieres salir del entrenamiento? Se perderá el progreso actual.');
+    }
+    return true;
+}
+
+function softReset() {
+    if (!trainingStarted) return;
+    
+    speedFactor = calculateTrainingBPMSpeedFactor();
+    
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+    if (wordTimeout) {
+        clearTimeout(wordTimeout);
+        wordTimeout = null;
+    }
+    
+    resetTrainingTimingValues();
+    resetTrainingNotificationFlags();
+    
+    if (trainingConfig.duration !== 'infinite') {
+        totalDurationMs = parseInt(trainingConfig.duration) * 1000;
+        updateTrainingTimerDisplay();
+        startTrainingTimer();
+    }
+    
+    if (trainingConfig.mode !== 'thematic' && trainingConfig.mode !== 'classic') {
+        wordIntervalMs = getModeInterval(trainingConfig.mode);
+        lastWordIndex = -1;
+        savedWordTimeUntilNext = 0;
+        startTrainingWords();
+    }
+}
+
+console.log('Training-core.js cargado correctamente ✅');
