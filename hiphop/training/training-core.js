@@ -35,22 +35,22 @@ function startTraining() {
     if (!validateTrainingConfig()) {
         return;
     }
-    
+
     trainingConfig = getCurrentTrainingConfig();
-    
+
     try {
         showView('training-screen');
-        
+
         updateTrainingInfo();
         setupInitialBeat();
         setupTheme();
-        
+
         resetTrainingState();
-        
+
         updateTrainingButtonStates(true, false);
-        
+
         showNotification('Configuración lista. Presiona el botón principal para comenzar', 'success');
-        
+
     } catch (error) {
         handleError(error, 'startTraining');
     }
@@ -63,9 +63,9 @@ function beginTraining() {
         const mainButton = document.getElementById('main-start-button');
         mainButton.style.pointerEvents = 'none';
         mainButton.style.opacity = '0.7';
-        
+
         speedFactor = calculateTrainingBPMSpeedFactor();
-        
+
         let countdown = 4;
         const messages = ["TIEMPO!", "1", "2", "3", "Y SE LO DAMOS EN..."];
 
@@ -78,38 +78,42 @@ function beginTraining() {
                     showTrainingLoadingMessage(messages[countdown]);
                 } else {
                     clearInterval(countdownInterval);
-                    
+
                     trainingStarted = true;
-                    resetTrainingTimingValues();
-                    resetTrainingNotificationFlags();
-                    
+
                     if (trainingConfig.duration !== 'infinite') {
                         totalDurationMs = parseInt(trainingConfig.duration) * 1000;
                     }
-                    
+
                     if (trainingConfig.mode !== 'thematic' && trainingConfig.mode !== 'classic') {
                         wordIntervalMs = getModeInterval(trainingConfig.mode);
                         lastWordIndex = -1;
                         savedWordTimeUntilNext = 0;
                     }
-                    
-                    startBeat().then(() => {
+
+                    startBeatWithCallback((error) => {
+                        if (error) {
+                            console.error('Error iniciando beat:', error);
+                            resetTrainingState();
+                            showNotification('Error iniciando audio', 'error');
+                            return;
+                        }
+
+                        resetTrainingTimingValues();
+                        resetTrainingNotificationFlags();
+                        
                         startTrainingTimer();
                         startTrainingWords();
-                        
+
                         updateTrainingButtonStates(true, true);
-                        
+
                         const modeText = timerMode === 'bmp' ? 'Tiempo BPM' : 'Tiempo Real';
                         showNotification(`¡Entrenamiento iniciado! (${modeText})`, 'success', 2000);
-                    }).catch(error => {
-                        console.error('Error iniciando beat:', error);
-                        resetTrainingState();
-                        showNotification('Error iniciando audio', 'error');
                     });
                 }
             }, 1000);
         }, 1000);
-        
+
     } catch (error) {
         handleError(error, 'beginTraining');
         resetTrainingState();
@@ -119,20 +123,20 @@ function beginTraining() {
 function stopTraining() {
     try {
         stopAllTraining();
-        
+
         showTrainingLoadingMessage('COMENZAR ENTRENAMIENTO');
         document.getElementById('beat-info').textContent = 'Entrenamiento detenido';
         document.getElementById('timer').textContent = '00:00';
-        
+
         updateTrainingButtonStates(true, false);
-        
+
         const mainButton = document.getElementById('main-start-button');
         mainButton.style.pointerEvents = 'auto';
         mainButton.style.opacity = '1';
         mainButton.onclick = beginTraining;
-        
+
         showNotification('Entrenamiento detenido', 'warning');
-        
+
     } catch (error) {
         handleError(error, 'stopTraining');
     }
@@ -140,7 +144,7 @@ function stopTraining() {
 
 function exitTraining() {
     if (!confirmTrainingExit()) return;
-    
+
     try {
         stopAllTraining();
         resetTrainingState();
@@ -155,17 +159,17 @@ function stopAllTraining() {
     trainingStarted = false;
     timerActive = false;
     wordsActive = false;
-    
+
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
     }
-    
+
     if (wordTimeout) {
         clearTimeout(wordTimeout);
         wordTimeout = null;
     }
-    
+
     stopBeat();
 }
 
@@ -196,14 +200,14 @@ function resetTrainingState() {
     document.getElementById('timer').textContent = '00:00';
     document.getElementById('current-word').textContent = 'COMENZAR ENTRENAMIENTO';
     document.getElementById('beat-info').textContent = 'Presiona el botón principal para activar';
-    
+
     document.getElementById('pause-beat-btn').innerHTML = '▶️ PLAY ENTRENAMIENTO';
-    
+
     const mainButton = document.getElementById('main-start-button');
     mainButton.style.pointerEvents = 'auto';
     mainButton.style.opacity = '1';
     mainButton.onclick = beginTraining;
-    
+
     updateTrainingButtonStates(false, false);
 }
 
@@ -222,18 +226,18 @@ function resetTrainingNotificationFlags() {
 function getTrainingElapsedTime() {
     const now = Date.now();
     let realElapsed = now - startTime - pausedDuration;
-    
+
     if (isPaused && lastPauseTime > 0) {
         realElapsed = lastPauseTime - startTime - pausedDuration;
     }
-    
+
     const virtualElapsed = realElapsed * speedFactor;
     return Math.max(0, virtualElapsed);
 }
 
 function getTrainingRemainingTime() {
     if (trainingConfig.duration === 'infinite') return Infinity;
-    
+
     const elapsed = getTrainingElapsedTime();
     return Math.max(0, totalDurationMs - elapsed);
 }
@@ -242,19 +246,19 @@ function calculateTrainingBPMSpeedFactor() {
     if (timerMode === 'real' || trainingConfig.duration === 'infinite') {
         return 1;
     }
-    
+
     const currentBeat = beats[currentBeatIndex];
     if (!currentBeat || !currentBeat.bpm) {
         return 1;
     }
-    
+
     const visualMinutes = parseInt(trainingConfig.duration) / 60;
     const compassesPerMinute = 24;
     const totalCompasses = visualMinutes * compassesPerMinute;
-    
+
     const realDurationSeconds = totalCompasses * (240 / currentBeat.bpm);
     const visualDurationSeconds = parseInt(trainingConfig.duration);
-    
+
     return visualDurationSeconds / realDurationSeconds;
 }
 
@@ -269,7 +273,7 @@ function updateTrainingStats() {
     if (trainingStarted) {
         trainingStats.wordsShown++;
         trainingStats.timeElapsed = getTrainingElapsedTime() / 1000;
-        
+
         const currentBeat = beats[currentBeatIndex];
         if (currentBeat && !trainingStats.beatsUsed.includes(currentBeat.title)) {
             trainingStats.beatsUsed.push(currentBeat.title);
@@ -286,9 +290,9 @@ function confirmTrainingExit() {
 
 function softReset() {
     if (!trainingStarted) return;
-    
+
     speedFactor = calculateTrainingBPMSpeedFactor();
-    
+
     if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -297,16 +301,16 @@ function softReset() {
         clearTimeout(wordTimeout);
         wordTimeout = null;
     }
-    
+
     resetTrainingTimingValues();
     resetTrainingNotificationFlags();
-    
+
     if (trainingConfig.duration !== 'infinite') {
         totalDurationMs = parseInt(trainingConfig.duration) * 1000;
         updateTrainingTimerDisplay();
         startTrainingTimer();
     }
-    
+
     if (trainingConfig.mode !== 'thematic' && trainingConfig.mode !== 'classic') {
         wordIntervalMs = getModeInterval(trainingConfig.mode);
         lastWordIndex = -1;
