@@ -1,5 +1,28 @@
 let audioPlayer = null;
 let currentBeatFile = null;
+let audioEventCallback = null;
+let audioTimeoutId = null;
+
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+           window.innerWidth <= 768;
+}
+
+function isLocalFile() {
+    return window.location.protocol === 'file:';
+}
+
+function getBestAudioFile(beat) {
+    if (isLocalFile()) {
+        return beat.fileOgg || beat.file;
+    }
+    
+    if (isMobileDevice()) {
+        return beat.file;
+    } else {
+        return beat.fileOgg || beat.file;
+    }
+}
 
 function initAudioSystem() {
     audioPlayer = document.getElementById('training-audio-player');
@@ -47,11 +70,19 @@ function handleBeatError() {
     });
 }
 
-function startBeat() {
+function startBeatWithCallback(callback) {
     if (!audioPlayer || !currentBeatFile) {
         console.error('Sistema de audio no inicializado correctamente');
-        return Promise.reject(new Error('Sistema de audio no inicializado'));
+        if (callback) callback(new Error('Sistema de audio no inicializado'));
+        return;
     }
+    
+    if (audioTimeoutId) {
+        clearTimeout(audioTimeoutId);
+        audioTimeoutId = null;
+    }
+    
+    audioEventCallback = callback;
     
     const isTrainingActive = typeof trainingStarted !== 'undefined' && trainingStarted;
     const isBattleActive = typeof battleStarted !== 'undefined' && battleStarted;
@@ -62,9 +93,15 @@ function startBeat() {
         battleBeatActive = true;
     }
     
-    audioPlayer.src = currentBeatFile;
-    
-    return audioPlayer.play().then(() => {
+    function onAudioPlaying() {
+        audioPlayer.removeEventListener('playing', onAudioPlaying);
+        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
+        
+        if (audioTimeoutId) {
+            clearTimeout(audioTimeoutId);
+            audioTimeoutId = null;
+        }
+        
         const pauseBtns = [
             document.getElementById('pause-beat-btn'),
             document.getElementById('battle-pause-btn')
@@ -86,10 +123,62 @@ function startBeat() {
         beatInfoElements.forEach(el => {
             if (el) el.textContent = `Reproduciendo: ${beats[currentBeatIndex].title}`;
         });
-    }).catch(error => {
+        
+        if (audioEventCallback) {
+            audioEventCallback(null);
+            audioEventCallback = null;
+        }
+    }
+    
+    function onFirstTimeUpdate() {
+        if (audioPlayer.currentTime > 0) {
+            onAudioPlaying();
+        }
+    }
+    
+    audioPlayer.addEventListener('playing', onAudioPlaying);
+    audioPlayer.addEventListener('timeupdate', onFirstTimeUpdate);
+    
+    audioTimeoutId = setTimeout(() => {
+        audioPlayer.removeEventListener('playing', onAudioPlaying);
+        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
+        
+        if (audioEventCallback) {
+            audioEventCallback(null);
+            audioEventCallback = null;
+        }
+    }, 5000);
+    
+    audioPlayer.src = currentBeatFile;
+    audioPlayer.play().catch(error => {
         console.error('Error iniciando beat:', error);
+        
+        audioPlayer.removeEventListener('playing', onAudioPlaying);
+        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
+        
+        if (audioTimeoutId) {
+            clearTimeout(audioTimeoutId);
+            audioTimeoutId = null;
+        }
+        
         handleBeatError();
-        throw error;
+        
+        if (audioEventCallback) {
+            audioEventCallback(error);
+            audioEventCallback = null;
+        }
+    });
+}
+
+function startBeat() {
+    return new Promise((resolve, reject) => {
+        startBeatWithCallback((error) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
+        });
     });
 }
 
@@ -120,6 +209,13 @@ function stopBeat() {
             }
         });
     }
+    
+    if (audioTimeoutId) {
+        clearTimeout(audioTimeoutId);
+        audioTimeoutId = null;
+    }
+    
+    audioEventCallback = null;
 }
 
 console.log('Beats-audio.js cargado correctamente ✅');
