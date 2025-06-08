@@ -341,6 +341,8 @@ function nextBeat() {
         preloadBeat(currentBeatFile).then(() => {
             return audioPlayer.play();
         }).then(() => {
+            return waitForAudioToStart();
+        }).then(() => {
             beatInfoElements.forEach(el => {
                 if (el) el.textContent = `Reproduciendo: ${newBeat.title}`;
             });
@@ -404,6 +406,8 @@ function previousBeat() {
     if (isPlaying && audioPlayer) {
         preloadBeat(currentBeatFile).then(() => {
             return audioPlayer.play();
+        }).then(() => {
+            return waitForAudioToStart();
         }).then(() => {
             beatInfoElements.forEach(el => {
                 if (el) el.textContent = `Reproduciendo: ${previousBeatObj.title}`;
