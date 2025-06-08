@@ -4,6 +4,7 @@ const beats = [
         title: 'Beat1',
         type: 'Boom Bap',
         file: 'beats/Beat1.mp3',
+        fileOgg: 'beats/Beat1.ogg',
         bpm: 92,
         category: 'boom-bap'
     },
@@ -12,6 +13,7 @@ const beats = [
         title: 'Beat2',
         type: 'Boom Bap',
         file: 'beats/Beat2.mp3',
+        fileOgg: 'beats/Beat2.ogg',
         bpm: 100,
         category: 'boom-bap'
     },
@@ -20,6 +22,7 @@ const beats = [
         title: 'Beat3',
         type: 'Boom Bap',
         file: 'beats/Beat3.mp3',
+        fileOgg: 'beats/Beat3.ogg',
         bpm: 95,
         category: 'boom-bap'
     },
@@ -28,6 +31,7 @@ const beats = [
         title: 'Beat4',
         type: 'Boom Bap',
         file: 'beats/Beat4.mp3',
+        fileOgg: 'beats/Beat4.ogg',
         bpm: 90,
         category: 'boom-bap'
     },
@@ -36,6 +40,7 @@ const beats = [
         title: 'Beat5',
         type: 'Boom Bap',
         file: 'beats/Beat5.mp3',
+        fileOgg: 'beats/Beat5.ogg',
         bpm: 90,
         category: 'boom-bap'
     },
@@ -44,6 +49,7 @@ const beats = [
         title: 'Beat6',
         type: 'Boom Bap',
         file: 'beats/Beat6.mp3',
+        fileOgg: 'beats/Beat6.ogg',
         bpm: 87,
         category: 'boom-bap'
     },
@@ -52,6 +58,7 @@ const beats = [
         title: 'Beat7',
         type: 'Boom Bap',
         file: 'beats/Beat7.mp3',
+        fileOgg: 'beats/Beat7.ogg',
         bpm: 87.5,
         category: 'boom-bap'
     },
@@ -60,6 +67,7 @@ const beats = [
         title: 'Beat8',
         type: 'Boom Bap',
         file: 'beats/Beat8.mp3',
+        fileOgg: 'beats/Beat8.ogg',
         bpm: 91,
         category: 'boom-bap'
     },
@@ -68,6 +76,7 @@ const beats = [
         title: 'Beat9',
         type: 'Boom Bap',
         file: 'beats/Beat9.mp3',
+        fileOgg: 'beats/Beat9.ogg',
         bpm: 89,
         category: 'boom-bap'
     },
@@ -76,6 +85,7 @@ const beats = [
         title: 'Beat10',
         type: 'Boom Bap',
         file: 'beats/Beat10.mp3',
+        fileOgg: 'beats/Beat10.ogg',
         bpm: 96,
         category: 'boom-bap'
     },
@@ -84,6 +94,7 @@ const beats = [
         title: 'Beat11',
         type: 'Boom Bap',
         file: 'beats/Beat11.mp3',
+        fileOgg: 'beats/Beat11.ogg',
         bpm: 92,
         category: 'boom-bap'
     },
@@ -92,6 +103,7 @@ const beats = [
         title: 'Beat12',
         type: 'Trap/Drill',
         file: 'beats/Beat12.mp3',
+        fileOgg: 'beats/Beat12.ogg',
         bpm: 69,
         category: 'trap-drill'
     },
@@ -100,6 +112,7 @@ const beats = [
         title: 'Beat13',
         type: 'Boom Bap',
         file: 'beats/Beat13.mp3',
+        fileOgg: 'beats/Beat13.ogg',
         bpm: 90,
         category: 'boom-bap'
     },
@@ -108,6 +121,7 @@ const beats = [
         title: 'Beat14',
         type: 'Boom Bap',
         file: 'beats/Beat14.mp3',
+        fileOgg: 'beats/Beat14.ogg',
         bpm: 97,
         category: 'boom-bap'
     },
@@ -116,6 +130,7 @@ const beats = [
         title: 'Beat15',
         type: 'Boom Bap',
         file: 'beats/Beat15.mp3',
+        fileOgg: 'beats/Beat15.ogg',
         bpm: 90,
         category: 'boom-bap'
     },
@@ -124,6 +139,7 @@ const beats = [
         title: 'Beat16',
         type: 'Trap/Drill',
         file: 'beats/Beat16.mp3',
+        fileOgg: 'beats/Beat16.ogg',
         bpm: 71,
         category: 'trap-drill'
     },
@@ -132,6 +148,7 @@ const beats = [
         title: 'Beat17',
         type: 'Trap/Drill',
         file: 'beats/Beat17.mp3',
+        fileOgg: 'beats/Beat17.ogg',
         bpm: 72,
         category: 'trap-drill'
     },
@@ -140,6 +157,7 @@ const beats = [
         title: 'Beat18',
         type: 'Trap/Drill',
         file: 'beats/Beat18.mp3',
+        fileOgg: 'beats/Beat18.ogg',
         bpm: 71,
         category: 'trap-drill'
     },
@@ -148,6 +166,7 @@ const beats = [
         title: 'Beat19',
         type: 'Trap/Drill',
         file: 'beats/Beat19.mp3',
+        fileOgg: 'beats/Beat19.ogg',
         bpm: 71,
         category: 'trap-drill'
     },
@@ -156,6 +175,7 @@ const beats = [
         title: 'Beat20',
         type: 'Trap/Drill',
         file: 'beats/Beat20.mp3',
+        fileOgg: 'beats/Beat20.ogg',
         bpm: 73,
         category: 'trap-drill'
     },
@@ -164,6 +184,7 @@ const beats = [
         title: 'Beat21',
         type: 'Trap/Drill',
         file: 'beats/Beat21.mp3',
+        fileOgg: 'beats/Beat21.ogg',
         bpm: 70,
         category: 'trap-drill'
     },
@@ -172,6 +193,7 @@ const beats = [
         title: 'Beat22',
         type: 'Boom Bap',
         file: 'beats/Beat22.mp3',
+        fileOgg: 'beats/Beat22.ogg',
         bpm: 90,
         category: 'boom-bap'
     },
@@ -180,6 +202,7 @@ const beats = [
         title: 'Beat23',
         type: 'Boom Bap',
         file: 'beats/Beat23.mp3',
+        fileOgg: 'beats/Beat23.ogg',
         bpm: 101,
         category: 'boom-bap'
     },
@@ -188,6 +211,7 @@ const beats = [
         title: 'Beat24',
         type: 'Trap/Drill',
         file: 'beats/Beat24.mp3',
+        fileOgg: 'beats/Beat24.ogg',
         bpm: 74,
         category: 'trap-drill'
     },
@@ -196,6 +220,7 @@ const beats = [
         title: 'Beat25',
         type: 'Trap/Drill',
         file: 'beats/Beat25.mp3',
+        fileOgg: 'beats/Beat25.ogg',
         bpm: 73,
         category: 'trap-drill'
     },
@@ -204,6 +229,7 @@ const beats = [
         title: 'Beat26',
         type: 'Boom Bap',
         file: 'beats/Beat26.mp3',
+        fileOgg: 'beats/Beat26.ogg',
         bpm: 90,
         category: 'boom-bap'
     },
@@ -212,6 +238,7 @@ const beats = [
         title: 'Beat27',
         type: 'Boom Bap',
         file: 'beats/Beat27.mp3',
+        fileOgg: 'beats/Beat27.ogg',
         bpm: 86,
         category: 'boom-bap'
     },
@@ -220,6 +247,7 @@ const beats = [
         title: 'Beat28',
         type: 'Boom Bap',
         file: 'beats/Beat28.mp3',
+        fileOgg: 'beats/Beat28.ogg',
         bpm: 86,
         category: 'boom-bap'
     },
@@ -228,6 +256,7 @@ const beats = [
         title: 'Beat29',
         type: 'Trap/Drill',
         file: 'beats/Beat29.mp3',
+        fileOgg: 'beats/Beat29.ogg',
         bpm: 73,
         category: 'trap-drill'
     },
@@ -236,6 +265,7 @@ const beats = [
         title: 'Beat30',
         type: 'Trap/Drill',
         file: 'beats/Beat30.mp3',
+        fileOgg: 'beats/Beat30.ogg',
         bpm: 75,
         category: 'trap-drill'
     },
@@ -244,6 +274,7 @@ const beats = [
         title: 'Beat31',
         type: 'Trap/Drill',
         file: 'beats/Beat31.mp3',
+        fileOgg: 'beats/Beat31.ogg',
         bpm: 75,
         category: 'trap-drill'
     }
