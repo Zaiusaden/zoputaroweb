@@ -120,6 +120,54 @@ function beginTraining() {
     }
 }
 
+function immediateStopForBeatChange() {
+    if (!trainingStarted) return;
+
+    timerActive = false;
+    wordsActive = false;
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    if (wordTimeout) {
+        clearTimeout(wordTimeout);
+        wordTimeout = null;
+    }
+
+    if (trainingConfig.duration === 'infinite') {
+        document.getElementById('timer').textContent = '∞';
+    } else {
+        const totalSeconds = parseInt(trainingConfig.duration);
+        const timeString = formatTime(totalSeconds);
+        document.getElementById('timer').textContent = timeString;
+        
+        const timerElement = document.getElementById('timer');
+        if (totalSeconds <= 10) {
+            timerElement.style.color = '#ef4444';
+        } else if (totalSeconds <= 30) {
+            timerElement.style.color = '#f59e0b';
+        } else {
+            timerElement.style.color = '#ffd700';
+        }
+    }
+
+    if (trainingConfig.mode === 'thematic') {
+        const themeElement = document.getElementById('theme-text');
+        const currentTheme = themeElement ? themeElement.textContent : 'TEMA ACTUAL';
+        document.getElementById('current-word').textContent = `TEMÁTICA: ${currentTheme.toUpperCase()}`;
+    } else if (trainingConfig.mode === 'rules') {
+        const ruleElement = document.getElementById('rule-text');
+        const currentRule = ruleElement ? ruleElement.textContent : 'REGLA ACTUAL';
+        document.getElementById('current-word').textContent = `REGLA: ${currentRule.toUpperCase()}`;
+    } else if (trainingConfig.mode === 'classic') {
+        document.getElementById('current-word').textContent = 'FREESTYLE LIBRE';
+    } else {
+        document.getElementById('current-word').textContent = 'PREPARANDO...';
+    }
+}
+
 function stopTraining() {
     try {
         stopAllTraining();
