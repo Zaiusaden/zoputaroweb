@@ -50,7 +50,7 @@ function handleBeatError() {
 function startBeat() {
     if (!audioPlayer || !currentBeatFile) {
         console.error('Sistema de audio no inicializado correctamente');
-        return;
+        return Promise.reject(new Error('Sistema de audio no inicializado'));
     }
     
     const isTrainingActive = typeof trainingStarted !== 'undefined' && trainingStarted;
@@ -64,7 +64,7 @@ function startBeat() {
     
     audioPlayer.src = currentBeatFile;
     
-    audioPlayer.play().then(() => {
+    return audioPlayer.play().then(() => {
         const pauseBtns = [
             document.getElementById('pause-beat-btn'),
             document.getElementById('battle-pause-btn')
@@ -89,6 +89,7 @@ function startBeat() {
     }).catch(error => {
         console.error('Error iniciando beat:', error);
         handleBeatError();
+        throw error;
     });
 }
 
