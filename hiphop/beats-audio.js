@@ -8,10 +8,11 @@ function initAudioSystem() {
         return false;
     }
     
+    const isLocalFile = window.location.protocol === 'file:';
+    
     audioPlayer.loop = true;
     audioPlayer.volume = 0.7;
-    audioPlayer.preload = 'auto';
-    audioPlayer.crossOrigin = 'anonymous';
+    audioPlayer.preload = isLocalFile ? 'metadata' : 'auto';
     
     audioPlayer.addEventListener('canplay', () => {
         console.log('Beat cargado y listo para reproducir');
@@ -69,23 +70,54 @@ function preloadBeat(beatFile) {
             return;
         }
         
-        const onCanPlayThrough = () => {
-            audioPlayer.removeEventListener('canplaythrough', onCanPlayThrough);
-            audioPlayer.removeEventListener('error', onError);
+        const isLocalFile = window.location.protocol === 'file:';
+        
+        if (isLocalFile) {
+            audioPlayer.src = beatFile;
+            audioPlayer.load();
             resolve();
+        } else {
+            const onCanPlayThrough = () => {
+                audioPlayer.removeEventListener('canplaythrough', onCanPlayThrough);
+                audioPlayer.removeEventListener('error', onError);
+                resolve();
+            };
+            
+            const onError = (error) => {
+                audioPlayer.removeEventListener('canplaythrough', onCanPlayThrough);
+                audioPlayer.removeEventListener('error', onError);
+                reject(error);
+            };
+            
+            audioPlayer.addEventListener('canplaythrough', onCanPlayThrough, { once: true });
+            audioPlayer.addEventListener('error', onError, { once: true });
+            
+            audioPlayer.src = beatFile;
+            audioPlayer.load();
+        }
+    });
+}
+
+function waitForAudioToStart() {
+    return new Promise((resolve) => {
+        if (!audioPlayer) {
+            resolve();
+            return;
+        }
+        
+        const checkAudioTime = () => {
+            if (audioPlayer.currentTime > 0 && !audioPlayer.paused) {
+                audioPlayer.removeEventListener('timeupdate', checkAudioTime);
+                resolve();
+            }
         };
         
-        const onError = (error) => {
-            audioPlayer.removeEventListener('canplaythrough', onCanPlayThrough);
-            audioPlayer.removeEventListener('error', onError);
-            reject(error);
-        };
+        audioPlayer.addEventListener('timeupdate', checkAudioTime);
         
-        audioPlayer.addEventListener('canplaythrough', onCanPlayThrough, { once: true });
-        audioPlayer.addEventListener('error', onError, { once: true });
-        
-        audioPlayer.src = beatFile;
-        audioPlayer.load();
+        setTimeout(() => {
+            audioPlayer.removeEventListener('timeupdate', checkAudioTime);
+            resolve();
+        }, 2000);
     });
 }
 
@@ -107,6 +139,9 @@ function startBeat() {
     return preloadBeat(currentBeatFile)
         .then(() => {
             return audioPlayer.play();
+        })
+        .then(() => {
+            return waitForAudioToStart();
         })
         .then(() => {
             const pauseBtns = [
