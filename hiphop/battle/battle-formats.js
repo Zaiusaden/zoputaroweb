@@ -137,9 +137,6 @@ function beginNextTurn() {
 
 function startNewTurn() {
     turnStarted = true;
-    resetBattleTimingValues();
-    resetBattleNotificationFlags();
-    
     battleTotalDurationMs = battleState.roundTimes[battleState.currentRound - 1] * 1000;
     
     const currentMode = battleState.roundModes[battleState.currentRound - 1];
@@ -149,17 +146,26 @@ function startNewTurn() {
     }
     
     if (!battleBeatActive) {
-        startBeat().then(() => {
+        startBeatWithCallback((error) => {
+            if (error) {
+                console.error('Error iniciando beat en nuevo turno:', error);
+                showNotification('Error iniciando audio', 'error');
+                return;
+            }
+
+            resetBattleTimingValues();
+            resetBattleNotificationFlags();
+            
             startBattleTimer();
             startBattleWords();
             
             const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
             showNotification(`Turno de ${currentMC}`, 'success', 1500);
-        }).catch(error => {
-            console.error('Error iniciando beat en nuevo turno:', error);
-            showNotification('Error iniciando audio', 'error');
         });
     } else {
+        resetBattleTimingValues();
+        resetBattleNotificationFlags();
+        
         startBattleTimer();
         startBattleWords();
         
