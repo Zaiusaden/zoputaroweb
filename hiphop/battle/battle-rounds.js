@@ -1,6 +1,6 @@
 function beginBattle() {
     console.log('beginBattle called, battleStarted:', battleStarted);
-    
+
     if (battleStarted) {
         console.log('Battle already started, returning');
         return;
@@ -12,13 +12,13 @@ function beginBattle() {
             console.error('Main button not found');
             return;
         }
-        
+
         console.log('Starting battle countdown...');
         mainButton.style.pointerEvents = 'none';
         mainButton.style.opacity = '0.7';
-        
+
         battleSpeedFactor = calculateBattleBPMSpeedFactor();
-        
+
         let countdown = 4;
         const messages = ["TIEMPO!", "1", "2", "3", "Y SE LO DAMOS EN..."];
 
@@ -32,17 +32,15 @@ function beginBattle() {
                     console.log('Countdown:', messages[countdown]);
                 } else {
                     clearInterval(countdownInterval);
-                    
+
                     console.log('Starting battle...');
                     battleStarted = true;
                     turnStarted = true;
                     battleState.turnsInCurrentRound = 0;
-                    resetBattleTimingValues();
-                    resetBattleNotificationFlags();
-                    
+
                     const currentFormat = getCurrentRoundFormat();
                     const roundTime = battleState.roundTimes[battleState.currentRound - 1];
-                    
+
                     if (currentFormat === 'continuous') {
                         battleTotalDurationMs = roundTime * 2 * 1000;
                         setupContinuousFormat(roundTime);
@@ -53,20 +51,30 @@ function beginBattle() {
                     } else {
                         battleTotalDurationMs = roundTime * 1000;
                     }
-                    
+
                     const currentMode = battleState.roundModes[battleState.currentRound - 1];
                     if (currentMode !== 'thematic' && currentMode !== 'classic') {
                         battleWordIntervalMs = getModeInterval(currentMode);
                         battleLastWordIndex = -1;
                         battleSavedWordTimeUntilNext = 0;
                     }
-                    
-                    startBeat().then(() => {
+
+                    startBeatWithCallback((error) => {
+                        if (error) {
+                            console.error('Error iniciando beat:', error);
+                            resetBattleState();
+                            showNotification('Error iniciando audio', 'error');
+                            return;
+                        }
+
+                        resetBattleTimingValues();
+                        resetBattleNotificationFlags();
+                        
                         startBattleTimer();
                         startBattleWords();
-                        
+
                         updateBattleButtonStates(true, true);
-                        
+
                         const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
                         let formatText = '';
                         if (currentFormat === 'continuous') {
@@ -75,19 +83,15 @@ function beginBattle() {
                             const compassesPerTurn = battleState.roundCompasses[battleState.currentRound - 1];
                             formatText = ` - ${compassesPerTurn} compás${compassesPerTurn > 1 ? 'es' : ''} por turno`;
                         }
-                        
+
                         let battleTypeText = battleState.isReplayMode ? '¡RÉPLICA!' : '¡Batalla iniciada!';
                         showNotification(`${battleTypeText} Turno de ${currentMC}${formatText}`, 'success', 2000);
                         console.log('Battle started successfully');
-                    }).catch(error => {
-                        console.error('Error iniciando beat:', error);
-                        resetBattleState();
-                        showNotification('Error iniciando audio', 'error');
                     });
                 }
             }, 1000);
         }, 1000);
-        
+
     } catch (error) {
         console.error('Error in beginBattle:', error);
         showNotification('Error iniciando batalla: ' + error.message, 'error');
@@ -96,7 +100,7 @@ function beginBattle() {
 
 function finishRound() {
     stopBattleTurn();
-    
+
     if (battleState.votingMode === 'per_round') {
         showVotingScreen();
     } else {
@@ -112,25 +116,25 @@ function nextRoundWithoutVoting() {
     battleState.currentRound++;
     battleState.turnsInCurrentRound = 0;
     battleState.currentTurn = battleState.whoStarts === 'mc1' ? 1 : 2;
-    
+
     if (battleState.whoStarts === 'random') {
         battleState.currentTurn = Math.random() < 0.5 ? 1 : 2;
     }
-    
+
     if (!battleState.isReplayMode) {
         selectNewBattleBeatAutomatic();
     }
-    
+
     updateBattleInfo();
     updateTurnIndicators();
     resetBattleTurnState();
     updateBattleButtonStates(true, false);
     setupTheme();
-    
+
     const mainButton = document.getElementById('battle-start-button');
     mainButton.style.pointerEvents = 'auto';
     mainButton.style.opacity = '1';
-    
+
     showNotification(`Ronda ${battleState.currentRound} - ¡Preparados!`, 'info', 2000);
 }
 
@@ -139,20 +143,20 @@ function nextRound(winner) {
         handleReplayResult(winner);
         return;
     }
-    
+
     battleState.roundResults.push({
         round: battleState.currentRound,
         winner: winner,
         mc1Turn: battleState.currentTurn === 1,
         mc2Turn: battleState.currentTurn === 2
     });
-    
+
     if (winner === 'mc1') {
         battleState.mc1.wins++;
     } else if (winner === 'mc2') {
         battleState.mc2.wins++;
     }
-    
+
     if (battleState.currentRound >= battleState.totalRounds) {
         if (battleState.votingMode === 'per_round' && battleState.mc1.wins === battleState.mc2.wins) {
             setupReplay();
@@ -161,28 +165,28 @@ function nextRound(winner) {
         finishBattle();
         return;
     }
-    
+
     battleState.currentRound++;
     battleState.turnsInCurrentRound = 0;
     battleState.currentTurn = battleState.whoStarts === 'mc1' ? 1 : 2;
-    
+
     if (battleState.whoStarts === 'random') {
         battleState.currentTurn = Math.random() < 0.5 ? 1 : 2;
     }
-    
+
     selectNewBattleBeatAutomatic();
-    
+
     showView('battle-screen');
     updateBattleInfo();
     updateTurnIndicators();
     resetBattleTurnState();
     updateBattleButtonStates(true, false);
     setupTheme();
-    
+
     const mainButton = document.getElementById('battle-start-button');
     mainButton.style.pointerEvents = 'auto';
     mainButton.style.opacity = '1';
-    
+
     showNotification(`Ronda ${battleState.currentRound} - ¡Preparados!`, 'info', 2000);
 }
 
@@ -193,18 +197,18 @@ function handleReplayResult(winner) {
         mc1Turn: battleState.currentTurn === 1,
         mc2Turn: battleState.currentTurn === 2
     });
-    
+
     if (winner === 'mc1') {
         battleState.mc1.wins++;
     } else if (winner === 'mc2') {
         battleState.mc2.wins++;
     }
-    
+
     if (winner === 'tie') {
         setupReplay();
         return;
     }
-    
+
     finishBattle();
 }
 
@@ -213,13 +217,13 @@ function handleFinalVotingResult(winner) {
         setupReplay();
         return;
     }
-    
+
     battleState.roundResults.push({
         round: 'FINAL',
         winner: winner,
         totalRounds: battleState.totalRounds
     });
-    
+
     if (winner === 'mc1') {
         battleState.mc1.wins = 1;
         battleState.mc2.wins = 0;
@@ -227,7 +231,7 @@ function handleFinalVotingResult(winner) {
         battleState.mc1.wins = 0;
         battleState.mc2.wins = 1;
     }
-    
+
     finishBattle();
 }
 
@@ -240,7 +244,7 @@ function finishBattle() {
     } else {
         winner = 'EMPATE';
     }
-    
+
     showBattleResults(winner);
 }
 
