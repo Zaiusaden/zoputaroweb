@@ -94,15 +94,13 @@ function beginTraining() {
                     }
                     
                     startBeat().then(() => {
-                        setTimeout(() => {
-                            startTrainingTimer();
-                            startTrainingWords();
-                            
-                            updateTrainingButtonStates(true, true);
-                            
-                            const modeText = timerMode === 'bmp' ? 'Tiempo BPM' : 'Tiempo Real';
-                            showNotification(`¡Entrenamiento iniciado! (${modeText})`, 'success', 2000);
-                        }, 100);
+                        startTrainingTimer();
+                        startTrainingWords();
+                        
+                        updateTrainingButtonStates(true, true);
+                        
+                        const modeText = timerMode === 'bmp' ? 'Tiempo BPM' : 'Tiempo Real';
+                        showNotification(`¡Entrenamiento iniciado! (${modeText})`, 'success', 2000);
                     }).catch(error => {
                         console.error('Error iniciando beat:', error);
                         resetTrainingState();
