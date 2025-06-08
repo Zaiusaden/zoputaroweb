@@ -93,14 +93,21 @@ function beginTraining() {
                         savedWordTimeUntilNext = 0;
                     }
                     
-                    startTrainingTimer();
-                    startTrainingWords();
-                    startBeat();
-                    
-                    updateTrainingButtonStates(true, true);
-                    
-                    const modeText = timerMode === 'bmp' ? 'Tiempo BPM' : 'Tiempo Real';
-                    showNotification(`¡Entrenamiento iniciado! (${modeText})`, 'success', 2000);
+                    startBeat().then(() => {
+                        setTimeout(() => {
+                            startTrainingTimer();
+                            startTrainingWords();
+                            
+                            updateTrainingButtonStates(true, true);
+                            
+                            const modeText = timerMode === 'bmp' ? 'Tiempo BPM' : 'Tiempo Real';
+                            showNotification(`¡Entrenamiento iniciado! (${modeText})`, 'success', 2000);
+                        }, 100);
+                    }).catch(error => {
+                        console.error('Error iniciando beat:', error);
+                        resetTrainingState();
+                        showNotification('Error iniciando audio', 'error');
+                    });
                 }
             }, 1000);
         }, 1000);
