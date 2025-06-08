@@ -85,6 +85,70 @@ function showBattleLoadingMessage(message) {
     document.getElementById('battle-word').textContent = message;
 }
 
+function battleImmediateStopForBeatChange() {
+    if (!battleStarted || !turnStarted) return;
+
+    battleTimerActive = false;
+    battleWordsActive = false;
+
+    if (battleTimerInterval) {
+        clearInterval(battleTimerInterval);
+        battleTimerInterval = null;
+    }
+
+    if (battleWordTimeout) {
+        clearTimeout(battleWordTimeout);
+        battleWordTimeout = null;
+    }
+
+    if (battleTurnChangeTimeout) {
+        clearTimeout(battleTurnChangeTimeout);
+        battleTurnChangeTimeout = null;
+    }
+
+    if (battleCompassTimeouts && battleCompassTimeouts.length > 0) {
+        battleCompassTimeouts.forEach(timeout => clearTimeout(timeout));
+        battleCompassTimeouts = [];
+    }
+
+    const currentFormat = getCurrentRoundFormat();
+    const roundTime = battleState.roundTimes[battleState.currentRound - 1];
+    let totalSeconds;
+    
+    if (currentFormat === 'continuous' || currentFormat === 'compass') {
+        totalSeconds = roundTime * 2;
+    } else {
+        totalSeconds = roundTime;
+    }
+
+    const timeString = formatTime(totalSeconds);
+    document.getElementById('battle-timer').textContent = timeString;
+
+    const timerElement = document.getElementById('battle-timer');
+    if (totalSeconds <= 10) {
+        timerElement.style.color = '#ef4444';
+    } else if (totalSeconds <= 30) {
+        timerElement.style.color = '#f59e0b';
+    } else {
+        timerElement.style.color = '#ffd700';
+    }
+
+    const currentMode = battleState.roundModes[battleState.currentRound - 1];
+    if (currentMode === 'thematic') {
+        const themeElement = document.getElementById('theme-text');
+        const currentTheme = themeElement ? themeElement.textContent : 'TEMA ACTUAL';
+        document.getElementById('battle-word').textContent = `TEMÁTICA: ${currentTheme.toUpperCase()}`;
+    } else if (currentMode === 'rules') {
+        const ruleElement = document.getElementById('rule-text');
+        const currentRule = ruleElement ? ruleElement.textContent : 'REGLA ACTUAL';
+        document.getElementById('battle-word').textContent = `REGLA: ${currentRule.toUpperCase()}`;
+    } else if (currentMode === 'classic') {
+        document.getElementById('battle-word').textContent = 'FREESTYLE LIBRE';
+    } else {
+        document.getElementById('battle-word').textContent = 'PREPARANDO...';
+    }
+}
+
 function startBattleTimer() {
     try {
         battleTimerActive = true;
