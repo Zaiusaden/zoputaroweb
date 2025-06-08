@@ -514,9 +514,6 @@ function battleSoftReset() {
         battleCompassTimeouts = [];
     }
 
-    resetBattleTimingValues();
-    resetBattleNotificationFlags();
-
     const currentFormat = getCurrentRoundFormat();
     const roundTime = battleState.roundTimes[battleState.currentRound - 1];
     
@@ -530,17 +527,28 @@ function battleSoftReset() {
     } else {
         battleTotalDurationMs = roundTime * 1000;
     }
-    
-    updateBattleTimerDisplay();
-    startBattleTimer();
 
-    const currentMode = battleState.roundModes[battleState.currentRound - 1];
-    if (currentMode !== 'thematic' && currentMode !== 'classic' && currentMode !== 'rules') {
-        battleWordIntervalMs = getModeInterval(currentMode);
-        battleLastWordIndex = -1;
-        battleSavedWordTimeUntilNext = 0;
-        startBattleWords();
-    }
+    startBeatWithCallback((error) => {
+        if (error) {
+            console.error('Error en battleSoftReset:', error);
+            handleBeatError();
+            return;
+        }
+
+        resetBattleTimingValues();
+        resetBattleNotificationFlags();
+        
+        updateBattleTimerDisplay();
+        startBattleTimer();
+
+        const currentMode = battleState.roundModes[battleState.currentRound - 1];
+        if (currentMode !== 'thematic' && currentMode !== 'classic' && currentMode !== 'rules') {
+            battleWordIntervalMs = getModeInterval(currentMode);
+            battleLastWordIndex = -1;
+            battleSavedWordTimeUntilNext = 0;
+            startBattleWords();
+        }
+    });
 }
 
 function battleChangeTheme() {
