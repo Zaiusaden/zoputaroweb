@@ -148,7 +148,7 @@ function selectBeat(beatId) {
                 <strong>🎵 ${beat.title} seleccionado</strong>
                 <div style="font-size: 0.9rem; color: #ff6b35; margin-top: 5px;">${beat.type} - ${beat.bpm} BPM</div>
                 <audio controls style="margin-top: 10px; width: 100%; max-width: 300px;">
-                    <source src="${beat.file}" type="audio/ogg">
+                    <source src="${beat.file}" type="audio/mpeg">
                     Tu navegador no soporta la reproducción de audio.
                 </audio>
             </div>
@@ -410,5 +410,3 @@ function previousBeat() {
         battleSoftReset();
     }
 }
-
-console.log('Beats-selection.js cargado correctamente ✅');
