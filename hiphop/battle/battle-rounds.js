@@ -62,23 +62,25 @@ function beginBattle() {
                     }
                     
                     startBeat().then(() => {
-                        startBattleTimer();
-                        startBattleWords();
-                        
-                        updateBattleButtonStates(true, true);
-                        
-                        const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
-                        let formatText = '';
-                        if (currentFormat === 'continuous') {
-                            formatText = ' - Formato Continuo';
-                        } else if (currentFormat === 'compass') {
-                            const compassesPerTurn = battleState.roundCompasses[battleState.currentRound - 1];
-                            formatText = ` - ${compassesPerTurn} compás${compassesPerTurn > 1 ? 'es' : ''} por turno`;
-                        }
-                        
-                        let battleTypeText = battleState.isReplayMode ? '¡RÉPLICA!' : '¡Batalla iniciada!';
-                        showNotification(`${battleTypeText} Turno de ${currentMC}${formatText}`, 'success', 2000);
-                        console.log('Battle started successfully');
+                        setTimeout(() => {
+                            startBattleTimer();
+                            startBattleWords();
+                            
+                            updateBattleButtonStates(true, true);
+                            
+                            const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
+                            let formatText = '';
+                            if (currentFormat === 'continuous') {
+                                formatText = ' - Formato Continuo';
+                            } else if (currentFormat === 'compass') {
+                                const compassesPerTurn = battleState.roundCompasses[battleState.currentRound - 1];
+                                formatText = ` - ${compassesPerTurn} compás${compassesPerTurn > 1 ? 'es' : ''} por turno`;
+                            }
+                            
+                            let battleTypeText = battleState.isReplayMode ? '¡RÉPLICA!' : '¡Batalla iniciada!';
+                            showNotification(`${battleTypeText} Turno de ${currentMC}${formatText}`, 'success', 2000);
+                            console.log('Battle started successfully');
+                        }, 100);
                     }).catch(error => {
                         console.error('Error iniciando beat:', error);
                         resetBattleState();
