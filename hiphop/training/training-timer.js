@@ -8,7 +8,7 @@ function toggleTimerMode() {
     const description = document.getElementById('timer-mode-description');
     
     if (timerMode === 'bmp') {
-        text.textContent = 'TIEMPO BPM';
+        text.textContent = 'TIEMPO BMP';
         btn.classList.add('bmp-mode');
         description.textContent = 'Sincronizado al BPM del beat (RECOMENDADO)';
     } else {
