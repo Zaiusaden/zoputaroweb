@@ -332,6 +332,12 @@ function nextBeat() {
                      (isBattleActive && typeof battleBeatActive !== 'undefined' && battleBeatActive);
     
     if (isPlaying && audioPlayer) {
+        if (isTrainingActive && typeof immediateStopForBeatChange === 'function') {
+            immediateStopForBeatChange();
+        } else if (isBattleActive && typeof battleImmediateStopForBeatChange === 'function') {
+            battleImmediateStopForBeatChange();
+        }
+
         startBeatWithCallback((error) => {
             if (error) {
                 console.error('Error cambiando beat:', error);
@@ -388,6 +394,12 @@ function previousBeat() {
                      (isBattleActive && typeof battleBeatActive !== 'undefined' && battleBeatActive);
     
     if (isPlaying && audioPlayer) {
+        if (isTrainingActive && typeof immediateStopForBeatChange === 'function') {
+            immediateStopForBeatChange();
+        } else if (isBattleActive && typeof battleImmediateStopForBeatChange === 'function') {
+            battleImmediateStopForBeatChange();
+        }
+
         startBeatWithCallback((error) => {
             if (error) {
                 console.error('Error cambiando a beat anterior:', error);
