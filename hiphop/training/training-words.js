@@ -1,3 +1,62 @@
+let savedWordState = {
+    mode: '',
+    currentWord: '',
+    theme: '',
+    rule: ''
+};
+
+function saveCurrentWordState() {
+    if (!trainingStarted || !trainingConfig) return;
+    
+    savedWordState.mode = trainingConfig.mode;
+    
+    const currentWordElement = document.getElementById('current-word');
+    if (currentWordElement) {
+        savedWordState.currentWord = currentWordElement.textContent;
+    }
+    
+    const themeElement = document.getElementById('theme-text');
+    if (themeElement) {
+        savedWordState.theme = themeElement.textContent;
+    }
+    
+    const ruleElement = document.getElementById('rule-text');
+    if (ruleElement) {
+        savedWordState.rule = ruleElement.textContent;
+    }
+}
+
+function restoreWordState() {
+    if (!trainingStarted || !trainingConfig || !savedWordState.mode) return;
+    
+    const currentWordElement = document.getElementById('current-word');
+    if (!currentWordElement) return;
+    
+    if (savedWordState.mode === 'thematic') {
+        if (savedWordState.theme) {
+            currentWordElement.textContent = `TEMÁTICA: ${savedWordState.theme.toUpperCase()}`;
+        } else {
+            const themeElement = document.getElementById('theme-text');
+            const currentTheme = themeElement ? themeElement.textContent : 'TEMA ACTUAL';
+            currentWordElement.textContent = `TEMÁTICA: ${currentTheme.toUpperCase()}`;
+        }
+    } else if (savedWordState.mode === 'rules') {
+        if (savedWordState.rule) {
+            currentWordElement.textContent = `REGLA: ${savedWordState.rule.toUpperCase()}`;
+        } else {
+            const ruleElement = document.getElementById('rule-text');
+            const currentRule = ruleElement ? ruleElement.textContent : 'REGLA ACTUAL';
+            currentWordElement.textContent = `REGLA: ${currentRule.toUpperCase()}`;
+        }
+    } else if (savedWordState.mode === 'classic') {
+        currentWordElement.textContent = 'FREESTYLE LIBRE';
+    } else {
+        if (savedWordState.currentWord && savedWordState.currentWord !== 'PREPARANDO...') {
+            currentWordElement.textContent = savedWordState.currentWord;
+        }
+    }
+}
+
 function startTrainingWords() {
     try {
         if (trainingConfig.mode === 'thematic') {
