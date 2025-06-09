@@ -123,6 +123,8 @@ function beginTraining() {
 function immediateStopForBeatChange() {
     if (!trainingStarted) return;
 
+    saveCurrentWordState();
+
     timerActive = false;
     wordsActive = false;
 
@@ -153,19 +155,7 @@ function immediateStopForBeatChange() {
         }
     }
 
-    if (trainingConfig.mode === 'thematic') {
-        const themeElement = document.getElementById('theme-text');
-        const currentTheme = themeElement ? themeElement.textContent : 'TEMA ACTUAL';
-        document.getElementById('current-word').textContent = `TEMÁTICA: ${currentTheme.toUpperCase()}`;
-    } else if (trainingConfig.mode === 'rules') {
-        const ruleElement = document.getElementById('rule-text');
-        const currentRule = ruleElement ? ruleElement.textContent : 'REGLA ACTUAL';
-        document.getElementById('current-word').textContent = `REGLA: ${currentRule.toUpperCase()}`;
-    } else if (trainingConfig.mode === 'classic') {
-        document.getElementById('current-word').textContent = 'FREESTYLE LIBRE';
-    } else {
-        document.getElementById('current-word').textContent = 'PREPARANDO...';
-    }
+    document.getElementById('current-word').textContent = 'PREPARANDO...';
 }
 
 function stopTraining() {
@@ -359,11 +349,17 @@ function softReset() {
         startTrainingTimer();
     }
 
-    if (trainingConfig.mode !== 'thematic' && trainingConfig.mode !== 'classic') {
+    setTimeout(() => {
+        restoreWordState();
+    }, 200);
+
+    if (trainingConfig.mode !== 'thematic' && trainingConfig.mode !== 'classic' && trainingConfig.mode !== 'rules') {
         wordIntervalMs = getModeInterval(trainingConfig.mode);
         lastWordIndex = -1;
         savedWordTimeUntilNext = 0;
-        startTrainingWords();
+        setTimeout(() => {
+            startTrainingWords();
+        }, 300);
     }
 }
 
