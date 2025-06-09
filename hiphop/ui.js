@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     initAudioSystem();
     loadBeatBlacklist();
-    loadBeats();
+    loadConfig();
     selectRandomBeat();
     updateBattleRoundSelector();
     
@@ -249,32 +249,25 @@ function loadConfig() {
             }
             if (config.categories && Array.isArray(config.categories) && config.categories.length > 0) {
                 selectedCategories = new Set(config.categories);
-            } else {
-                selectedCategories.add('boom-bap');
             }
+            
             updateCategoryButtons();
             updateBattleCategoryButtons();
             loadBeats();
             
             showNotification('Configuración cargada', 'info', 2000);
         } else {
-            selectedCategories.add('boom-bap');
             updateCategoryButtons();
             updateBattleCategoryButtons();
             loadBeats();
         }
     } catch (error) {
         console.warn('No se pudo cargar la configuración:', error);
-        selectedCategories.add('boom-bap');
         updateCategoryButtons();
         updateBattleCategoryButtons();
         loadBeats();
     }
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    loadConfig();
-});
 
 function debugInfo() {
     console.log('=== DEBUG INFO ===');
