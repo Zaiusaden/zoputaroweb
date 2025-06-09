@@ -69,6 +69,7 @@ function setBattleConfig(config) {
     
     selectedCategories = new Set(config.categories);
     selectedBeat = 'random';
+    loadBeats();
 }
 
 function validateBattleConfig() {
