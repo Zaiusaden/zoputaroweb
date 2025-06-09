@@ -1,4 +1,4 @@
-let selectedCategories = new Set();
+let selectedCategories = new Set(['boom-bap']);
 let trainingBeatGridExpanded = true;
 let battleBeatGridExpanded = true;
 let tournamentBeatGridExpanded = true;
