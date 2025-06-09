@@ -77,6 +77,7 @@ function loadTrainingConfig() {
             if (config.categories && Array.isArray(config.categories)) {
                 selectedCategories = new Set(config.categories);
                 updateCategoryButtons();
+                loadBeats(); 
             }
             
             showNotification('Configuración de entrenamiento cargada', 'info', 2000);
