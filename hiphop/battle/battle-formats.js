@@ -159,6 +159,8 @@ function startNewTurn() {
             startBattleTimer();
             startBattleWords();
             
+            updateBattleButtonStates(true, true);
+            
             const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
             showNotification(`Turno de ${currentMC}`, 'success', 1500);
         });
@@ -168,6 +170,8 @@ function startNewTurn() {
         
         startBattleTimer();
         startBattleWords();
+        
+        updateBattleButtonStates(true, true);
         
         const currentMC = battleState.currentTurn === 1 ? battleState.mc1.aka : battleState.mc2.aka;
         showNotification(`Turno de ${currentMC}`, 'success', 1500);
