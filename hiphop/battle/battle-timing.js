@@ -33,7 +33,7 @@ function resetBattleTimingValues() {
     battlePausedDuration = 0;
     battleLastPauseTime = 0;
     battleIsPaused = false;
-    battleTotalDurationMs = 0;
+    
 }
 
 function resetBattleNotificationFlags() {
