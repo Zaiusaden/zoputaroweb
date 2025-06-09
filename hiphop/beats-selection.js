@@ -123,7 +123,13 @@ function loadBeatBlacklist() {
     try {
         const saved = localStorage.getItem('beatBlacklist');
         if (saved) {
-            blacklistedBeats = new Set(JSON.parse(saved));
+            const savedList = JSON.parse(saved);
+            const validIds = savedList.filter(id => beats.some(beat => beat.id === id));
+            blacklistedBeats = new Set(validIds);
+            
+            if (validIds.length !== savedList.length) {
+                saveBeatBlacklist();
+            }
         }
     } catch (error) {
         console.warn('No se pudo cargar la blacklist:', error);
