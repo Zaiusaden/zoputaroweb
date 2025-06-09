@@ -1,7 +1,3 @@
-// ============================================================================
-// TRAINING CONFIG - Configuración, validación y persistencia
-// ============================================================================
-
 function validateTrainingConfig() {
     const duration = document.getElementById('duration-mode').value;
     const mode = document.getElementById('training-mode').value;
@@ -77,7 +73,7 @@ function loadTrainingConfig() {
             if (config.categories && Array.isArray(config.categories)) {
                 selectedCategories = new Set(config.categories);
                 updateCategoryButtons();
-                loadBeats(); 
+                loadBeats();
             }
             
             showNotification('Configuración de entrenamiento cargada', 'info', 2000);
@@ -142,12 +138,9 @@ function importTrainingConfig(event) {
     reader.readAsText(file);
 }
 
-// Auto-guardar configuración cuando cambia
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar configuración al inicio
     loadTrainingConfig();
     
-    // Auto-guardar cuando cambian los controles
     const autoSaveElements = [
         'duration-mode',
         'training-mode'
