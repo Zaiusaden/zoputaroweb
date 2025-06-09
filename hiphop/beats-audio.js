@@ -12,16 +12,26 @@ function isLocalFile() {
     return window.location.protocol === 'file:';
 }
 
-function getBestAudioFile(beat) {
+function getAudioFilesToTry(beat) {
+    const files = [];
+    
     if (isLocalFile()) {
-        return beat.fileOgg || beat.file;
+        if (beat.fileOgg) files.push(beat.fileOgg);
+        if (beat.file) files.push(beat.file);
+    } else if (isMobileDevice()) {
+        if (beat.file) files.push(beat.file);
+        if (beat.fileOgg) files.push(beat.fileOgg);
+    } else {
+        if (beat.fileOgg) files.push(beat.fileOgg);
+        if (beat.file) files.push(beat.file);
     }
     
-    if (isMobileDevice()) {
-        return beat.file;
-    } else {
-        return beat.fileOgg || beat.file;
-    }
+    return files;
+}
+
+function getBestAudioFile(beat) {
+    const files = getAudioFilesToTry(beat);
+    return files[0] || beat.file;
 }
 
 function initAudioSystem() {
@@ -40,7 +50,6 @@ function initAudioSystem() {
     
     audioPlayer.addEventListener('error', (e) => {
         console.error('Error cargando el beat:', e);
-        handleBeatError();
     });
     
     audioPlayer.addEventListener('loadstart', () => {
@@ -70,16 +79,79 @@ function handleBeatError() {
     });
 }
 
+function tryLoadAudioFile(fileUrl, callback, timeout = 8000) {
+    if (audioTimeoutId) {
+        clearTimeout(audioTimeoutId);
+        audioTimeoutId = null;
+    }
+    
+    let hasResolved = false;
+    
+    function resolve(error) {
+        if (hasResolved) return;
+        hasResolved = true;
+        
+        audioPlayer.removeEventListener('playing', onAudioPlaying);
+        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
+        audioPlayer.removeEventListener('error', onAudioError);
+        
+        if (audioTimeoutId) {
+            clearTimeout(audioTimeoutId);
+            audioTimeoutId = null;
+        }
+        
+        callback(error);
+    }
+    
+    function onAudioPlaying() {
+        resolve(null);
+    }
+    
+    function onFirstTimeUpdate() {
+        if (audioPlayer.currentTime > 0) {
+            resolve(null);
+        }
+    }
+    
+    function onAudioError(e) {
+        resolve(new Error(`Audio load failed: ${e.type}`));
+    }
+    
+    audioPlayer.addEventListener('playing', onAudioPlaying);
+    audioPlayer.addEventListener('timeupdate', onFirstTimeUpdate);
+    audioPlayer.addEventListener('error', onAudioError);
+    
+    audioTimeoutId = setTimeout(() => {
+        resolve(new Error('Audio load timeout'));
+    }, timeout);
+    
+    audioPlayer.src = fileUrl;
+    audioPlayer.load();
+    
+    audioPlayer.play().catch(error => {
+        resolve(error);
+    });
+}
+
 function startBeatWithCallback(callback) {
-    if (!audioPlayer || !currentBeatFile) {
+    if (!audioPlayer) {
         console.error('Sistema de audio no inicializado correctamente');
         if (callback) callback(new Error('Sistema de audio no inicializado'));
         return;
     }
     
-    if (audioTimeoutId) {
-        clearTimeout(audioTimeoutId);
-        audioTimeoutId = null;
+    const currentBeat = beats[currentBeatIndex];
+    if (!currentBeat) {
+        console.error('Beat actual no encontrado');
+        if (callback) callback(new Error('Beat no encontrado'));
+        return;
+    }
+    
+    const filesToTry = getAudioFilesToTry(currentBeat);
+    if (filesToTry.length === 0) {
+        console.error('No hay archivos de audio disponibles');
+        if (callback) callback(new Error('No hay archivos de audio'));
+        return;
     }
     
     audioEventCallback = callback;
@@ -93,81 +165,57 @@ function startBeatWithCallback(callback) {
         battleBeatActive = true;
     }
     
-    function onAudioPlaying() {
-        audioPlayer.removeEventListener('playing', onAudioPlaying);
-        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
-        
-        if (audioTimeoutId) {
-            clearTimeout(audioTimeoutId);
-            audioTimeoutId = null;
+    let currentFileIndex = 0;
+    
+    function tryNextFile() {
+        if (currentFileIndex >= filesToTry.length) {
+            handleBeatError();
+            if (audioEventCallback) {
+                audioEventCallback(new Error('Todos los formatos de audio fallaron'));
+                audioEventCallback = null;
+            }
+            return;
         }
         
-        const pauseBtns = [
-            document.getElementById('pause-beat-btn'),
-            document.getElementById('battle-pause-btn')
-        ];
+        const fileUrl = filesToTry[currentFileIndex];
+        currentBeatFile = fileUrl;
         
-        const beatInfoElements = [
-            document.getElementById('beat-info'),
-            document.getElementById('battle-beat-info')
-        ];
-        
-        pauseBtns.forEach(btn => {
-            if (btn && isTrainingActive) {
-                btn.innerHTML = '⏸️ PAUSAR ENTRENAMIENTO';
-            } else if (btn && isBattleActive) {
-                btn.innerHTML = '⏸️ PAUSAR';
+        tryLoadAudioFile(fileUrl, (error) => {
+            if (!error) {
+                const pauseBtns = [
+                    document.getElementById('pause-beat-btn'),
+                    document.getElementById('battle-pause-btn')
+                ];
+                
+                const beatInfoElements = [
+                    document.getElementById('beat-info'),
+                    document.getElementById('battle-beat-info')
+                ];
+                
+                pauseBtns.forEach(btn => {
+                    if (btn && isTrainingActive) {
+                        btn.innerHTML = '⏸️ PAUSAR ENTRENAMIENTO';
+                    } else if (btn && isBattleActive) {
+                        btn.innerHTML = '⏸️ PAUSAR';
+                    }
+                });
+                
+                beatInfoElements.forEach(el => {
+                    if (el) el.textContent = `Reproduciendo: ${currentBeat.title}`;
+                });
+                
+                if (audioEventCallback) {
+                    audioEventCallback(null);
+                    audioEventCallback = null;
+                }
+            } else {
+                currentFileIndex++;
+                setTimeout(tryNextFile, 100);
             }
         });
-        
-        beatInfoElements.forEach(el => {
-            if (el) el.textContent = `Reproduciendo: ${beats[currentBeatIndex].title}`;
-        });
-        
-        if (audioEventCallback) {
-            audioEventCallback(null);
-            audioEventCallback = null;
-        }
     }
     
-    function onFirstTimeUpdate() {
-        if (audioPlayer.currentTime > 0) {
-            onAudioPlaying();
-        }
-    }
-    
-    audioPlayer.addEventListener('playing', onAudioPlaying);
-    audioPlayer.addEventListener('timeupdate', onFirstTimeUpdate);
-    
-    audioTimeoutId = setTimeout(() => {
-        audioPlayer.removeEventListener('playing', onAudioPlaying);
-        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
-        
-        if (audioEventCallback) {
-            audioEventCallback(null);
-            audioEventCallback = null;
-        }
-    }, 5000);
-    
-    audioPlayer.src = currentBeatFile;
-    audioPlayer.play().catch(error => {
-        console.error('Error iniciando beat:', error);
-        
-        audioPlayer.removeEventListener('playing', onAudioPlaying);
-        audioPlayer.removeEventListener('timeupdate', onFirstTimeUpdate);
-        
-        if (audioTimeoutId) {
-            clearTimeout(audioTimeoutId);
-            audioTimeoutId = null;
-        }
-        
-        handleBeatError();
-        
-        if (audioEventCallback) {
-            audioEventCallback(error);
-            audioEventCallback = null;
-        }
-    });
+    tryNextFile();
 }
 
 function startBeat() {
