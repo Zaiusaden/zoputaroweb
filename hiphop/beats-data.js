@@ -313,5 +313,32 @@ const beats = [
         fileOgg: 'beats/Beat35.ogg',
         bpm: 73,
         category: 'trap-drill'
+    },
+    {
+        id: 'beat36',
+        title: 'Beat36',
+        type: 'Trap/Drill',
+        file: 'beats/Beat36.mp3',
+        fileOgg: 'beats/Beat36.ogg',
+        bpm: 75,
+        category: 'trap-drill'
+    },
+    {
+        id: 'beat37',
+        title: 'Beat37',
+        type: 'Boom Bap',
+        file: 'beats/Beat37.mp3',
+        fileOgg: 'beats/Beat37.ogg',
+        bpm: 88,
+        category: 'boom-bap'
+    },
+    {
+        id: 'beat38',
+        title: 'Beat38',
+        type: 'Boom Bap',
+        file: 'beats/Beat38.mp3',
+        fileOgg: 'beats/Beat38.ogg',
+        bpm: 88,
+        category: 'boom-bap'
     }
 ];
