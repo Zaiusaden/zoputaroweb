@@ -136,6 +136,45 @@ function showTrainingNewWord() {
     }
 }
 
+function immediateStopForBeatChange() {
+    if (!trainingStarted) return;
+
+    saveCurrentWordState();
+    disableAllTrainingButtons();
+
+    timerActive = false;
+    wordsActive = false;
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    if (wordTimeout) {
+        clearTimeout(wordTimeout);
+        wordTimeout = null;
+    }
+
+    if (trainingConfig.duration === 'infinite') {
+        document.getElementById('timer').textContent = '∞';
+    } else {
+        const totalSeconds = parseInt(trainingConfig.duration);
+        const timeString = formatTime(totalSeconds);
+        document.getElementById('timer').textContent = timeString;
+        
+        const timerElement = document.getElementById('timer');
+        if (totalSeconds <= 10) {
+            timerElement.style.color = '#ef4444';
+        } else if (totalSeconds <= 30) {
+            timerElement.style.color = '#f59e0b';
+        } else {
+            timerElement.style.color = '#ffd700';
+        }
+    }
+
+    document.getElementById('current-word').textContent = 'PREPARANDO...';
+}
+
 function changeTheme() {
     const isTraining = typeof trainingConfig !== 'undefined' && trainingConfig.mode === 'thematic' && typeof trainingStarted !== 'undefined' && trainingStarted;
     
