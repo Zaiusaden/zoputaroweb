@@ -366,8 +366,6 @@ function nextBeat() {
             if (el) el.textContent = `Beat cambiado a: ${newBeat.title}`;
         });
     }
-    
-    updatePreviousBeatButtonState();
 }
 
 function previousBeat() {
@@ -429,6 +427,4 @@ function previousBeat() {
             if (el) el.textContent = `Beat cambiado a: ${previousBeatObj.title}`;
         });
     }
-    
-    updatePreviousBeatButtonState();
 }
