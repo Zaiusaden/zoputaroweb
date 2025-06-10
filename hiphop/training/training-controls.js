@@ -52,6 +52,33 @@ function updateTrainingButtonStates(training = false, started = false) {
     updatePreviousBeatButtonState();
 }
 
+function disableAllTrainingButtons() {
+    const pauseBtn = document.getElementById('pause-beat-btn');
+    const previousBtn = document.getElementById('previous-beat-btn');
+    const nextBtn = document.getElementById('next-beat-btn');
+    const stopBtn = document.getElementById('stop-battle-btn');
+    const themeBtn = document.getElementById('change-theme-btn');
+    const ruleBtn = document.getElementById('change-rule-btn');
+    const timerModeBtn = document.getElementById('timer-mode-btn');
+    const backBtn = document.querySelector('#training-screen .back-btn');
+    
+    if (pauseBtn) pauseBtn.disabled = true;
+    if (previousBtn) previousBtn.disabled = true;
+    if (nextBtn) nextBtn.disabled = true;
+    if (stopBtn) stopBtn.disabled = true;
+    if (themeBtn) themeBtn.disabled = true;
+    if (ruleBtn) ruleBtn.disabled = true;
+    if (timerModeBtn) timerModeBtn.disabled = true;
+    if (backBtn) backBtn.disabled = true;
+}
+
+function enableTrainingButtonsAfterLoad() {
+    const backBtn = document.querySelector('#training-screen .back-btn');
+    if (backBtn) backBtn.disabled = false;
+    
+    updateTrainingButtonStates(true, true);
+}
+
 function handleTrainingBeatPlayback() {
     if (!audioPlayer || !currentBeatFile) {
         console.warn('Sistema de audio no inicializado');
