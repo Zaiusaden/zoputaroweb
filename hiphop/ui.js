@@ -43,6 +43,16 @@ function showView(viewId) {
     } else {
         console.error(`Vista ${viewId} no encontrada`);
     }
+    
+    const stopBtn = document.getElementById('stop-battle-btn');
+    if (stopBtn) {
+        if (viewId === 'training-screen') {
+            stopBtn.textContent = '⏹️ PARAR ENTRENAMIENTO';
+        } else {
+            stopBtn.textContent = '⏹️ PARAR BATALLA';
+        }
+    }
+    
     window.scrollTo(0, 0);
 }
 
