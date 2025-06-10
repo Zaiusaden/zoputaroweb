@@ -353,10 +353,11 @@ function nextBeat() {
                     if (el) el.textContent = `Reproduciendo: ${newBeat.title}`;
                 });
                 
-                if (isTrainingActive && typeof softReset === 'function') {
-                    softReset();
-                } else if (isBattleActive && typeof battleSoftReset === 'function') {
-                    battleSoftReset();
+                if (isTrainingActive) {
+                    enableTrainingButtonsAfterLoad();
+                    if (typeof softReset === 'function') {
+                        softReset();
+                    }
                 }
             }
         });
@@ -415,10 +416,11 @@ function previousBeat() {
                     if (el) el.textContent = `Reproduciendo: ${previousBeatObj.title}`;
                 });
                 
-                if (isTrainingActive && typeof softReset === 'function') {
-                    softReset();
-                } else if (isBattleActive && typeof battleSoftReset === 'function') {
-                    battleSoftReset();
+                if (isTrainingActive) {
+                    enableTrainingButtonsAfterLoad();
+                    if (typeof softReset === 'function') {
+                        softReset();
+                    }
                 }
             }
         });
