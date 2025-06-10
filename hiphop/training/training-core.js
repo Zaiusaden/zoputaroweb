@@ -40,6 +40,8 @@ function startTraining() {
 
     try {
         showView('training-screen');
+        
+        document.getElementById('stop-battle-btn').textContent = '⏹️ PARAR ENTRENAMIENTO';
 
         updateTrainingInfo();
         setupInitialBeat();
