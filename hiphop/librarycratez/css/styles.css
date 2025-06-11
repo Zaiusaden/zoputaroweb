@@ -664,8 +664,10 @@ body::before {
 .beat-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 16px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .beat-title {
@@ -673,6 +675,7 @@ body::before {
     font-weight: 700;
     color: var(--text-primary);
     text-transform: uppercase;
+    width: 100%;
 }
 
 .beat-status {
@@ -682,6 +685,7 @@ body::before {
     text-transform: uppercase;
     letter-spacing: 1px;
     clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+    align-self: flex-end;
 }
 
 .beat-status.disponible {
@@ -692,6 +696,16 @@ body::before {
 .beat-status.vendido {
     background: var(--danger-color);
     color: white;
+}
+
+.beat-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px var(--primary-color);
+    align-self: flex-end;
 }
 
 .beat-info {
@@ -972,8 +986,10 @@ body::before {
 .producer-beat-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 12px;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .producer-beat-title {
@@ -981,6 +997,7 @@ body::before {
     font-weight: 700;
     color: var(--text-primary);
     text-transform: uppercase;
+    width: 100%;
 }
 
 .producer-beat-details {
