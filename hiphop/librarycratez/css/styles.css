@@ -129,13 +129,15 @@ body::before {
 }
 
 .logo {
-    font-family: 'Bebas Neue', cursive;
+    font-family: 'Bebas Neue', 'Arial Black', sans-serif;
     font-weight: 900;
     font-size: 24px;
     color: var(--primary-color);
     letter-spacing: 2px;
     text-shadow: 0 0 10px var(--primary-color);
     transform: skew(-5deg);
+    display: block;
+    text-align: center;
 }
 
 .header-controls {
