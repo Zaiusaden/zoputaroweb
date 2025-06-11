@@ -176,6 +176,7 @@ class CratezUnderground {
                 <div class="beat-header">
                     <div class="beat-title">${beat.title}</div>
                     <div class="beat-status ${beat.status}">${beat.status === 'disponible' ? availableText : soldText}</div>
+                    <div class="beat-price">${priceText}: ${beat.price}€</div>
                 </div>
                 <div class="beat-info">
                     <div class="beat-producer" data-producer="${beat.beatmaker}">${beat.beatmaker}</div>
@@ -183,7 +184,6 @@ class CratezUnderground {
                         <span class="beat-genre">${beat.genre}</span>
                         <span>${beat.bpm} BPM</span>
                         <span>${beat.duration}</span>
-                        <span class="beat-price">${priceText}: ${beat.price}€</span>
                     </div>
                 </div>
                 <button class="beat-play ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? 'playing' : ''}" data-beat-id="${beat.id}">
@@ -273,12 +273,12 @@ class CratezUnderground {
                             <div class="producer-beat-header">
                                 <div class="producer-beat-title">${beat.title}</div>
                                 <div class="beat-status ${beat.status}">${beat.status === 'disponible' ? availableText : soldText}</div>
+                                <div class="beat-price">${priceText}: ${beat.price}€</div>
                             </div>
                             <div class="producer-beat-details">
                                 <span>${beat.genre}</span>
                                 <span>${beat.bpm} BPM</span>
                                 <span>${beat.duration}</span>
-                                <span class="beat-price">${priceText}: ${beat.price}€</span>
                             </div>
                             <button class="producer-beat-play" data-beat-id="${beat.id}">
                                 ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? '⏸ ' + pauseText : '▶ ' + playText}
