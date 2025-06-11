@@ -20,6 +20,7 @@ const translations = {
         'beat.pause': 'PAUSAR',
         'beat.available': 'disponible',
         'beat.sold': 'vendido',
+        'beat.price': 'PRECIO',
         'producer.enterStudio': 'ENTRAR AL ESTUDIO',
         'producer.beatsBy': 'Beats de',
         'producer.contact': 'Contacto'
@@ -45,6 +46,7 @@ const translations = {
         'beat.pause': 'PAUSE',
         'beat.available': 'available',
         'beat.sold': 'sold',
+        'beat.price': 'PRICE',
         'producer.enterStudio': 'ENTER STUDIO',
         'producer.beatsBy': 'Beats by',
         'producer.contact': 'Contact'
