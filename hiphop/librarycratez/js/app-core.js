@@ -169,6 +169,7 @@ class CratezUnderground {
         const pauseText = translations[this.currentLang]['beat.pause'];
         const availableText = translations[this.currentLang]['beat.available'];
         const soldText = translations[this.currentLang]['beat.sold'];
+        const priceText = translations[this.currentLang]['beat.price'];
         
         container.innerHTML = beats.map(beat => `
             <div class="beat-card" data-beat-id="${beat.id}">
@@ -182,6 +183,7 @@ class CratezUnderground {
                         <span class="beat-genre">${beat.genre}</span>
                         <span>${beat.bpm} BPM</span>
                         <span>${beat.duration}</span>
+                        <span class="beat-price">${priceText}: ${beat.price}€</span>
                     </div>
                 </div>
                 <button class="beat-play ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? 'playing' : ''}" data-beat-id="${beat.id}">
@@ -240,6 +242,7 @@ class CratezUnderground {
         const pauseText = translations[this.currentLang]['beat.pause'];
         const availableText = translations[this.currentLang]['beat.available'];
         const soldText = translations[this.currentLang]['beat.sold'];
+        const priceText = translations[this.currentLang]['beat.price'];
         
         this.producerDetail.innerHTML = `
             <div class="producer-detail-header">
@@ -275,6 +278,7 @@ class CratezUnderground {
                                 <span>${beat.genre}</span>
                                 <span>${beat.bpm} BPM</span>
                                 <span>${beat.duration}</span>
+                                <span class="beat-price">${priceText}: ${beat.price}€</span>
                             </div>
                             <button class="producer-beat-play" data-beat-id="${beat.id}">
                                 ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? '⏸ ' + pauseText : '▶ ' + playText}
