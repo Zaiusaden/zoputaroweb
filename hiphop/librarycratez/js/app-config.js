@@ -1,6 +1,6 @@
 const AppConfig = {
-    palettes: ['midnight', 'sunset', 'forest', 'lavender', 'amber', 'coral', 'teal', 'rose', 'ocean', 'crimson'],
-    defaultPalette: 'midnight',
+    palettes: ['default', 'neon', 'fire', 'ocean', 'earth', 'cyber', 'sunset', 'violet', 'gold', 'plasma'],
+    defaultPalette: 'ocean',
     defaultLanguage: 'es',
     defaultVolume: 70
 };
