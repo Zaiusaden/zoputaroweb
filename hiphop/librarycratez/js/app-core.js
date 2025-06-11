@@ -35,6 +35,16 @@ class CratezUnderground {
         this.producerFilter = document.getElementById('producerFilter');
         this.clearFilters = document.getElementById('clearFilters');
         
+        this.mobileGenreFilter = document.getElementById('mobileGenreFilter');
+        this.mobileBpmMin = document.getElementById('mobileBpmMin');
+        this.mobileBpmMax = document.getElementById('mobileBpmMax');
+        this.mobileProducerFilter = document.getElementById('mobileProducerFilter');
+        this.mobileClearFilters = document.getElementById('mobileClearFilters');
+        this.mobileApplyFilters = document.getElementById('mobileApplyFilters');
+        this.mobileFiltersBtn = document.getElementById('mobileFiltersBtn');
+        this.mobileFiltersModal = document.getElementById('mobileFiltersModal');
+        this.mobileFiltersClose = document.getElementById('mobileFiltersClose');
+        
         this.homeBeatsGrid = document.getElementById('homeBeatsGrid');
         this.producersGrid = document.getElementById('producersGrid');
         this.producerDetail = document.getElementById('producerDetail');
@@ -48,7 +58,9 @@ class CratezUnderground {
         this.navItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 const section = e.currentTarget.dataset.section;
-                this.navigateToView(section);
+                if (section) {
+                    this.navigateToView(section);
+                }
             });
         });
         
@@ -60,8 +72,56 @@ class CratezUnderground {
         this.producerFilter.addEventListener('change', () => this.applyFilters());
         this.clearFilters.addEventListener('click', () => this.clearAllFilters());
         
+        this.mobileFiltersBtn.addEventListener('click', () => this.openMobileFilters());
+        this.mobileFiltersClose.addEventListener('click', () => this.closeMobileFilters());
+        this.mobileFiltersModal.addEventListener('click', (e) => {
+            if (e.target === this.mobileFiltersModal) {
+                this.closeMobileFilters();
+            }
+        });
+        this.mobileApplyFilters.addEventListener('click', () => this.applyMobileFilters());
+        this.mobileClearFilters.addEventListener('click', () => this.clearMobileFilters());
+        
         this.paletteBtn.addEventListener('click', () => this.changePalette());
         this.langBtn.addEventListener('click', () => this.toggleLanguage());
+    }
+
+    openMobileFilters() {
+        this.syncFiltersToMobile();
+        this.mobileFiltersModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeMobileFilters() {
+        this.mobileFiltersModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    syncFiltersToMobile() {
+        this.mobileGenreFilter.value = this.genreFilter.value;
+        this.mobileProducerFilter.value = this.producerFilter.value;
+        this.mobileBpmMin.value = this.bpmMin.value;
+        this.mobileBpmMax.value = this.bpmMax.value;
+    }
+
+    syncFiltersFromMobile() {
+        this.genreFilter.value = this.mobileGenreFilter.value;
+        this.producerFilter.value = this.mobileProducerFilter.value;
+        this.bpmMin.value = this.mobileBpmMin.value;
+        this.bpmMax.value = this.mobileBpmMax.value;
+    }
+
+    applyMobileFilters() {
+        this.syncFiltersFromMobile();
+        this.applyFilters();
+        this.closeMobileFilters();
+    }
+
+    clearMobileFilters() {
+        this.mobileGenreFilter.value = '';
+        this.mobileProducerFilter.value = '';
+        this.mobileBpmMin.value = '';
+        this.mobileBpmMax.value = '';
     }
 
     toggleLanguage() {
@@ -139,6 +199,7 @@ class CratezUnderground {
     populateFilters() {
         const producers = [...new Set(beatsData.map(beat => beat.beatmaker))];
         DOMHelpers.populateFilterOptions(this.producerFilter, producers);
+        DOMHelpers.populateFilterOptions(this.mobileProducerFilter, producers);
     }
 
     renderProducersList() {
