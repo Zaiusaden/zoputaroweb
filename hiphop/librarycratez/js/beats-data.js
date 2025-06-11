@@ -9,7 +9,7 @@ const beatmakersData = {
         instagram: "@zaiusaden",
         spotify: "Zaiusaden",
         totalBeats: 1,
-        avatar: "images/zaiusaden.png",
+        avatar: "images/zaiusaden-avatar.png",
         color: "#8B5CF6",
         watermarkUrl: "audio/zaiusaden-watermark.mp3"
     },
