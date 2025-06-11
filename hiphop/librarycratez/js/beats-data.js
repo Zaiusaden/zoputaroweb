@@ -26,7 +26,8 @@ const beatsData = [
         duration: "2:04",
         status: "disponible",
         audioUrl: "audio/zaiusaden-berrynight.mp3",
-        previewDuration: 25
+        previewDuration: 25,
+        price: 30
     },
     {
         id: 2,
@@ -37,6 +38,7 @@ const beatsData = [
         duration: "2:04",
         status: "disponible",
         audioUrl: "audio/zaiusaden-wearyskin.mp3",
-        previewDuration: 25
+        previewDuration: 25,
+        price: 30
     }
 ];
