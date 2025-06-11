@@ -7,9 +7,9 @@
 }
 
 :root {
-    --primary-color: #2D3748;
-    --primary-dark: #1A202C;
-    --accent-color: #4FD1C7;
+    --primary-color: #0099ff;
+    --primary-dark: #007acc;
+    --accent-color: #00ff99;
     --bg-dark: #0a0a0a;
     --bg-darker: #000000;
     --bg-card: #1a1a1a;
@@ -19,78 +19,78 @@
     --text-muted: #888888;
     --border-color: #333333;
     --danger-color: #ff3333;
-    --warning-color: #718096;
+    --warning-color: #0066ff;
     --sidebar-bg: #0f0f0f;
 }
 
-[data-palette="midnight"] {
-    --primary-color: #4C51BF;
-    --primary-dark: #3C366B;
-    --accent-color: #9F7AEA;
-    --warning-color: #667EEA;
+[data-palette="default"] {
+    --primary-color: #ff6b35;
+    --primary-dark: #e55a2b;
+    --accent-color: #00ff41;
+    --warning-color: #ffaa00;
 }
 
-[data-palette="sunset"] {
-    --primary-color: #ED8936;
-    --primary-dark: #C05621;
-    --accent-color: #F6AD55;
-    --warning-color: #FBD38D;
+[data-palette="neon"] {
+    --primary-color: #ff0080;
+    --primary-dark: #cc0066;
+    --accent-color: #00ffff;
+    --warning-color: #ff00ff;
 }
 
-[data-palette="forest"] {
-    --primary-color: #38A169;
-    --primary-dark: #2F855A;
-    --accent-color: #68D391;
-    --warning-color: #9AE6B4;
-}
-
-[data-palette="lavender"] {
-    --primary-color: #805AD5;
-    --primary-dark: #6B46C1;
-    --accent-color: #B794F6;
-    --warning-color: #D6BCFA;
-}
-
-[data-palette="amber"] {
-    --primary-color: #D69E2E;
-    --primary-dark: #B7791F;
-    --accent-color: #F6E05E;
-    --warning-color: #FAF089;
-}
-
-[data-palette="coral"] {
-    --primary-color: #E53E3E;
-    --primary-dark: #C53030;
-    --accent-color: #FC8181;
-    --warning-color: #FEB2B2;
-}
-
-[data-palette="teal"] {
-    --primary-color: #319795;
-    --primary-dark: #2C7A7B;
-    --accent-color: #4FD1C7;
-    --warning-color: #81E6D9;
-}
-
-[data-palette="rose"] {
-    --primary-color: #D53F8C;
-    --primary-dark: #B83280;
-    --accent-color: #F687B3;
-    --warning-color: #FBB6CE;
+[data-palette="fire"] {
+    --primary-color: #ff4500;
+    --primary-dark: #cc3600;
+    --accent-color: #ffff00;
+    --warning-color: #ff8800;
 }
 
 [data-palette="ocean"] {
-    --primary-color: #3182CE;
-    --primary-dark: #2C5282;
-    --accent-color: #63B3ED;
-    --warning-color: #90CDF4;
+    --primary-color: #0099ff;
+    --primary-dark: #007acc;
+    --accent-color: #00ff99;
+    --warning-color: #0066ff;
 }
 
-[data-palette="crimson"] {
-    --primary-color: #9B2C2C;
-    --primary-dark: #742A2A;
-    --accent-color: #E53E3E;
-    --warning-color: #FC8181;
+[data-palette="earth"] {
+    --primary-color: #33cc33;
+    --primary-dark: #2a9c2a;
+    --accent-color: #ffcc00;
+    --warning-color: #99cc00;
+}
+
+[data-palette="cyber"] {
+    --primary-color: #00ccff;
+    --primary-dark: #0099cc;
+    --accent-color: #ff00cc;
+    --warning-color: #cc00ff;
+}
+
+[data-palette="sunset"] {
+    --primary-color: #ff6600;
+    --primary-dark: #cc5200;
+    --accent-color: #ffcc00;
+    --warning-color: #ff9900;
+}
+
+[data-palette="violet"] {
+    --primary-color: #8b00ff;
+    --primary-dark: #6600cc;
+    --accent-color: #ff44ff;
+    --warning-color: #cc44ff;
+}
+
+[data-palette="gold"] {
+    --primary-color: #ffd700;
+    --primary-dark: #ccaa00;
+    --accent-color: #ffaa00;
+    --warning-color: #ff8800;
+}
+
+[data-palette="plasma"] {
+    --primary-color: #ff3366;
+    --primary-dark: #cc0033;
+    --accent-color: #66ffff;
+    --warning-color: #ff6699;
 }
 
 body {
