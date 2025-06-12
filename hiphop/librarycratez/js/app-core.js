@@ -122,25 +122,27 @@ class CratezUnderground {
             "1. NOMBRE DEL PRODUCTOR",
             "   Ejemplo: 'Zaiusaden'",
             "",
-            "2. DESCRIPCION BIOGRAFICA",
-            "   • Español: Breve descripcion en español (1-2 lineas)",
-            "   • Ingles: Breve descripcion en ingles (1-2 lineas)",
+            "2. DESCRIPCIÓN BIOGRÁFICA",
+            "   • Español: Breve descripción en español (1-2 lineas)",
+            "   • Inglés: Breve descripcion en ingles (1-2 lineas)",
             "",
             "3. CONTACTO",
-            "   • Email: Direccion de contacto profesional",
+            "   • Email: Dirección de contacto profesional",
             "   • Instagram: Usuario completo (ejemplo: @zaiusaden)",
             "   • Spotify: Nombre de artista en Spotify",
             "",
             "4. AVATAR/LOGO",
-            "   • Archivo: Imagen cuadrada, 200x200 - 512x512 px",
+            "   • Archivo: Imágen cuadrada, 200x200 - 512x512 px",
             "   • Ejemplo: zaiusaden-avatar.png",
             "",
             "5. MARCA DE AGUA (WATERMARK)",
             "   • Archivo: Audio en formato MP3",
-            "   • Duracion: 3 a 5 segundos maximo",
+            "   • Duración: 3 a 5 segundos máximo",
             "   • Contenido: Nombre o tag personal del productor",
-            "   • Calidad minima: 128 kbps",
-            "   • Ejemplo: zaiusaden-watermark.mp3"
+            "   • Calidad mínima: 128 kbps",
+            "   • Ejemplo: zaiusaden-watermark.mp3",
+            "   • Si prefieres insertaremos una genérica de la página",
+            "   • Puedes elegir que solo haya preview o full o ambas"
         ];
         
         producerInfo.forEach(line => {
@@ -155,30 +157,30 @@ class CratezUnderground {
         yPos += 10;
         doc.setFontSize(16);
         doc.setFont("helvetica", "bold");
-        doc.text("INFORMACION DE CADA BEAT", 20, yPos);
+        doc.text("INFORMACIÓN DE CADA BEAT", 20, yPos);
         yPos += 15;
         
         doc.setFontSize(12);
         doc.setFont("helvetica", "normal");
         
         const beatInfo = [
-            "1. TITULO DEL BEAT",
+            "1. TÍTULO DEL BEAT",
             "   Ejemplos: 'Cosmic Dreams', 'Starlight Meditation'",
             "",
-            "2. GENERO MUSICAL",
+            "2. GÉNERO MUSICAL",
             "   Ejemplos: trap, boom-bap, drill, lo-fi, rap",
             "",
             "3. BPM (Beats Per Minute)",
             "   Ejemplos: 88, 150, 95",
             "",
-            "4. DURACION TOTAL",
+            "4. DURACIÓN TOTAL",
             "   Formato MM:SS - Ejemplos: '3:24', '4:01', '2:48'",
             "",
             "5. ESTADO DE DISPONIBILIDAD",
             "   • disponible = Beat listo para venta",
             "   • vendido = Beat ya vendido (solo preview)",
             "",
-            "6. PRECIO DEL BEAT",
+            "6. PRECIO DEL BEAT (STANDAR)",
             "   Ejemplo: 30€",
             "",
             "7. ARCHIVO DE AUDIO COMPLETO",
@@ -186,7 +188,7 @@ class CratezUnderground {
             "   • Nombre: [productor]-[titulo].mp3",
             "   • Ejemplo: zaiusaden-cosmicdream.mp3",
             "",
-            "8. DURACION DEL PREVIEW",
+            "8. DURACIÓN DEL PREVIEW",
             "   Ejemplos: 30, 35, 40, 45 segundos"
         ];
         
