@@ -149,22 +149,29 @@ class AudioPlayer {
     }
 
     toggleMode() {
-        if (!this.canToggleMode()) return;
-        
-        this.isPreviewMode = !this.isPreviewMode;
-        this.audio.currentTime = 0;
-        this.updateModeButton();
-        this.updateDuration();
-        this.updateProgressBar();
-        
-        if (this.isPlaying) {
-            this.audio.play().then(() => {
-                this.isPlaying = true;
-                this.updatePlayButtons();
-                this.onUpdate();
-            }).catch(console.error);
-        }
+    if (!this.canToggleMode()) return;
+    
+    this.isPreviewMode = !this.isPreviewMode;
+    this.audio.currentTime = 0;
+    this.updateModeButton();
+    this.updateDuration();
+    this.updateProgressBar();
+    
+    if (this.isPlaying) {
+        this.audio.play().then(() => {
+            this.isPlaying = true;
+            this.updatePlayButtons();
+            this.onUpdate();
+            
+            // ← SOLUCIÓN: Manejar la marca de agua según el modo
+            if (!this.isPreviewMode) {
+                this.startWatermark();
+            } else {
+                this.stopWatermark();
+            }
+        }).catch(console.error);
     }
+}
 
     updateModeButton() {
         if (this.modeBtn) {
