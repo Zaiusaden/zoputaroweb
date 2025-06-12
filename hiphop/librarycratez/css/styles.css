@@ -115,6 +115,32 @@ body {
         z-index: 1;
     }
 
+.mode-notification {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    background: var(--bg-card);
+    border: 2px solid var(--warning-color);
+    color: var(--warning-color);
+    padding: 12px 24px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s ease;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    text-shadow: 0 0 4px var(--warning-color);
+}
+
+.mode-notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 .app-layout {
     display: flex;
     height: 100vh;
@@ -1079,7 +1105,6 @@ body {
         color: var(--bg-dark);
     }
 
-/* INFO PAGE STYLES */
 .info-content {
     max-width: 1000px;
     margin: 0 auto;
@@ -1895,6 +1920,12 @@ body {
 @media (max-width: 768px) and (orientation: portrait) {
     body {
         overflow: auto;
+    }
+
+    .mode-notification {
+        top: 60px;
+        padding: 10px 20px;
+        font-size: 11px;
     }
 
     .app-layout {
