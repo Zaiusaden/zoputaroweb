@@ -29,7 +29,7 @@ class AudioPlayer {
         this.playBtn.addEventListener('click', () => this.togglePlayPause());
         this.prevBtn.addEventListener('click', () => this.previousTrack());
         this.nextBtn.addEventListener('click', () => this.nextTrack());
-        this.modeBtn.addEventListener('click', () => this.toggleMode());
+        this.modeBtn.addEventListener('click', () => this.handleModeClick());
         this.progressSlider.addEventListener('input', () => this.seek());
         this.volumeSlider.addEventListener('input', () => this.setVolume());
 
@@ -109,30 +109,60 @@ class AudioPlayer {
         }
     }
 
+    handleModeClick() {
+        if (!this.canToggleMode()) {
+            this.showModeMessage();
+            return;
+        }
+        this.toggleMode();
+    }
+
+    showModeMessage() {
+        const availableModes = this.getAvailableModes();
+        const currentLang = window.cratezApp?.currentLang || 'es';
+        
+        let message;
+        if (availableModes.includes('preview') && !availableModes.includes('full')) {
+            message = currentLang === 'es' ? 'Solo disponible en preview' : 'Only available in preview';
+        } else if (availableModes.includes('full') && !availableModes.includes('preview')) {
+            message = currentLang === 'es' ? 'Solo disponible versión completa' : 'Only full version available';
+        }
+
+        const notification = document.createElement('div');
+        notification.className = 'mode-notification';
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 2000);
+    }
+
     toggleMode() {
         if (!this.canToggleMode()) return;
         
         this.isPreviewMode = !this.isPreviewMode;
+        this.audio.currentTime = 0;
         this.updateModeButton();
         this.updateDuration();
+        this.updateProgressBar();
         
-        if (this.currentBeat) {
-            const currentTime = this.audio.currentTime;
-            
-            if (this.isPreviewMode && currentTime >= this.currentBeat.previewDuration) {
-                this.audio.currentTime = 0;
-            }
-            
-            this.updateProgressBar();
-            
-            if (this.isPlaying) {
-                this.audio.pause();
-                this.audio.play().then(() => {
-                    this.isPlaying = true;
-                    this.updatePlayButtons();
-                    this.onUpdate();
-                }).catch(console.error);
-            }
+        if (this.isPlaying) {
+            this.audio.play().then(() => {
+                this.isPlaying = true;
+                this.updatePlayButtons();
+                this.onUpdate();
+            }).catch(console.error);
         }
     }
 
