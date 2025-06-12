@@ -55,5 +55,18 @@ const beatsData = [
         previewDuration: 25,
         price: 35,
         availableModes: ['preview', 'full']
+    },
+    {
+        id: 4,
+        title: "Western Dust",
+        beatmaker: "Zaiusaden",
+        genres: ["rap", "boom bap"],
+        bpm: 85,
+        duration: "2:56",
+        status: "disponible",
+        audioUrl: "audio/zaiusaden-westerndust.mp3",
+        previewDuration: 25,
+        price: 30,
+        availableModes: ['preview', 'full']
     }
 ];
