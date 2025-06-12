@@ -41,6 +41,19 @@ const beatsData = [
         audioUrl: "audio/zaiusaden-wearyskin.mp3",
         previewDuration: 25,
         price: 30,
-        availableModes: ['preview']
+        availableModes: ['preview', 'full']
+    },
+    {
+        id: 3,
+        title: "Angel Or Demon",
+        beatmaker: "Zaiusaden",
+        genre: "rap/boombap",
+        bpm: 100,
+        duration: "2:44",
+        status: "disponible",
+        audioUrl: "audio/zaiusaden-angelordemon.mp3",
+        previewDuration: 25,
+        price: 35,
+        availableModes: ['preview', 'full']
     }
 ];
