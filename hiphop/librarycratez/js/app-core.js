@@ -140,7 +140,8 @@ class CratezUnderground {
             "   • Duracion: 3 a 5 segundos maximo",
             "   • Contenido: Nombre o tag personal del productor",
             "   • Calidad minima: 128 kbps",
-            "   • Ejemplo: zaiusaden-watermark.mp3"
+            "   • Ejemplo: zaiusaden-watermark.mp3",
+            "   • Si no tienes marca de agua se pondrá un genérica de la página."
         ];
         
         producerInfo.forEach(line => {
@@ -178,7 +179,7 @@ class CratezUnderground {
             "   • disponible = Beat listo para venta",
             "   • vendido = Beat ya vendido (solo preview)",
             "",
-            "6. PRECIO DEL BEAT",
+            "6. PRECIO DEL BEAT (STANDAR)",
             "   Ejemplo: 30€",
             "",
             "7. ARCHIVO DE AUDIO COMPLETO",
@@ -186,7 +187,10 @@ class CratezUnderground {
             "   • Nombre: [productor]-[titulo].mp3",
             "   • Ejemplo: zaiusaden-cosmicdream.mp3",
             "",
-            "8. DURACION DEL PREVIEW",
+            "8. DURACION DEL BEAT",
+            "   • Máximo 45 segundos",
+            "",
+            "9. DURACION QUE QUIERS QUE SALGA EN EL PREVIEW",
             "   Ejemplos: 30, 35, 40, 45 segundos"
         ];
         
