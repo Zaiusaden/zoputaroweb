@@ -122,12 +122,12 @@ class CratezUnderground {
             "1. NOMBRE DEL PRODUCTOR",
             "   Ejemplo: 'Zaiusaden'",
             "",
-            "2. DESCRIPCION BIOGRAFICA",
-            "   • Español: Breve descripcion en español (1-2 lineas)",
-            "   • Ingles: Breve descripcion en ingles (1-2 lineas)",
+            "2. DESCRIPCIÓN BIOGRÁFICA",
+            "   • Español: Breve descripción en español (1-2 lineas)",
+            "   • Ingles: Breve descripción en inglés (1-2 lineas)",
             "",
             "3. CONTACTO",
-            "   • Email: Direccion de contacto profesional",
+            "   • Email: Dirección de contacto profesional",
             "   • Instagram: Usuario completo (ejemplo: @zaiusaden)",
             "   • Spotify: Nombre de artista en Spotify",
             "",
@@ -137,11 +137,11 @@ class CratezUnderground {
             "",
             "5. MARCA DE AGUA (WATERMARK)",
             "   • Archivo: Audio en formato MP3",
-            "   • Duracion: 3 a 5 segundos maximo",
+            "   • Duración: 3 a 5 segundos máximo",
             "   • Contenido: Nombre o tag personal del productor",
             "   • Calidad minima: 128 kbps",
             "   • Ejemplo: zaiusaden-watermark.mp3",
-            "   • Si no tienes marca de agua se pondrá un genérica de la página."
+            "   • Si no tienes marca de agua se pondrá una genérica de la página."
         ];
         
         producerInfo.forEach(line => {
@@ -163,16 +163,16 @@ class CratezUnderground {
         doc.setFont("helvetica", "normal");
         
         const beatInfo = [
-            "1. TITULO DEL BEAT",
+            "1. TÍTULO DEL BEAT",
             "   Ejemplos: 'Cosmic Dreams', 'Starlight Meditation'",
             "",
-            "2. GENERO MUSICAL",
+            "2. GÉNERO MUSICAL",
             "   Ejemplos: trap, boom-bap, drill, lo-fi, rap",
             "",
             "3. BPM (Beats Per Minute)",
-            "   Ejemplos: 88, 150, 95",
+            "   Ejemplos: 88, 79, 95",
             "",
-            "4. DURACION TOTAL",
+            "4. DURACIÓN TOTAL",
             "   Formato MM:SS - Ejemplos: '3:24', '4:01', '2:48'",
             "",
             "5. ESTADO DE DISPONIBILIDAD",
@@ -187,10 +187,10 @@ class CratezUnderground {
             "   • Nombre: [productor]-[titulo].mp3",
             "   • Ejemplo: zaiusaden-cosmicdream.mp3",
             "",
-            "8. DURACION DEL BEAT",
+            "8. DURACIÓN DEL BEAT",
             "   • Máximo 45 segundos",
             "",
-            "9. DURACION QUE QUIERS QUE SALGA EN EL PREVIEW",
+            "9. DURACIOÓN QUE QUIERES QUE SALGA EN EL PREVIEW",
             "   Ejemplos: 30, 35, 40, 45 segundos"
         ];
         
