@@ -12,6 +12,7 @@ class AudioPlayer {
         this.pausedTime = null;
         this.watermarkPausedTime = null;
         this.fadeOutStarted = false;
+        this.shouldFadeIn = false;
         
         this.playBtn = document.getElementById('playBtn');
         this.prevBtn = document.getElementById('prevBtn');
@@ -72,10 +73,11 @@ class AudioPlayer {
         this.audio.addEventListener('play', () => {
             this.isPlaying = true;
             this.updatePlayButtons();
-            if (this.audio.currentTime === 0) {
+            if (this.shouldFadeIn) {
                 this.audio.volume = 0;
                 this.fadeIn();
                 this.startWatermark();
+                this.shouldFadeIn = false;
             }
         });
 
@@ -282,6 +284,7 @@ class AudioPlayer {
         this.loadWatermark();
         this.updatePlayerInfo();
         this.updateModeButton();
+        this.shouldFadeIn = true;
         
         this.audio.play().then(() => {
             this.isPlaying = true;
@@ -299,6 +302,7 @@ class AudioPlayer {
             this.updatePlayButtons();
             this.onUpdate();
         } else {
+            this.shouldFadeIn = true;
             this.audio.play().then(() => {
                 this.isPlaying = true;
                 this.updatePlayButtons();
