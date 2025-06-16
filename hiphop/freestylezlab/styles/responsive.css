@@ -1,14 +1,6 @@
-/* ==========================================================================
-   RESPONSIVE - Media queries para diferentes tamaños de pantalla
-   ========================================================================== */
-
-/* MOBILE SMALL (320px - 480px) */
 @media (max-width: 480px) {
-    /* Header */
     .title {
-        font-size: 2rem !important;
-        letter-spacing: 1px !important;
-        line-height: 1.1;
+        max-width: 220px !important;
     }
     
     .subtitle {
@@ -16,7 +8,6 @@
         letter-spacing: 1px !important;
     }
     
-    /* Main Menu */
     .main-menu {
         grid-template-columns: 1fr !important;
         gap: 20px !important;
@@ -40,7 +31,6 @@
         font-size: 0.9rem !important;
     }
     
-    /* Config Areas */
     .config-area {
         padding: 20px 15px !important;
         margin-top: 15px !important;
@@ -59,7 +49,6 @@
         padding: 20px 15px !important;
     }
     
-    /* Buttons */
     .start-training-btn {
         width: 100% !important;
         font-size: 1.2rem !important;
@@ -72,7 +61,6 @@
         font-size: 0.8rem !important;
     }
     
-    /* Beat Grid */
     .beat-grid {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
@@ -83,7 +71,6 @@
         text-align: center;
     }
     
-    /* Category Chips */
     .category-filter {
         flex-direction: column !important;
         gap: 8px !important;
@@ -95,13 +82,11 @@
         font-size: 0.8rem !important;
     }
     
-    /* Forms */
     select, input {
         padding: 14px 12px !important;
         font-size: 1rem !important;
     }
     
-    /* Control Buttons */
     .control-btn {
         min-width: 100px !important;
         padding: 14px 16px !important;
@@ -120,10 +105,9 @@
     }
 }
 
-/* MOBILE LARGE (481px - 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
     .title {
-        font-size: 2.5rem !important;
+        max-width: 250px !important;
     }
     
     .main-menu {
@@ -150,7 +134,6 @@
     }
 }
 
-/* TRAINING SCREEN MOBILE */
 @media (max-width: 768px) {
     .training-screen {
         padding: 15px 10px !important;
@@ -219,7 +202,6 @@
     }
 }
 
-/* BATTLE SCREEN MOBILE */
 @media (max-width: 768px) {
     .battle-screen {
         padding: 15px 10px !important;
@@ -249,10 +231,9 @@
         text-align: center !important;
     }
     
-    /* Reorder: MC1, MC2, Timer */
-    .battle-top-row > *:nth-child(1) { grid-row: 1; } /* MC1 */
-    .battle-top-row > *:nth-child(2) { grid-row: 3; } /* Timer */
-    .battle-top-row > *:nth-child(3) { grid-row: 2; } /* MC2 */
+    .battle-top-row > *:nth-child(1) { grid-row: 1; }
+    .battle-top-row > *:nth-child(2) { grid-row: 3; }
+    .battle-top-row > *:nth-child(3) { grid-row: 2; }
     
     .battle-mc-container {
         flex-direction: row !important;
@@ -286,7 +267,6 @@
     }
 }
 
-/* VOTING SCREEN MOBILE */
 @media (max-width: 768px) {
     .voting-screen {
         padding: 20px 15px !important;
@@ -338,7 +318,6 @@
     }
 }
 
-/* RESULTS SCREEN MOBILE */
 @media (max-width: 768px) {
     .results-screen {
         padding: 20px 15px !important;
@@ -407,7 +386,6 @@
     }
 }
 
-/* TOURNAMENT MOBILE */
 @media (max-width: 768px) {
     .tournament-participants-list {
         grid-template-columns: 1fr !important;
@@ -477,10 +455,9 @@
     }
 }
 
-/* LANDSCAPE MOBILE SPECIFIC */
 @media (max-width: 768px) and (orientation: landscape) {
     .title {
-        font-size: 2rem !important;
+        max-width: 180px !important;
         margin-bottom: 5px !important;
     }
     
@@ -519,15 +496,13 @@
     }
 }
 
-/* TABLET (769px - 1023px) */
 @media (min-width: 769px) and (max-width: 1023px) {
     .container {
         padding: 20px;
-        /* No scale on tablet */
     }
     
     .title {
-        font-size: 3rem;
+        max-width: 320px;
     }
     
     .main-menu {
@@ -564,21 +539,17 @@
     }
 }
 
-/* UTILITIES FOR ALL MOBILE */
 @media (max-width: 768px) {
-    /* Ensure no horizontal scroll */
     * {
         max-width: 100%;
     }
     
-    /* Better touch targets */
     .beat-blacklist-toggle {
         width: 30px !important;
         height: 30px !important;
         font-size: 1rem !important;
     }
     
-    /* Better spacing */
     .beat-mass-controls {
         flex-direction: column !important;
         gap: 8px !important;
@@ -599,13 +570,11 @@
         width: 100% !important;
     }
     
-    /* Round selectors */
     .round-selectors {
         grid-template-columns: 1fr !important;
         gap: 8px !important;
     }
     
-    /* Timer mode toggle */
     .timer-mode-toggle {
         flex-direction: column !important;
         align-items: center !important;
