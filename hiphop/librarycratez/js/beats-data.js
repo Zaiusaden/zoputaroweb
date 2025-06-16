@@ -26,7 +26,7 @@ const beatsData = [
         duration: "0:45",
         status: "disponible",
         audioUrl: "audio/zaiusaden-berrynight.mp3",
-        previewDuration: 30,
+        previewDuration: 45,
         price: 30
     },
     {
@@ -38,7 +38,7 @@ const beatsData = [
         duration: "0:45",
         status: "disponible",
         audioUrl: "audio/zaiusaden-wearyskin.mp3",
-        previewDuration: 25,
+        previewDuration: 45,
         price: 30
     },
     {
@@ -50,7 +50,7 @@ const beatsData = [
         duration: "0:45",
         status: "disponible",
         audioUrl: "audio/zaiusaden-angelordemon.mp3",
-        previewDuration: 30,
+        previewDuration: 45,
         price: 35
     },
     {
@@ -62,7 +62,7 @@ const beatsData = [
         duration: "0:45",
         status: "disponible",
         audioUrl: "audio/zaiusaden-westerndust.mp3",
-        previewDuration: 30,
+        previewDuration: 45,
         price: 30
     }
 ];
