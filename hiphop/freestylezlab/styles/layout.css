@@ -1,8 +1,3 @@
-/* ==========================================================================
-   LAYOUT - Header, Menús, Config Areas y Estructuras Principales
-   ========================================================================== */
-
-/* Header */
 .header {
     text-align: center;
     margin-bottom: 25px;
@@ -10,18 +5,17 @@
 }
 
 .title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3.5rem;
-    background: linear-gradient(45deg, #ffd700, #ff6b35, #ffd700, #ff6b35);
-    background-size: 400% 400%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-    letter-spacing: 3px;
-    margin-bottom: 8px;
-    animation: gradientShift 3s ease-in-out infinite;
-    text-transform: uppercase;
+    max-width: 400px;
+    height: auto;
+    margin: 0 auto 8px auto;
+    display: block;
+    filter: drop-shadow(2px 2px 8px rgba(0,0,0,0.8));
+    transition: all 0.3s ease;
+}
+
+.title:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(4px 4px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 20px rgba(255,215,0,0.3));
 }
 
 .subtitle {
@@ -33,7 +27,6 @@
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
 }
 
-/* Main Menu */
 .main-menu {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -94,7 +87,6 @@
     line-height: 1.5;
 }
 
-/* Config Areas */
 .config-area {
     background: rgba(0, 0, 0, 0.8);
     border-radius: 20px;
@@ -120,7 +112,6 @@
     word-break: break-word;
 }
 
-/* Controls Section */
 .controls-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -163,7 +154,6 @@
     word-break: break-word;
 }
 
-/* Round Configuration */
 .round-config-selector {
     margin-bottom: 15px;
 }
@@ -220,13 +210,12 @@
     display: block;
 }
 
-/* Info Items */
 .info-item {
     background: rgba(255, 255, 255, 0.1);
     padding: 10px 20px;
     border-radius: 8px;
     border: 1px solid #444;
-    min-width: 0; /* Prevent overflow */
+    min-width: 0;
 }
 
 .info-label {
@@ -244,7 +233,6 @@
     word-break: break-word;
 }
 
-/* Beat Controls */
 .beat-controls {
     text-align: center;
     margin: 20px 0;
@@ -281,7 +269,6 @@
     line-height: 1.4;
 }
 
-/* Mobile specific adjustments */
 @media (max-width: 768px) {
     .main-menu {
         grid-template-columns: 1fr;
@@ -333,9 +320,12 @@
         align-items: center;
         gap: 10px;
     }
+    
+    .title {
+        max-width: 280px;
+    }
 }
 
-/* Very small screens */
 @media (max-width: 480px) {
     .config-area {
         padding: 15px 10px;
@@ -353,9 +343,12 @@
     .beat-controls {
         padding: 10px;
     }
+    
+    .title {
+        max-width: 240px;
+    }
 }
 
-/* Landscape mobile adjustments */
 @media (max-width: 768px) and (orientation: landscape) {
     .header {
         margin-bottom: 15px;
@@ -372,5 +365,15 @@
     
     .control-group {
         padding: 15px;
+    }
+    
+    .title {
+        max-width: 200px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .title {
+        max-width: 350px;
     }
 }
