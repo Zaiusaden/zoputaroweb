@@ -53,7 +53,6 @@ class AudioPlayer {
                         this.audio.currentTime = 0;
                         this.isPlaying = false;
                         this.fadeOutStarted = false;
-                        this.updatePlayButtons();
                         this.onUpdate();
                     });
                     return;
@@ -72,7 +71,7 @@ class AudioPlayer {
 
         this.audio.addEventListener('play', () => {
             this.isPlaying = true;
-            this.updatePlayButtons();
+            this.onUpdate();
             if (this.shouldFadeIn) {
                 this.audio.volume = 0;
                 this.fadeIn();
@@ -83,7 +82,7 @@ class AudioPlayer {
 
         this.audio.addEventListener('pause', () => {
             this.isPlaying = false;
-            this.updatePlayButtons();
+            this.onUpdate();
             this.pauseWatermark();
             this.stopFade();
         });
@@ -288,7 +287,6 @@ class AudioPlayer {
         
         this.audio.play().then(() => {
             this.isPlaying = true;
-            this.updatePlayButtons();
             this.onUpdate();
         }).catch(console.error);
     }
@@ -299,13 +297,11 @@ class AudioPlayer {
         if (this.isPlaying) {
             this.audio.pause();
             this.isPlaying = false;
-            this.updatePlayButtons();
             this.onUpdate();
         } else {
             this.shouldFadeIn = true;
             this.audio.play().then(() => {
                 this.isPlaying = true;
-                this.updatePlayButtons();
                 this.resumeWatermark();
                 this.onUpdate();
             }).catch(console.error);
@@ -339,13 +335,15 @@ class AudioPlayer {
     }
 
     updatePlayerInfo() {
-        if (!this.currentBeat) return;
+        if (!this.currentBeat) {
+            const selectText = translations[window.cratezApp?.currentLang || 'es']['player.selectTrack'];
+            this.trackTitle.textContent = selectText;
+            this.trackArtist.textContent = '-';
+            this.updateDuration();
+            return;
+        }
         this.trackTitle.textContent = this.currentBeat.title;
         this.trackArtist.textContent = this.currentBeat.beatmaker;
         this.updateDuration();
-    }
-
-    updatePlayButtons() {
-        this.playBtn.textContent = this.isPlaying ? '⏸' : '▶';
     }
 }
