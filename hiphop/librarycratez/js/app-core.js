@@ -335,6 +335,9 @@ class CratezUnderground {
             this.breadcrumb.style.display = 'none';
             this.breadcrumbContent.dataset.producer = '';
         }
+
+        this.audioPlayer.updatePlayerInfo();
+        this.updatePlayButtons();
     }
 
     goBack() {
@@ -389,6 +392,20 @@ class CratezUnderground {
         this.renderProducersGrid();
     }
 
+    updatePlayButtons() {
+        const playText = translations[this.currentLang]['beat.play'];
+        const pauseText = translations[this.currentLang]['beat.pause'];
+        
+        document.querySelectorAll('.beat-play, .producer-beat-play').forEach(btn => {
+            const beatId = parseInt(btn.dataset.beatId);
+            const isCurrentBeat = this.audioPlayer.currentBeat?.id === beatId;
+            const isPlaying = isCurrentBeat && this.audioPlayer.isPlaying;
+            
+            btn.textContent = isPlaying ? '⏸ ' + pauseText : '▶ ' + playText;
+            btn.classList.toggle('playing', isPlaying);
+        });
+    }
+
     renderBeatsGrid(container, beats) {
         const playText = translations[this.currentLang]['beat.play'];
         const pauseText = translations[this.currentLang]['beat.pause'];
@@ -396,35 +413,40 @@ class CratezUnderground {
         const soldText = translations[this.currentLang]['beat.sold'];
         const priceText = translations[this.currentLang]['beat.price'];
         
-        container.innerHTML = beats.map(beat => `
-            <div class="beat-card" data-beat-id="${beat.id}">
-                <div class="beat-header">
-                    <div class="beat-title">${beat.title}</div>
-                    <div class="beat-status ${beat.status}">${beat.status === 'disponible' ? availableText : soldText}</div>
-                    <div class="beat-price">${priceText}: ${beat.price}€</div>
-                </div>
-                <div class="beat-info">
-                    <div class="beat-producer" data-producer="${beat.beatmaker}">${beat.beatmaker}</div>
-                    <div class="beat-details">
-                        <div class="beat-genres">${beat.genres.map(genre => `<span class="beat-genre">${genre}</span>`).join('')}</div>
-                        <div class="beat-meta">
-                            <span class="beat-bpm">${beat.bpm} BPM</span>
-                            <span class="beat-duration">${beat.duration}</span>
+        container.innerHTML = beats.map(beat => {
+            const isCurrentBeat = this.audioPlayer.currentBeat?.id === beat.id;
+            const isPlaying = isCurrentBeat && this.audioPlayer.isPlaying;
+            
+            return `
+                <div class="beat-card" data-beat-id="${beat.id}">
+                    <div class="beat-header">
+                        <div class="beat-title">${beat.title}</div>
+                        <div class="beat-status ${beat.status}">${beat.status === 'disponible' ? availableText : soldText}</div>
+                        <div class="beat-price">${priceText}: ${beat.price}€</div>
+                    </div>
+                    <div class="beat-info">
+                        <div class="beat-producer" data-producer="${beat.beatmaker}">${beat.beatmaker}</div>
+                        <div class="beat-details">
+                            <div class="beat-genres">${beat.genres.map(genre => `<span class="beat-genre">${genre}</span>`).join('')}</div>
+                            <div class="beat-meta">
+                                <span class="beat-bpm">${beat.bpm} BPM</span>
+                                <span class="beat-duration">${beat.duration}</span>
+                            </div>
                         </div>
                     </div>
+                    <button class="beat-play ${isPlaying ? 'playing' : ''}" data-beat-id="${beat.id}">
+                        ${isPlaying ? '⏸ ' + pauseText : '▶ ' + playText}
+                    </button>
                 </div>
-                <button class="beat-play ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? 'playing' : ''}" data-beat-id="${beat.id}">
-                    ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? '⏸ ' + pauseText : '▶ ' + playText}
-                </button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
         
         container.querySelectorAll('.beat-play').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const beatId = parseInt(e.target.dataset.beatId);
                 const beat = beats.find(b => b.id === beatId);
                 const index = beats.indexOf(beat);
-                this.audioPlayer.playBeat(beat, index, beats, () => this.renderAllViews());
+                this.audioPlayer.playBeat(beat, index, beats, () => this.updatePlayButtons());
             });
         });
         
@@ -495,25 +517,30 @@ class CratezUnderground {
             <div class="producer-beats-section">
                 <h3><span data-lang="producer.beatsBy">${beatsBy}</span> ${producer.name}</h3>
                 <div class="producer-beats-grid">
-                    ${producerBeats.map(beat => `
-                        <div class="producer-beat-card">
-                            <div class="producer-beat-header">
-                                <div class="producer-beat-title">${beat.title}</div>
-                                <div class="beat-status ${beat.status}">${beat.status === 'disponible' ? availableText : soldText}</div>
-                                <div class="beat-price">${priceText}: ${beat.price}€</div>
-                            </div>
-                            <div class="producer-beat-details">
-                                <div class="beat-genres">${beat.genres.map(genre => `<span class="beat-genre">${genre}</span>`).join('')}</div>
-                                <div class="beat-meta">
-                                    <span class="beat-bpm">${beat.bpm} BPM</span>
-                                    <span class="beat-duration">${beat.duration}</span>
+                    ${producerBeats.map(beat => {
+                        const isCurrentBeat = this.audioPlayer.currentBeat?.id === beat.id;
+                        const isPlaying = isCurrentBeat && this.audioPlayer.isPlaying;
+                        
+                        return `
+                            <div class="producer-beat-card">
+                                <div class="producer-beat-header">
+                                    <div class="producer-beat-title">${beat.title}</div>
+                                    <div class="beat-status ${beat.status}">${beat.status === 'disponible' ? availableText : soldText}</div>
+                                    <div class="beat-price">${priceText}: ${beat.price}€</div>
                                 </div>
+                                <div class="producer-beat-details">
+                                    <div class="beat-genres">${beat.genres.map(genre => `<span class="beat-genre">${genre}</span>`).join('')}</div>
+                                    <div class="beat-meta">
+                                        <span class="beat-bpm">${beat.bpm} BPM</span>
+                                        <span class="beat-duration">${beat.duration}</span>
+                                    </div>
+                                </div>
+                                <button class="producer-beat-play ${isPlaying ? 'playing' : ''}" data-beat-id="${beat.id}">
+                                    ${isPlaying ? '⏸ ' + pauseText : '▶ ' + playText}
+                                </button>
                             </div>
-                            <button class="producer-beat-play" data-beat-id="${beat.id}">
-                                ${this.audioPlayer.currentBeat?.id === beat.id && this.audioPlayer.isPlaying ? '⏸ ' + pauseText : '▶ ' + playText}
-                            </button>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             </div>
         `;
@@ -521,8 +548,9 @@ class CratezUnderground {
         this.producerDetail.querySelectorAll('.producer-beat-play').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const beatId = parseInt(e.target.dataset.beatId);
-                const beat = beatsData.find(b => b.id === beatId);
-                this.audioPlayer.playBeat(beat, beatsData.indexOf(beat), beatsData, () => this.renderAllViews());
+                const beat = producerBeats.find(b => b.id === beatId);
+                const index = producerBeats.indexOf(beat);
+                this.audioPlayer.playBeat(beat, index, producerBeats, () => this.updatePlayButtons());
             });
         });
         
