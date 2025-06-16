@@ -340,5 +340,95 @@ const beats = [
         fileOgg: 'beats/Beat38.ogg',
         bpm: 88,
         category: 'boom-bap'
+    },
+    {
+        id: 'beat39',
+        title: 'Beat39',
+        type: 'Boom Bap',
+        file: 'beats/Beat39.mp3',
+        fileOgg: 'beats/Beat39.ogg',
+        bpm: 91,
+        category: 'boom-bap'
+    },
+    {
+        id: 'beat40',
+        title: 'Beat40',
+        type: 'Boom Bap',
+        file: 'beats/Beat40.mp3',
+        fileOgg: 'beats/Beat40.ogg',
+        bpm: 88,
+        category: 'boom-bap'
+    },
+    {
+        id: 'beat41',
+        title: 'Beat41',
+        type: 'Boom Bap',
+        file: 'beats/Beat41.mp3',
+        fileOgg: 'beats/Beat41.ogg',
+        bpm: 93,
+        category: 'boom-bap'
+    },
+    {
+        id: 'beat42',
+        title: 'Beat42',
+        type: 'Boom Bap',
+        file: 'beats/Beat42.mp3',
+        fileOgg: 'beats/Beat42.ogg',
+        bpm: 90,
+        category: 'boom-bap'
+    },
+    {
+        id: 'beat43',
+        title: 'Beat43',
+        type: 'Boom Bap',
+        file: 'beats/Beat43.mp3',
+        fileOgg: 'beats/Beat43.ogg',
+        bpm: 88,
+        category: 'boom-bap'
+    },
+    {
+        id: 'beat44',
+        title: 'Beat44',
+        type: 'Trap/Drill',
+        file: 'beats/Beat44.mp3',
+        fileOgg: 'beats/Beat44.ogg',
+        bpm: 73,
+        category: 'trap-drill'
+    },
+    {
+        id: 'beat45',
+        title: 'Beat45',
+        type: 'Trap/Drill',
+        file: 'beats/Beat45.mp3',
+        fileOgg: 'beats/Beat45.ogg',
+        bpm: 76,
+        category: 'trap-drill'
+    },
+    {
+        id: 'beat46',
+        title: 'Beat46',
+        type: 'Trap/Drill',
+        file: 'beats/Beat46.mp3',
+        fileOgg: 'beats/Beat46.ogg',
+        bpm: 75,
+        category: 'trap-drill'
+    },
+    {
+        id: 'beat47',
+        title: 'Beat47',
+        type: 'Trap/Drill',
+        file: 'beats/Beat47.mp3',
+        fileOgg: 'beats/Beat47.ogg',
+        bpm: 77,
+        category: 'trap-drill'
+    },
+    {
+        id: 'beat48',
+        title: 'Beat48',
+        type: 'Trap/Drill',
+        file: 'beats/Beat48.mp3',
+        fileOgg: 'beats/Beat48.ogg',
+        bpm: 75,
+        category: 'trap-drill'
     }
 ];
