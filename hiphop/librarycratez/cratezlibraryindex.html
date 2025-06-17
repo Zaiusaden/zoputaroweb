@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRATEZ LIBRARY</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">CRATEZ LIBRARY</h1>
+                <div class="header-controls">
+                    <button id="langBtn" class="lang-btn">ES</button>
+                    <button id="paletteBtn" class="palette-btn">🎨</button>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="home">
+                    <span data-lang="nav.home">INICIO</span>
+                </button>
+                <button class="nav-item" data-section="producers">
+                    <span data-lang="nav.producers">PRODUCTORES</span>
+                </button>
+                <button class="nav-item" data-section="info">
+                    <span data-lang="nav.info">INFO</span>
+                </button>
+                <button class="nav-item mobile-filters-btn" id="mobileFiltersBtn">
+                    <span data-lang="filters.title">FILTROS</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-section">
+                <h3 data-lang="filters.title">FILTROS RÁPIDOS</h3>
+                <select id="genreFilter" class="sidebar-filter">
+                    <option value="" data-lang="filters.allGenres">Todos los Géneros</option>
+                    <option value="rap">Rap</option>
+                    <option value="trap">Trap</option>
+                    <option value="boom bap">Boom Bap</option>
+                    <option value="drill">Drill</option>
+                    <option value="lo-fi">Lo-Fi</option>
+                </select>
+                
+                <select id="producerFilter" class="sidebar-filter">
+                    <option value="" data-lang="filters.allProducers">Todos los Productores</option>
+                </select>
+                
+                <div class="bpm-range-filter">
+                    <label data-lang="filters.bpmRange">Rango BPM</label>
+                    <div class="bpm-inputs">
+                        <input type="number" id="bpmMin" placeholder="Min" min="60" max="200" class="bpm-input">
+                        <span>-</span>
+                        <input type="number" id="bpmMax" placeholder="Max" min="60" max="200" class="bpm-input">
+                    </div>
+                </div>
+                
+                <button id="clearFilters" class="sidebar-filter" data-lang="filters.clear">LIMPIAR</button>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3 data-lang="sidebar.producers">PRODUCTORES</h3>
+                <div class="producers-list" id="producersList"></div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="breadcrumb" id="breadcrumb" style="display: none;">
+                    <button class="back-btn" id="backBtn">
+                        <span>←</span>
+                        <span data-lang="nav.back">VOLVER</span>
+                    </button>
+                    <div id="breadcrumbContent"></div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <section id="homeView" class="view active">
+                    <div class="welcome-section">
+                        <img src="images/Logo.svg" alt="Cratez Library" class="welcome-logo" data-lang="home.welcome">
+                        <p data-lang="home.subtitle">Tu biblioteca definitiva de instrumentales premium</p>
+                    </div>
+                    
+                    <div class="recent-section">
+                        <h3 data-lang="home.allBeats">TODOS LOS BEATS</h3>
+                        <div class="beats-grid" id="homeBeatsGrid"></div>
+                    </div>
+                </section>
+
+                <section id="producersView" class="view">
+                    <div class="view-header">
+                        <h2 data-lang="producers.title">PRODUCTORES</h2>
+                    </div>
+                    <div class="producers-grid" id="producersGrid"></div>
+                </section>
+
+                <section id="infoView" class="view">
+                    <div class="view-header">
+                        <h2 data-lang="info.title">INFORMACIÓN</h2>
+                        <button id="downloadDocBtn" class="download-doc-btn" data-lang="info.download">DESCARGAR DOCUMENTO</button>
+                    </div>
+                    <div class="info-content">
+                        <div class="info-section">
+                            <h3 data-lang="info.requirements">REQUISITOS PARA PRODUCTORES</h3>
+                            <div class="requirements-content">
+                                <div class="req-section">
+                                    <h4 data-lang="info.producer.title">INFORMACIÓN DEL PRODUCTOR</h4>
+                                    <div class="req-list">
+                                        <div class="req-item">
+                                            <strong data-lang="info.producer.name">1. Nombre del Productor</strong>
+                                            <span data-lang="info.producer.nameDesc">Tu nombre artístico profesional</span>
+                                            <div class="req-example" data-lang="info.producer.nameExample">Ejemplo: "Zaiusaden"</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.producer.bio">2. Descripción Biográfica</strong>
+                                            <span data-lang="info.producer.bioDesc">Breve descripción en español e inglés (1-2 líneas)</span>
+                                            <div class="req-example">
+                                                <div data-lang="info.producer.bioExampleEs">Ejemplo ES: "Paisajes sonoros futuristas que fusionan con un trap contundente. Beats que transportan a dimensiones desconocidas."</div>
+                                                <div data-lang="info.producer.bioExampleEn">Ejemplo EN: "Futuristic soundscapes combined with hard-hitting trap. Beats that transport listeners to unknown dimensions."</div>
+                                            </div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.producer.contact">3. Contacto</strong>
+                                            <span data-lang="info.producer.contactDesc">Información de contacto profesional</span>
+                                            <div class="req-sublist">
+                                                <div data-lang="info.producer.email">• Email: Dirección de contacto profesional</div>
+                                                <div data-lang="info.producer.instagram">• Instagram: Usuario completo (ejemplo: @zaiusaden)</div>
+                                                <div data-lang="info.producer.spotify">• Spotify: Nombre de artista en Spotify</div>
+                                            </div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.producer.avatar">4. Avatar/Logo</strong>
+                                            <span data-lang="info.producer.avatarDesc">Imagen cuadrada, entre 200x200 px y 512x512 px</span>
+                                            <div class="req-example" data-lang="info.producer.avatarExample">Ejemplo de nombre: zaiusaden-avatar.png</div>
+                                            <div class="req-note" data-lang="info.producer.avatarNote">Si no mandas imagen, saldrán las iniciales del productor</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.producer.watermark">5. Marca de Agua (Watermark)</strong>
+                                            <div class="req-sublist">
+                                                <div data-lang="info.producer.watermarkFile">• Archivo: Audio en formato MP3</div>
+                                                <div data-lang="info.producer.watermarkDuration">• Duración: 3 a 5 segundos máximo</div>
+                                                <div data-lang="info.producer.watermarkContent">• Contenido: Nombre o tag personal del productor</div>
+                                                <div data-lang="info.producer.watermarkQuality">• Calidad mínima: 128 kbps</div>
+                                                <div data-lang="info.producer.watermarkExample">• Ejemplo de nombre: zaiusaden-watermark.mp3</div>
+                                            </div>
+                                            <div class="req-note" data-lang="info.producer.watermarkNote">Si no tienes marca de agua te proporcionamos una genérica de la página</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="req-section">
+                                    <h4 data-lang="info.beat.title">INFORMACIÓN DE CADA BEAT</h4>
+                                    <div class="req-list">
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.name">1. Título del Beat</strong>
+                                            <span data-lang="info.beat.nameDesc">Texto descriptivo</span>
+                                            <div class="req-example" data-lang="info.beat.nameExample">Ejemplos: "Cosmic Dreams", "Starlight Meditation"</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.genre">2. Género Musical</strong>
+                                            <span data-lang="info.beat.genreDesc">Ejemplos: trap, boom-bap, drill, lo-fi, rap</span>
+                                            <div class="req-note" data-lang="info.beat.genreNote">Nota: Si tu género no aparece en la lista, indícanos cuál es.</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.bpm">3. BPM (Beats Per Minute)</strong>
+                                            <span data-lang="info.beat.bpmDesc">Número entero</span>
+                                            <div class="req-example" data-lang="info.beat.bpmExample">Ejemplos: 88, 150, 95</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.duration">4. Duración Total</strong>
+                                            <span data-lang="info.beat.durationDesc">Formato MM:SS</span>
+                                            <div class="req-example" data-lang="info.beat.durationExample">Ejemplos: "3:24", "4:01", "2:48"</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.status">5. Estado de Disponibilidad</strong>
+                                            <div class="req-sublist">
+                                                <div data-lang="info.beat.statusAvailable">• disponible = Beat listo para venta</div>
+                                                <div data-lang="info.beat.statusSold">• vendido = Beat ya vendido (solo se comparte preview)</div>
+                                            </div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.price">6. Precio del Beat (Standard)</strong>
+                                            <div class="req-example" data-lang="info.beat.priceExample">Ejemplo: 30€</div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.audioFile">7. Archivo de Audio Completo</strong>
+                                            <div class="req-sublist">
+                                                <div data-lang="info.beat.audioFormat">• Formato MP3</div>
+                                                <div data-lang="info.beat.audioNaming">• Nombre del archivo: [nombre productor]-[título beat].mp3</div>
+                                                <div data-lang="info.beat.audioExample">• Ejemplo: zaiusaden-cosmicdream.mp3</div>
+                                            </div>
+                                        </div>
+                                        <div class="req-item">
+                                            <strong data-lang="info.beat.preview">8. Duración del Preview</strong>
+                                            <span data-lang="info.beat.previewDesc">Número entero en segundos</span>
+                                            <div class="req-example" data-lang="info.beat.previewExample">Ejemplos: 30, 35, 40, 45</div>
+                                            <div class="req-explanation" data-lang="info.beat.previewExplanation">Explicación: El usuario puede escuchar el beat completo con marca de agua (superpuesta, no integrada) y un preview corto sin marca de agua.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="req-section">
+                                    <h4 data-lang="info.format.title">FORMATO DE ENTREGA</h4>
+                                    <div class="delivery-format">
+                                        <div class="format-section">
+                                            <h5 data-lang="info.format.producer">DATOS DEL PRODUCTOR:</h5>
+                                            <div class="format-list">
+                                                <div data-lang="info.format.producerName">• Nombre: [Tu Nombre Artístico]</div>
+                                                <div data-lang="info.format.producerEmail">• Email: [tu@email.com]</div>
+                                                <div data-lang="info.format.producerInstagram">• Instagram: [@tu_instagram]</div>
+                                                <div data-lang="info.format.producerSpotify">• Spotify: [Tu nombre en Spotify]</div>
+                                                <div data-lang="info.format.producerAvatar">• Avatar: [Iniciales o imagen adjunta]</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="format-section">
+                                            <h5 data-lang="info.format.description">DESCRIPCIÓN:</h5>
+                                            <div class="format-list">
+                                                <div data-lang="info.format.descriptionEs">• Español: [Tu descripción en español]</div>
+                                                <div data-lang="info.format.descriptionEn">• Inglés: [Tu descripción en inglés]</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="format-section">
+                                            <h5 data-lang="info.format.beats">BEATS (por cada beat, incluir):</h5>
+                                            <div class="format-list">
+                                                <div data-lang="info.format.beatTitle">• Título: [Nombre del Beat]</div>
+                                                <div data-lang="info.format.beatGenre">• Género: [trap/boom-bap/drill/lo-fi/rap]</div>
+                                                <div data-lang="info.format.beatBpm">• BPM: [Número]</div>
+                                                <div data-lang="info.format.beatDuration">• Duración: [MM:SS]</div>
+                                                <div data-lang="info.format.beatStatus">• Estado: [disponible/vendido]</div>
+                                                <div data-lang="info.format.beatPreview">• Preview: [Segundos de preview]</div>
+                                                <div data-lang="info.format.beatPrice">• Precio: [ej: 30€]</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="format-section">
+                                            <h5 data-lang="info.format.attachments">ADJUNTOS:</h5>
+                                            <div class="format-list">
+                                                <div data-lang="info.format.attachmentWatermark">• Watermark: [archivo.mp3]</div>
+                                                <div data-lang="info.format.attachmentBeat1">• Beat 1: [archivo.mp3]</div>
+                                                <div data-lang="info.format.attachmentBeat2">• Beat 2: [archivo.mp3]</div>
+                                                <div data-lang="info.format.attachmentAvatar">• Avatar (imagen): [nombre-avatar.jpg/png]</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="req-section pricing-section">
+                                    <h4 data-lang="info.pricing.title">SUBIDA DE BEATS ADICIONALES</h4>
+                                    <div class="pricing-explanation">
+                                        <p data-lang="info.pricing.freeInfo">Los primeros 5 beats son totalmente gratuitos.</p>
+                                        <p data-lang="info.pricing.additionalInfo">A partir del 6º beat, podrás seguir subiendo beats con una pequeña contribución que ayuda a sostener el proyecto:</p>
+                                    </div>
+                                    <div class="pricing-info">
+                                        <div class="pricing-item free">
+                                            <span class="pricing-label" data-lang="info.pricing.free">Primeros 5 beats</span>
+                                            <span class="pricing-value" data-lang="info.pricing.freeValue">GRATIS</span>
+                                        </div>
+                                        <div class="pricing-item">
+                                            <span class="pricing-label" data-lang="info.pricing.single">1 beat adicional</span>
+                                            <span class="pricing-value">3€</span>
+                                        </div>
+                                        <div class="pricing-item special">
+                                            <span class="pricing-label" data-lang="info.pricing.pack">Pack de 5 beats</span>
+                                            <span class="pricing-value">12€</span>
+                                            <span class="pricing-note" data-lang="info.pricing.packNote">(en lugar de 15€, ahorras 3€)</span>
+                                        </div>
+                                    </div>
+                                    <div class="pricing-disclaimer" data-lang="info.pricing.disclaimer">
+                                        Esto no es una comisión ni una tienda: tú mantienes el control total sobre tus ventas y el contacto directo con los interesados. Confiamos en la buena fe de la comunidad para mantener el proyecto limpio y justo.
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-section">
+                                    <h4 data-lang="info.contact.title">CONTACTO</h4>
+                                    <div class="contact-item">
+                                        <span data-lang="info.contact.sendTo">Envía tus beats a:</span>
+                                        <div class="contact-email-display">
+                                            <span class="email-address">zoputaro@hotmail.com</span>
+                                            <button id="copyEmailBtn" class="copy-email-btn" data-lang="info.contact.copy">COPIAR EMAIL</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="producerDetailView" class="view">
+                    <div id="producerDetail"></div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="mobile-filters-modal" id="mobileFiltersModal">
+        <div class="mobile-filters-content">
+            <div class="mobile-filters-header">
+                <h3 data-lang="filters.title">FILTROS</h3>
+                <button class="mobile-filters-close" id="mobileFiltersClose">✕</button>
+            </div>
+            
+            <div class="mobile-filters-body">
+                <div class="mobile-filter-group">
+                    <label data-lang="filters.allGenres">Género</label>
+                    <select id="mobileGenreFilter" class="mobile-filter-input">
+                        <option value="" data-lang="filters.allGenres">Todos los Géneros</option>
+                        <option value="trap">Trap</option>
+                        <option value="boom-bap">Boom Bap</option>
+                        <option value="drill">Drill</option>
+                        <option value="lo-fi">Lo-Fi</option>
+                    </select>
+                </div>
+                
+                <div class="mobile-filter-group">
+                    <label data-lang="filters.allProducers">Productor</label>
+                    <select id="mobileProducerFilter" class="mobile-filter-input">
+                        <option value="" data-lang="filters.allProducers">Todos los Productores</option>
+                    </select>
+                </div>
+                
+                <div class="mobile-filter-group">
+                    <label data-lang="filters.bpmRange">Rango BPM</label>
+                    <div class="mobile-bpm-inputs">
+                        <input type="number" id="mobileBpmMin" placeholder="Min" min="60" max="200" class="mobile-filter-input">
+                        <span>-</span>
+                        <input type="number" id="mobileBpmMax" placeholder="Max" min="60" max="200" class="mobile-filter-input">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mobile-filters-actions">
+                <button id="mobileClearFilters" class="mobile-filter-btn clear" data-lang="filters.clear">LIMPIAR</button>
+                <button id="mobileApplyFilters" class="mobile-filter-btn apply" data-lang="filters.apply">APLICAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="player-container">
+        <div class="player-bar">
+            <div class="track-info">
+                <div class="track-image">
+                    <div class="vinyl">♪</div>
+                </div>
+                <div class="track-details">
+                    <div class="track-title" id="trackTitle" data-lang="player.selectTrack">Selecciona un beat</div>
+                    <div class="track-artist" id="trackArtist">-</div>
+                </div>
+            </div>
+            
+            <div class="player-controls">
+                <div class="control-buttons">
+                    <button id="prevBtn">⏮</button>
+                    <button id="playBtn">▶</button>
+                    <button id="nextBtn">⏭</button>
+                    <button id="modeBtn" class="mode-btn preview-mode" data-lang="player.preview">PREVIEW</button>
+                </div>
+                
+                <div class="progress-section">
+                    <span id="currentTime">0:00</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                        <input type="range" id="progressSlider" min="0" max="100" value="0">
+                    </div>
+                    <span id="totalTime">0:00</span>
+                </div>
+            </div>
+            
+            <div class="player-actions">
+                <div class="volume-section">
+                    <span>🔊</span>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/beats-data.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/app-config.js"></script>
+    <script src="js/formatters.js"></script>
+    <script src="js/dom-helpers.js"></script>
+    <script src="js/audio-player.js"></script>
+    <script src="js/app-core.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
