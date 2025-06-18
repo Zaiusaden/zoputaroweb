@@ -584,7 +584,7 @@ body {
     }
 
 .welcome-logo {
-    height: 200px;
+    height: 250px;
     width: auto;
     object-fit: contain;
     margin-bottom: 6px;
@@ -2314,7 +2314,7 @@ body {
     }
 
     .welcome-logo {
-        height: 150px;
+        height: 140px;
     }
 
     .welcome-section p {
@@ -2427,7 +2427,7 @@ body {
     }
 
     .welcome-logo {
-        height: 120px;
+        height: 110px;
     }
 
     .view-header h2 {
@@ -2459,7 +2459,7 @@ body {
     }
 
     .welcome-logo {
-        height: 100px;
+        height: 90px;
     }
 
     .player-bar {
