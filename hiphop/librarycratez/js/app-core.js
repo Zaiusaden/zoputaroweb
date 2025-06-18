@@ -173,7 +173,7 @@ class CratezUnderground {
             "   Ejemplos: 88, 79, 95",
             "",
             "4. DURACIÓN TOTAL",
-            "   Formato MM:SS - Ejemplos: '3:24', '4:01', '2:48'",
+            "   Formato MM:SS - Ejemplos: '0:30', '0:35', '0:45'",
             "",
             "5. ESTADO DE DISPONIBILIDAD",
             "   • disponible = Beat listo para venta",
@@ -190,7 +190,7 @@ class CratezUnderground {
             "8. DURACIÓN DEL BEAT",
             "   • Máximo 45 segundos",
             "",
-            "9. DURACIOÓN QUE QUIERES QUE SALGA EN EL PREVIEW",
+            "9. DURACIÓN QUE QUIERES QUE SALGA EN EL PREVIEW",
             "   Ejemplos: 30, 35, 40, 45 segundos"
         ];
         
@@ -335,6 +335,8 @@ class CratezUnderground {
             this.breadcrumb.style.display = 'none';
             this.breadcrumbContent.dataset.producer = '';
         }
+
+        window.scrollTo(0, 0);
 
         this.updateProducerFilterVisibility();
         this.audioPlayer.updatePlayerInfo();
