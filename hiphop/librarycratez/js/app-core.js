@@ -336,7 +336,7 @@ class CratezUnderground {
             this.breadcrumbContent.dataset.producer = '';
         }
 
-        window.scrollTo(0, 0);
+        document.querySelector('.main-content').scrollTo(0, 0);
 
         this.updateProducerFilterVisibility();
         this.audioPlayer.updatePlayerInfo();
