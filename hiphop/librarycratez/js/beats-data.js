@@ -8,7 +8,7 @@ const beatmakersData = {
         email: "zaiusaden@hotmail.com",
         instagram: "@zaiusaden",
         spotify: "Zaiusaden",
-        totalBeats: 1,
+        totalBeats: 6,
         avatar: "images/zaiusaden-avatar.png",
         color: "#8B5CF6",
         watermarkUrl: "audio/cratezlibrary-watermark.mp3"
@@ -88,5 +88,5 @@ const beatsData = [
         audioUrl: "audio/zaiusaden-bitter.mp3",
         previewDuration: 45,
         price: 30
-    },
+    }
 ];
