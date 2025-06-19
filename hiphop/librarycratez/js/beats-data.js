@@ -88,5 +88,5 @@ const beatsData = [
         audioUrl: "audio/zaiusaden-bitter.mp3",
         previewDuration: 45,
         price: 30
-    }
+    },
 ];
