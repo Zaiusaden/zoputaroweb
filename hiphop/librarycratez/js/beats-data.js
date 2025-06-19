@@ -64,5 +64,29 @@ const beatsData = [
         audioUrl: "audio/zaiusaden-westerndust.mp3",
         previewDuration: 45,
         price: 30
+    },
+    {
+        id: 5,
+        title: "Unchained",
+        beatmaker: "Zaiusaden",
+        genres: ["rap", "boom bap"],
+        bpm: 84,
+        duration: "0:45",
+        status: "disponible",
+        audioUrl: "audio/zaiusaden-unchained.mp3",
+        previewDuration: 45,
+        price: 25
+    },
+    {
+        id: 6,
+        title: "Bitter",
+        beatmaker: "Zaiusaden",
+        genres: ["rap", "boom bap"],
+        bpm: 85,
+        duration: "0:45",
+        status: "disponible",
+        audioUrl: "audio/zaiusaden-bitter.mp3",
+        previewDuration: 45,
+        price: 30
     }
 ];
